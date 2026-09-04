@@ -1,1 +1,1 @@
-# school-guide
+index.html

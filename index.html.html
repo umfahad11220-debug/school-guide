@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مساعد دليل مدرستي</title>
+<style>
+  :root{
+    --ink:#152524;
+    --ink-soft:#4a5c5a;
+    --paper:#eef3f1;
+    --paper-raised:#ffffff;
+    --teal-deep:#0f3d3a;
+    --teal:#1c6b62;
+    --teal-bright:#2e9e8b;
+    --amber:#c9791e;
+    --amber-soft:#f4e3cd;
+    --line:#d4ddd9;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Segoe UI','Tahoma','Geeza Pro',sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:640px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--paper);
+  }
+
+  header{
+    background:var(--teal-deep);
+    color:#fff;
+    padding:22px 20px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    left:-40px; top:-40px;
+    width:160px; height:160px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(46,158,139,.35), transparent 70%);
+  }
+  .brand-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:relative;
+    z-index:1;
+  }
+  .brand-mark{
+    width:42px;height:42px;border-radius:10px;
+    background:var(--teal-bright);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:18px;color:var(--teal-deep);
+    flex-shrink:0;
+  }
+  header h1{
+    margin:0;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.3;
+  }
+  header p{
+    margin:4px 0 0;
+    font-size:13px;
+    color:#c7dcd8;
+    font-weight:300;
+  }
+  .offline-badge{
+    position:relative;
+    z-index:1;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:12px;
+    background:rgba(46,158,139,.22);
+    border:1px solid rgba(255,255,255,.25);
+    color:#d7ece8;
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .offline-badge .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#5fe3c4;
+  }
+
+  .chips{
+    display:flex;
+    gap:8px;
+    padding:14px 16px 4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{
+    flex-shrink:0;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    color:var(--teal-deep);
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-family:inherit;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s, border-color .15s;
+  }
+  .chip:hover{ background:var(--amber-soft); border-color:var(--amber); }
+
+  .chat{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 16px 12px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .msg{
+    max-width:88%;
+    padding:12px 15px;
+    border-radius:var(--radius);
+    font-size:14.5px;
+    line-height:1.85;
+    white-space:pre-wrap;
+  }
+  .msg.assistant{
+    align-self:flex-start;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-top-right-radius:4px;
+  }
+  .msg.assistant .steps{
+    margin:8px 0 0;
+    padding-inline-start:20px;
+  }
+  .msg.assistant .steps li{ margin-bottom:4px; }
+  .msg.assistant .related{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .related-btn{
+    display:inline-block;
+    margin:4px 4px 0 0;
+    background:var(--paper);
+    border:1px solid var(--line);
+    color:var(--teal);
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .msg.user{
+    align-self:flex-end;
+    background:var(--teal-deep);
+    color:#fff;
+    border-top-left-radius:4px;
+  }
+
+  .input-bar{
+    display:flex;
+    gap:8px;
+    padding:12px 16px calc(16px + env(safe-area-inset-bottom));
+    background:var(--paper-raised);
+    border-top:1px solid var(--line);
+  }
+  .input-bar textarea{
+    flex:1;
+    resize:none;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:11px 14px;
+    font-family:inherit;
+    font-size:14.5px;
+    line-height:1.5;
+    max-height:100px;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  .input-bar textarea:focus{
+    outline:2px solid var(--teal-bright);
+    outline-offset:1px;
+  }
+  .send-btn{
+    width:46px;height:46px;
+    border-radius:12px;
+    border:none;
+    background:var(--teal-deep);
+    color:#fff;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:background .15s;
+  }
+  .send-btn:hover{ background:var(--teal); }
+  .send-btn svg{ width:19px; height:19px; transform:scaleX(-1); }
+
+  .footnote{
+    text-align:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    padding:0 16px 10px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand-row">
+      <div class="brand-mark">م</div>
+      <div>
+        <h1>مساعد دليل مدرستي</h1>
+        <p>يجاوبك من دليل المستخدم الرسمي — للطلاب والطالبات</p>
+      </div>
+    </div>
+    <div class="offline-badge"><span class="dot"></span> يعمل بالكامل بدون إنترنت أو حساب</div>
+  </header>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="footnote">إجابات جاهزة من دليل منصة مدرستي. للمشاكل التقنية الفعلية استخدمي "الدعم الفني" داخل المنصة.</div>
+
+  <div class="input-bar">
+    <textarea id="input" rows="1" placeholder="اكتب سؤالك عن منصة مدرستي..."></textarea>
+    <button class="send-btn" id="sendBtn" aria-label="إرسال">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   قاعدة المعرفة: أسئلة وأجوبة مبنية على دليل مدرستي
+   ========================================================== */
+const KB = [
+  {
+    id:"login",
+    q:"كيف أسجل الدخول لمنصة مدرستي؟",
+    keywords:["تسجيل","دخول","الدخول","ادخل","سجل","دخل"],
+    answer:"لتسجيل الدخول:",
+    steps:[
+      "اضغط زر \"تسجيل الدخول\" أعلى الصفحة، ثم اختر \"الكادر التعليمي والطلاب\".",
+      "أدخل بريدك الإلكتروني أو رقم الجوال المسجل في نظام نور، ثم اضغط Next.",
+      "أدخل كلمة المرور، ثم اضغط Sign in."
+    ],
+    note:"لازم تكون بيانات الطالب مكتملة وصحيحة في نظام نور ومرتبطة بالمدرسة. رقم الجوال المسجل في نور هو المعتمد لاستلام بيانات الحساب.",
+    related:["password","home"]
+  },
+  {
+    id:"password",
+    q:"نسيت كلمة المرور، كيف أستعيدها؟",
+    keywords:["كلمة المرور","نسيت","استعادة","الباسورد","الرمز","نسيان"],
+    answer:"طريقتان لاستعادة كلمة المرور:",
+    steps:[
+      "عبر صفحة التسجيل: أدخل بيانات الطالب أو ولي الأمر المسجلة في نور ← أدخل رمز التحقق المرسل للجوال ← اختر \"تحديث كلمة المرور\" لاستلام كلمة مرور مؤقتة ← سجل الدخول وعيّن كلمة مرور جديدة.",
+      "عبر صفحة الدخول: اختر \"تسجيل الدخول - الكادر التعليمي والطلاب\" ← اضغط \"هل يتعذر عليك الوصول لحسابك؟\" ثم \"استخدم حسابًا آخر\" ← أدخل الحساب والرمز ← تابع خطوات التحقق."
+    ],
+    related:["login"]
+  },
+  {
+    id:"home",
+    q:"وش أقسام الصفحة الرئيسة؟",
+    keywords:["الصفحة الرئيسة","الرئيسية","القائمة","اقسام","الصفحه"],
+    answer:"الصفحة الرئيسة تضم:",
+    steps:[
+      "القائمة الرئيسة: مهامي، المقررات والمصادر، الحصص المدرسية، التواصل المجتمعي، التقارير والإحصائيات، والتقويم.",
+      "أدوات المساعدة: البحث، أدوات مايكروسوفت أوفيس، الرسائل، التنبيهات، والدعم الفني.",
+      "الملف الشخصي، وخدمات التخصيص وإمكانية الوصول."
+    ],
+    related:["profile","accessibility"]
+  },
+  {
+    id:"profile",
+    q:"كيف أعدل بياناتي الشخصية؟",
+    keywords:["الملف الشخصي","بياناتي","تعديل","الاسم","البيانات الشخصية"],
+    answer:"لتعديل البيانات الشخصية:",
+    steps:[
+      "اضغط على اسم المستخدم من الملف الشخصي.",
+      "اختر \"تعديل بياناتي\" واملأ الحقول المطلوبة.",
+      "اضغط زر \"حفظ\"."
+    ],
+    note:"يمكنك أيضًا من نفس القائمة الوصول إلى \"ملف الإنجاز\" الذي يعرض إنجازاتك في المواد والأنشطة وتزكيات المعلمين، مع إمكانية إضافة مهارات ودورات.",
+    related:["home"]
+  },
+  {
+    id:"accessibility",
+    q:"كيف أفعّل الوضع الداكن أو أكبّر الخط؟",
+    keywords:["الوضع الداكن","تكبير الخط","إمكانية الوصول","سهولة الوصول","الالوان","ضعف الرؤية"],
+    answer:"عبر أداة \"سهولة الوصول\" (أيقونة على الصفحة) تقدرين:",
+    steps:[
+      "تعديل الخطوط والألوان.",
+      "تكبير المؤشر.",
+      "تفعيل الوضع الداكن أو إيقاف الرسوم المتحركة.",
+      "تفعيل أوضاع مساعدة متخصصة مثل الوضع الآمن للصرع، وضع ضعف الرؤية، ووضع العمى."
+    ],
+    related:["home"]
+  },
+  {
+    id:"tasks",
+    q:"كيف أشوف مهامي اليومية؟",
+    keywords:["مهامي","المهام","مهمة","اليومية"],
+    answer:"خدمة \"مهامي\" تعرض كل المهام الأدائية المسندة من المعلمين مرتبة حسب تاريخ الاستحقاق، وتبقى ظاهرة حتى تنفيذها أو انتهاء موعدها.",
+    steps:[
+      "لإضافة تذكير أو حدث خاص بك في تقويم مهامي: ادخلي \"مهامي\" من الرئيسة ← اضغطي علامة (+) ← املئي الحقول ← اضغطي \"حفظ\"."
+    ],
+    related:["homework","exams","activities"]
+  },
+  {
+    id:"homework",
+    q:"كيف أحل واجب؟",
+    keywords:["واجب","الواجبات","حل الواجب","تسليم"],
+    answer:"خدمة \"واجباتي\" مقسمة إلى ثلاثة أقسام:",
+    steps:[
+      "الواجبات الحالية: المفتوحة التي لم تُحل بعد — اضغطي \"حل الواجب\" لحلها.",
+      "الواجبات الفائتة: انتهى موعد تسليمها ولم تُحل.",
+      "الواجبات المكتملة: التي حُلّت مسبقًا."
+    ],
+    note:"لعرض التفاصيل اضغطي \"تفاصيل الواجب\". للبحث عن واجب معيّن أدخلي اسمه واضغطي \"بحث\".",
+    related:["exams","activities"]
+  },
+  {
+    id:"exams",
+    q:"كيف أدخل اختبار؟",
+    keywords:["اختبار","الاختبارات","حل الاختبار","اختبارات المعلم","اختبارات نهائية","اختبار مركزي"],
+    answer:"خدمة \"اختباراتي\" فيها ثلاثة أنواع:",
+    steps:[
+      "الاختبارات النهائية: تعرض جميع الاختبارات النهائية لمعلمي المدرسة.",
+      "اختبارات المعلم: مقسمة لحالية/فائتة/مكتملة، وتُحل عبر زر \"حل الاختبار\" مع عداد زمني يوضح الوقت المتبقي.",
+      "الاختبارات المركزية: تنقلك لحساب مايكروسوفت لاستعراضها."
+    ],
+    related:["homework","tasks"]
+  },
+  {
+    id:"activities",
+    q:"كيف أحل نشاط أو مهمة أدائية؟",
+    keywords:["نشاط","الأنشطة","المهام الأدائية","استعراض النشاط"],
+    answer:"خدمة \"الأنشطة والمهام الأدائية\" تعرض الأنشطة المسندة من المعلم.",
+    steps:[
+      "من الأنشطة الحالية اضغطي زر \"استعراض النشاط\" لحله.",
+      "يمكنك البحث عن نشاط معيّن بإدخال اسمه ثم زر \"بحث\"."
+    ],
+    related:["homework","exams"]
+  },
+  {
+    id:"selfeval",
+    q:"كيف أسوي تقييم ذاتي؟",
+    keywords:["تقييم ذاتي","اختبر نفسي","تقييم","مراجعة"],
+    answer:"خدمة \"التقييم الذاتي\" ضمن مقرراتي تتيح تقييم مستواك في كل مادة:",
+    steps:[
+      "افتحي \"المقررات والمصادر\" ← \"مقرراتي\".",
+      "حددي \"تقييم ذاتي للمقرر\" في بطاقة المادة.",
+      "اختاري \"تقييم ذاتي للدرس\" أو \"تقييم ذاتي للوحدة\"."
+    ],
+    note:"بعد الإجابة اضغطي \"تحقق من الإجابة\" لمعرفة صحتها، ويمكنك الإبلاغ عن خطأ بالسؤال بزر \"إبلاغ\". النتيجة تظهر كنسبة مئوية، وتقدرين تراجعين إجاباتك بزر \"راجع إجاباتك\".",
+    related:["homework"]
+  },
+  {
+    id:"discussion",
+    q:"كيف أدخل لوحة نقاش؟",
+    keywords:["لوحة النقاش","لوحات النقاش","نقاش","مشاركة"],
+    answer:"لوحات النقاش مساحة يطرح فيها المعلم موضوعات للنقاش بين الطلاب والمعلمين.",
+    steps:[
+      "من \"المقررات والمصادر\" ← \"لوحات النقاش\"، أو من \"مقرراتي\" ← بطاقة المادة ← \"لوحات النقاش\".",
+      "اضغطي \"الدخول إلى لوحة النقاش\" للمشاركة."
+    ],
+    related:["homework"]
+  },
+  {
+    id:"enrichment",
+    q:"وين ألقى الإثراءات والمصادر التعليمية؟",
+    keywords:["الإثراءات","بنك الإثراءات","مصادر تعليمية","غرفة المصادر","STEM"],
+    answer:"يوجد مصدران رئيسيان:",
+    steps:[
+      "بنك الإثراءات: محتوى إثرائي يضيفه المعلم، يمكن البحث فيه باسم الإثراء أو كلمات استدلالية.",
+      "غرفة المصادر التعليمية: موارد تعليمية عامة في مجالات متعددة (مثل مركز STEM، السلامة المرورية) تصلين لها بزر \"عرض المحتوى\"."
+    ],
+    related:["paths"]
+  },
+  {
+    id:"paths",
+    q:"وش المسارات التعليمية؟",
+    keywords:["المسارات التعليمية","مساراتي","مسار تعليمي"],
+    answer:"\"مساراتي التعليمية\" مسارات مخصصة يحددها المعلم حسب احتياجاتك ومستواك الدراسي، تضم محتويات تساعدك على التطور.",
+    steps:[
+      "للدخول للمحتويات اضغطي زر \"المحتويات التعليمية في المسار\"."
+    ],
+    related:["enrichment"]
+  },
+  {
+    id:"schedule",
+    q:"كيف أشوف جدولي أو الحصص الإضافية؟",
+    keywords:["جدولي","الجدول","الحصص","حصة اضافية","جدول الحصص"],
+    answer:"قسم \"الحصص الدراسية\" يضم:",
+    steps:[
+      "جدولي: الجدول الدراسي والدخول للحصص والدروس الافتراضية.",
+      "الحصص الإضافية: جدول منفصل للدخول على دروس أو مهام إضافية أعدها المعلم."
+    ],
+    related:["tasks"]
+  },
+  {
+    id:"teacherroom",
+    q:"كيف أسأل المعلم سؤال؟",
+    keywords:["غرفة المعلمين","سؤال المعلم","اسأل معلمتي","استفسار"],
+    answer:"غرفة المعلمين غرفة افتراضية لكل معلم لطرح الأسئلة الخاصة بمادته.",
+    steps:[
+      "اختاري المعلم واضغطي \"اطرح سؤالًا جديدًا\".",
+      "أدخلي تفاصيل السؤال والمرفقات إن وجدت، ثم اضغطي \"إرسال\"."
+    ],
+    note:"يمكنك الاطلاع على الأسئلة السابقة للاستفادة منها.",
+    related:["messages"]
+  },
+  {
+    id:"messages",
+    q:"كيف أرسل رسالة للمعلمة؟",
+    keywords:["رسالة","الرسائل","ارسال رسالة","مراسلة"],
+    answer:"خدمة \"الرسائل\" ضمن التواصل المجتمعي:",
+    steps:[
+      "افتحي \"التواصل المجتمعي\" ← \"الرسائل\".",
+      "اضغطي \"رسالة جديدة\" واملئي الحقول المطلوبة.",
+      "لإرفاق ملف اضغطي \"إرفاق ملف أو صورة\"، ثم \"إرسال الرسالة\"."
+    ],
+    related:["teacherroom","announcements"]
+  },
+  {
+    id:"announcements",
+    q:"وين ألقى إعلانات المدرسة؟",
+    keywords:["الإعلانات","إعلان","اللقاءات العامة","لقاء"],
+    answer:"خدمة \"الإعلانات\" تعرض ما ينشره مدير المدرسة أو المعلمون على مستوى فصل أو المدرسة كاملة.",
+    steps:[
+      "اضغطي \"تفاصيل\" لعرض الإعلان كاملًا.",
+      "يمكنك البحث باسم الإعلان."
+    ],
+    note:"\"اللقاءات العامة\" تعرض قائمة اللقاءات المدرسية وتفاصيل الحضور.",
+    related:["messages"]
+  },
+  {
+    id:"attendance",
+    q:"وين أشوف تقرير غيابي؟",
+    keywords:["الغياب","الحضور","تقرير الغياب","متابعة غيابي","غيابي"],
+    answer:"يوجد تقريران:",
+    steps:[
+      "تقارير الحضور والغياب: سجل شامل للحضور والغياب والتأخير مع توضيح العذر، اضغطي \"التفاصيل\" للمزيد.",
+      "متابعة غيابي: تفاصيل الغياب على مستوى كل حصة."
+    ],
+    related:["level"]
+  },
+  {
+    id:"level",
+    q:"كيف أعرف مستواي الدراسي؟",
+    keywords:["المستوى الدراسي","تقرير المستوى","تقدمي","مستواي"],
+    answer:"\"تقرير المستوى الدراسي\" يعرض رسمًا بيانيًا للنسب المئوية لواجباتك واختباراتك، ونسبة تحقيق الأهداف، ومشاركتك في لوحات النقاش والأنشطة.",
+    steps:[
+      "من \"التقارير والإحصائيات\" ← \"تقرير المستوى الدراسي\".",
+      "حددي الفترة الدراسية والمقرر ثم اضغطي \"بحث\"."
+    ],
+    related:["attendance","courses_report"]
+  },
+  {
+    id:"courses_report",
+    q:"كيف أتابع تقدمي في المقررات الإلكترونية؟",
+    keywords:["تقدم المقرر","المقررات الإلكترونية","نسبة التقدم","الفيديو التفاعلي"],
+    answer:"\"تقرير المقررات الإلكترونية\" يضم:",
+    steps:[
+      "تقرير قياس التقدم: نسبة التقدم في المحتوى، مشاهدة عناصر الدرس، ونتائج الاختبارات.",
+      "تقرير الاستجابة للفيديو التفاعلي (H5P)."
+    ],
+    related:["level"]
+  },
+  {
+    id:"behavior",
+    q:"وين أشوف تقرير سلوكياتي؟",
+    keywords:["السلوك","سلوكيات","مخالفة","تقييم سلوكي"],
+    answer:"\"تقرير سلوكيات الطالب\" يعرض بياناتك السلوكية خلال فترة محددة: أنواع المخالفات ومستوياتها والإجراءات المتخذة لكل سلوك.",
+    related:["level"]
+  },
+  {
+    id:"support",
+    q:"كيف أرفع تذكرة دعم فني؟",
+    keywords:["الدعم الفني","تذكرة","مشكلة تقنية","دعم فني"],
+    answer:"عبر \"الدعم الفني\" لديك خياران:",
+    steps:[
+      "لإضافة تذكرة جديدة: افتحي \"الدعم الفني\" ← \"إضافة تذكرة دعم جديدة\" ← أدخلي رقم الهوية الوطنية والهاتف ← \"التالي\".",
+      "للاستعلام عن تذكرة سابقة: \"الدعم الفني\" ← \"الاستعلام عن تذكرة دعم سابقة\" ← أدخلي رقم الهوية ورقم التذكرة ← \"بحث\"."
+    ],
+    related:["home"]
+  },
+  {
+    id:"office",
+    q:"كيف أستخدم أوفيس أو تيمز من المنصة؟",
+    keywords:["أوفيس","مايكروسوفت","تيمز","وورد","اكسل"],
+    answer:"من أدوات المساعدة تقدرين توصلين لـ:",
+    steps:[
+      "أوفيس 365: تطبيقات Word وExcel وPowerPoint وغيرها.",
+      "البريد الإلكتروني الرسمي.",
+      "مايكروسوفت تيمز: واجهة تعلم مركزية للتواصل والتعاون بين الطلاب والمعلمين."
+    ],
+    related:["home"]
+  },
+  {
+    id:"notifications",
+    q:"كيف أتابع التنبيهات والإشعارات؟",
+    keywords:["التنبيهات","الإشعارات","اشعار من المعلم"],
+    answer:"خدمة \"التنبيهات\" تتيح متابعة تحديثات الإشعارات والإعلانات واللقاءات والمهام المكلفة بشكل مستمر أولًا بأول.",
+    note:"يمكنك أيضًا مراجعة \"تقرير إشعارات المعلمين\" من التقارير والإحصائيات لرؤية إشعارات كل معلم على حدة.",
+    related:["messages","announcements"]
+  },
+  {
+    id:"reports_data",
+    q:"وين ألقى بياناتي (المدرسة والفصل)؟",
+    keywords:["بياناتي","اسمي","الفصل","المدرسة","بيانات الاتصال"],
+    answer:"صفحة \"بياناتي\" ضمن التقارير والإحصائيات تعرض اسمك، مدرستك، فصلك، وبيانات الاتصال (جوالك وجوال ولي أمرك).",
+    related:["profile"]
+  },
+  {
+    id:"reports_bulk",
+    q:"كيف أتابع بلاغ رفعته؟",
+    keywords:["البلاغات","بلاغ","شكوى"],
+    answer:"\"البلاغات المرفوعة\" تتيح متابعة حالة أي بلاغ قدمتيه ومعرفة مدى تقدمه.",
+    steps:["اضغطي زر \"التفاصيل\" لعرض تفاصيل البلاغ."],
+    related:["support"]
+  },
+  {
+    id:"calendar",
+    q:"كيف أضيف حدث بالتقويم؟",
+    keywords:["التقويم","حدث","موعد","مذاكرة"],
+    answer:"\"التقويم\" ينظم المواعيد والأحداث الهامة تلقائيًا، ويمكنك إضافة أحداث شخصية.",
+    steps:[
+      "افتحي \"التقويم\" من الصفحة الرئيسة.",
+      "اضغطي \"إضافة حدث\".",
+      "املئي الحقول المطلوبة ثم اضغطي \"حفظ\"."
+    ],
+    related:["tasks"]
+  }
+];
+
+const QUICK_QUESTIONS = ["login","password","homework","exams","attendance","support","accessibility"];
+
+const chatEl = document.getElementById('chat');
+const chipsEl = document.getElementById('chips');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('sendBtn');
+
+const STOPWORDS = new Set(["كيف","وين","من","على","في","الى","إلى","ال","عن","ماذا","وش","ايش","اش","لو","هل","ابغى","ابي","اريد","أريد","اشوف","أشوف","أين"]);
+
+function normalize(str){
+  return str
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ى/g,"ي")
+    .replace(/ة/g,"ه")
+    .replace(/[ًٌٍَُِّْـ]/g,"")
+    .toLowerCase()
+    .trim();
+}
+
+function tokenize(str){
+  return normalize(str).split(/[\s،؟!.,]+/).filter(w => w.length > 1 && !STOPWORDS.has(w));
+}
+
+function scoreEntry(entry, queryTokens){
+  const haystack = normalize(entry.q + " " + entry.keywords.join(" "));
+  let score = 0;
+  queryTokens.forEach(tok => {
+    if(haystack.includes(tok)) score += tok.length;
+  });
+  return score;
+}
+
+function findBestMatches(query){
+  const tokens = tokenize(query);
+  if(tokens.length === 0) return [];
+  const scored = KB.map(entry => ({ entry, score: scoreEntry(entry, tokens) }))
+                    .filter(x => x.score > 0)
+                    .sort((a,b) => b.score - a.score);
+  return scored;
+}
+
+function renderAnswer(entry){
+  const wrap = document.createElement('div');
+  wrap.className = 'msg assistant';
+
+  const p = document.createElement('div');
+  p.textContent = entry.answer;
+  wrap.appendChild(p);
+
+  if(entry.steps && entry.steps.length){
+    const ol = document.createElement('ol');
+    ol.className = 'steps';
+    entry.steps.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      ol.appendChild(li);
+    });
+    wrap.appendChild(ol);
+  }
+
+  if(entry.note){
+    const note = document.createElement('div');
+    note.style.marginTop = '8px';
+    note.style.fontSize = '13px';
+    note.style.color = 'var(--ink-soft)';
+    note.textContent = entry.note;
+    wrap.appendChild(note);
+  }
+
+  if(entry.related && entry.related.length){
+    const relWrap = document.createElement('div');
+    relWrap.className = 'related';
+    relWrap.appendChild(document.createTextNode('أسئلة ذات صلة:'));
+    const btnRow = document.createElement('div');
+    entry.related.forEach(rid => {
+      const relEntry = KB.find(e => e.id === rid);
+      if(!relEntry) return;
+      const b = document.createElement('button');
+      b.className = 'related-btn';
+      b.textContent = relEntry.q;
+      b.onclick = () => askAndAnswer(relEntry.q);
+      btnRow.appendChild(b);
+    });
+    relWrap.appendChild(btnRow);
+    wrap.appendChild(relWrap);
+  }
+
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function renderNoMatch(){
+  const wrap = document.createElement('div');
+  wrap.className = 'msg assistant';
+  wrap.textContent = 'ما لقيت إجابة مطابقة لسؤالك في الدليل. جربي تعيدين صياغة السؤال بكلمات أبسط، أو اختاري أحد الأسئلة الجاهزة بالأعلى. لو المشكلة تقنية فعلية، استخدمي "الدعم الفني" داخل منصة مدرستي.';
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function addUserMessage(text){
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.textContent = text;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function askAndAnswer(query){
+  addUserMessage(query);
+  const matches = findBestMatches(query);
+  setTimeout(() => {
+    if(matches.length > 0){
+      renderAnswer(matches[0].entry);
+    }else{
+      renderNoMatch();
+    }
+  }, 200);
+}
+
+QUICK_QUESTIONS.forEach(id => {
+  const entry = KB.find(e => e.id === id);
+  if(!entry) return;
+  const btn = document.createElement('button');
+  btn.className = 'chip';
+  btn.textContent = entry.q;
+  btn.onclick = () => askAndAnswer(entry.q);
+  chipsEl.appendChild(btn);
+});
+
+function handleSend(){
+  const text = inputEl.value.trim();
+  if(!text) return;
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  askAndAnswer(text);
+}
+
+sendBtn.addEventListener('click', handleSend);
+inputEl.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    handleSend();
+  }
+});
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+});
+
+// رسالة ترحيبية
+(function welcome(){
+  const div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.textContent = 'أهلًا بك 👋\nأنا مساعدك لمنصة "مدرستي"، أجاوبك مباشرة من دليل المستخدم الرسمي — وأشتغل بدون إنترنت أو أي حساب.\nاسأليني عن تسجيل الدخول، الواجبات، الاختبارات، التقارير، أو أي خدمة، أو اختاري سؤالًا جاهزًا من الأعلى.';
+  chatEl.appendChild(div);
+})();
+</script>
+</body>
+</html>

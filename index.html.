@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المساعد الذكي للخدمات المدرسية</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --chat-bg: #ffffff;
+            --user-msg: #dcf8c6;
+            --bot-msg: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* شريط التصنيفات (Chips) */
+        .categories-bar {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-chip {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid #ced4da;
+            transition: all 0.2s ease;
+            flex: 0 0 auto;
+        }
+
+        .category-chip:hover, .category-chip.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* منطقة المحادثة */
+        .chat-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: var(--bg-color);
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            line-height: 1.4;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-start;
+            background-color: var(--user-msg);
+            border-bottom-left-radius: 2px;
+        }
+
+        .bot-message {
+            align-self: flex-end;
+            background-color: var(--bot-msg);
+            border-bottom-right-radius: 2px;
+        }
+
+        /* شريط الإدخال */
+        .input-bar {
+            display: flex;
+            padding: 10px;
+            background-color: var(--chat-bg);
+            border-top: 1px solid #ddd;
+            gap: 8px;
+        }
+
+        .input-bar input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .input-bar button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .input-bar button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        الدليل التعليمي - المساعد الذكي
+    </header>
+
+    <!-- شريط التصنيفات السريعة -->
+    <div class="categories-bar" id="categoriesBar">
+        <div class="category-chip" onclick="filterCategory('الكل')">الكل</div>
+        <div class="category-chip" onclick="filterCategory('تسجيل الدخول')">تسجيل الدخول</div>
+        <div class="category-chip" onclick="filterCategory('استعادة كلمة المرور')">استعادة كلمة المرور</div>
+        <div class="category-chip" onclick="filterCategory('الواجبات والاختبارات')">الواجبات والاختبارات</div>
+        <div class="category-chip" onclick="filterCategory('الدعم الفني')">الدعم الفني</div>
+    </div>
+
+    <!-- نافذة المحادثة -->
+    <div class="chat-container" id="chatContainer">
+        <div class="message bot-message">
+            مرحباً بك! أنا مساعدك الذكي. يمكنك اختيار أحد التصنيفات أعلاه أو كتابة استفسارك مباشرة.
+        </div>
+    </div>
+
+    <!-- شريط إدخال الأسئلة -->
+    <div class="input-bar">
+        <input type="text" id="userInput" placeholder="اكتب سؤالك هنا..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">إرسال</button>
+    </div>
+
+    <script>
+        // قاعدة البيانات المحلية (Knowledge Base)
+        const KB = [
+            {
+                category: "تسجيل الدخول",
+                keywords: ["دخول", "تسجيل", "حساب", "منصة"],
+                response: "لتسجيل الدخول إلى المنصة المدرسية، استخدم اسم المستخدم وكلمة المرور الخاصة بك عبر البوابة الرسمية."
+            },
+            {
+                category: "استعادة كلمة المرور",
+                keywords: ["نسيت", "كلمة المرور", "استعادة", "تغيير الرقم السر"],
+                response: "في حال نسيان كلمة المرور، اضغط على خيار 'نسيت كلمة المرور' في صفحة الدخول واتبع التعليمات المرسلة لجوالك."
+            },
+            {
+                category: "الواجبات والاختبارات",
+                keywords: ["واجب", "اختبار", "مهام", "درجات"],
+                response: "يمكنك الوصول للواجبات والاختبارات من خلال تبويب 'المهام الدراسية' في القائمة الرئيسية للمنصة."
+            },
+            {
+                category: "الدعم الفني",
+                keywords: ["مشكلة", "دعم", "عطل", "تواصل"],
+                response: "للحصول على الدعم الفني المباشر، يمكنك رفع تذكرة دعم من خلال قسم 'الدعم الفني' أو التواصل مع مسؤول التقنية بالمدرسة."
+            }
+        ];
+
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (text === "") return;
+
+            // عرض رسالة المستخدم
+            appendMessage(text, 'user-message');
+            userInput.value = '';
+
+            // معالجة الإجابة
+            setTimeout(() => {
+                const response = getBotResponse(text);
+                appendMessage(response, 'bot-message');
+            }, 300);
+        }
+
+        function getBotResponse(query) {
+            for (let item of KB) {
+                for (let key of item.keywords) {
+                    if (query.includes(key)) {
+                        return item.response;
+                    }
+                }
+            }
+            return "عذراً، لم أفهم سؤالك بالكامل. يمكنك اختيار أحد التصنيفات أعلاه للحصول على مساعدة محددة.";
+        }
+
+        function filterCategory(categoryName) {
+            if (categoryName === 'الكل') {
+                appendMessage("يرجى اختيار تصنيف معين أو كتابة سؤالك مباشرة.", 'bot-message');
+                return;
+            }
+
+            const item = KB.find(k => k.category === categoryName);
+            if (item) {
+                appendMessage(`تصنيف: ${categoryName}`, 'user-message');
+                setTimeout(() => {
+                    appendMessage(item.response, 'bot-message');
+                }, 300);
+            }
+        }
+
+        function appendMessage(text, className) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', className);
+            msgDiv.textContent = text;
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>

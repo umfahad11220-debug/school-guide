@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B3945">
-<meta name="description" content="منصة تفاعلية للخطة التشغيلية ١٤٤٨هـ – الثانوية الرابعة والمتوسطة الخامسة عشر بمنطقة الجوف">
+<meta name="description" content="منصة شاملة للخطة التشغيلية ١٤٤٨هـ – الثانوية الرابعة والمتوسطة الخامسة عشر بمنطقة الجوف">
 <title>الخطة التشغيلية ١٤٤٨هـ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,8 +31,10 @@
     --warn:#B7791F;
     --soft-warn:#FCF1DF;
     --danger:#C0392B;
+    --soft-danger:#FCEBEA;
     --radius:16px;
     --shadow:0 1px 2px rgba(11,57,69,.06),0 6px 18px rgba(11,57,69,.07);
+    --bar-h:58px;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -48,11 +50,7 @@
   /* ============ الترويسة ============ */
   .masthead{background:var(--moe-navy);color:#fff;position:relative;overflow:hidden}
   .masthead::before{content:"";display:block;height:6px;background:var(--grad)}
-  .masthead-inner{
-    display:flex;align-items:center;justify-content:space-between;gap:16px;
-    padding-top:18px;padding-bottom:22px;
-  }
-  .gov{display:flex;align-items:center;gap:14px;min-width:0}
+  .masthead-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:22px}
   .gov-lines{font-size:13.5px;line-height:1.65;font-weight:500}
   .gov-lines b{font-weight:700;font-size:14.5px}
   .gov-lines .muted{color:#9FD6DC}
@@ -68,18 +66,20 @@
   .school-pill p{margin:2px 0 0;font-size:13px;color:#BFE3E6}
   .school-pill p b{color:#fff;font-weight:700}
 
-  /* ============ شريط العنوان ============ */
-  .hero{background:var(--card);border-bottom:1px solid var(--line)}
-  .hero-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;padding-bottom:16px}
-  .hero h2{margin:0;font-size:21px;font-weight:800;color:var(--moe-navy)}
-  .hero h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero p{margin:0;color:var(--ink-2);font-size:13.5px}
-  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  /* ============ شريط التطبيق ============ */
+  .appbar{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(11,57,69,.06)}
+  .appbar-inner{display:flex;align-items:center;gap:10px;min-height:var(--bar-h)}
+  .menu-btn{
+    display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;background:var(--moe-navy);color:#fff;
+    padding:9px 13px;font-weight:800;font-size:14px;min-height:42px;flex-shrink:0
+  }
+  .menu-btn svg{width:20px;height:20px}
+  .page-title{flex:1;min-width:0;font-weight:800;font-size:16px;color:var(--moe-navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .actions{display:flex;gap:6px;flex-shrink:0}
   .btn{
-    display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;
     border:1px solid var(--line);background:var(--card);padding:8px 14px;font-size:14px;font-weight:700;
-    color:var(--moe-navy);transition:background .15s,border-color .15s,transform .1s;
-    min-height:40px;
+    color:var(--moe-navy);transition:background .15s,border-color .15s,transform .1s;min-height:40px;text-decoration:none
   }
   .btn:hover{background:var(--soft-teal);border-color:var(--moe-teal)}
   .btn:active{transform:scale(.97)}
@@ -89,12 +89,122 @@
   .btn.danger{color:var(--danger);border-color:#F0C9C4}
   .btn.danger:hover{background:#FCEDEB}
   .btn.on{background:var(--moe-green-deep);border-color:var(--moe-green-deep);color:#fff}
+  .btn.sm{min-height:34px;padding:5px 12px;font-size:13px}
   .btn svg{width:18px;height:18px;flex-shrink:0}
+
+  /* ============ القائمة الجانبية ============ */
+  .scrim{position:fixed;inset:0;background:rgba(6,30,37,.5);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.show{opacity:1;pointer-events:auto}
+  .drawer{
+    position:fixed;top:0;bottom:0;right:0;width:min(330px,86vw);z-index:61;background:#10283A;color:#fff;
+    transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column;
+    box-shadow:-10px 0 30px rgba(0,0,0,.25)
+  }
+  .drawer.show{transform:none}
+  .drawer-head{display:flex;align-items:center;gap:10px;padding:16px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .drawer-head img{height:40px}
+  .drawer-head .t{flex:1;font-size:13px;line-height:1.5;color:#BFE3E6}
+  .drawer-head .t b{display:block;color:#fff;font-size:14.5px}
+  .drawer-close{border:0;background:rgba(255,255,255,.1);color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .drawer-close svg{width:20px;height:20px}
+  .drawer nav{flex:1;overflow-y:auto;padding:8px 10px calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+  .nav-group{font-size:13px;font-weight:800;color:#8FB3C4;margin:16px 10px 4px}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#EAF4F6;text-align:right;
+    font-size:15.5px;font-weight:500;padding:10px 12px;border-radius:12px;text-decoration:none
+  }
+  .nav-item .e{font-size:22px;width:30px;text-align:center;flex-shrink:0}
+  .nav-item:hover{background:rgba(255,255,255,.07)}
+  .nav-item[aria-current="page"]{background:linear-gradient(90deg,rgba(70,186,123,.22),rgba(36,130,192,.22));color:#fff;font-weight:800}
+  .nav-item .dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--moe-green);flex-shrink:0}
+
+  /* ============ الصفحة ============ */
+  main{min-height:60vh}
+  .page-head{display:flex;align-items:flex-start;gap:12px;margin:18px 0 12px}
+  .page-head .e{font-size:30px;line-height:1;background:var(--card);border:1px solid var(--line);border-radius:14px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .page-head h2{margin:0;font-size:21px;font-weight:800;color:var(--moe-navy);line-height:1.35}
+  .page-head p{margin:2px 0 0;color:var(--ink-2);font-size:13.5px}
+  .hint-bar{background:var(--soft-blue);color:#1B5E8C;border-radius:12px;padding:9px 12px;font-size:13.5px;font-weight:700;margin-bottom:12px}
+  body.editing .hint-bar{display:none}
+  .page-nav{display:flex;justify-content:space-between;gap:8px;margin:18px 0 26px}
 
   /* ============ تنبيه الحفظ ============ */
   .notice{display:none;margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--soft-warn);border:1px solid #F1D7A8;font-size:14px}
   .notice.show{display:block}
   .notice .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+  /* ============ البطاقات العامة ============ */
+  .block{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:14px}
+  .block > h3{margin:0 0 10px;font-size:16px;font-weight:800;color:var(--moe-teal);display:flex;align-items:center;gap:8px}
+  .block > h3 .c{margin-inline-start:auto;font-size:12.5px;color:var(--ink-2);font-weight:700}
+  .empty-note{color:var(--ink-2);font-size:14px;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;text-align:center}
+  .text-view{white-space:pre-wrap;margin:0}
+
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+  .kv > div{background:var(--bg);border-radius:10px;padding:8px 10px}
+  .kv .k{font-size:12px;color:var(--ink-2);font-weight:700}
+  .kv .v{font-size:14.5px;font-weight:700;color:var(--ink);white-space:pre-wrap}
+  .kv > div.full{grid-column:1/-1}
+
+  /* الجداول */
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
+  table.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+  .tbl th{background:var(--moe-navy);color:#fff;font-weight:700;padding:9px 10px;text-align:right;white-space:nowrap}
+  .tbl td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+  .tbl tbody tr:nth-child(even) td{background:#F8FBFB}
+  .tbl tfoot td{background:var(--soft-teal);font-weight:800;color:var(--moe-navy)}
+  .tbl .cn{text-align:center}
+
+  /* صفوف التحرير */
+  .edit-rows{display:flex;flex-direction:column;gap:10px}
+  .edit-row{border:1px solid var(--line);border-radius:12px;padding:10px;background:#FAFCFC;position:relative}
+  .edit-row .n{position:absolute;top:-10px;right:10px;background:var(--moe-navy);color:#fff;font-size:12px;font-weight:800;border-radius:999px;padding:0 9px}
+  .row-del{position:absolute;top:6px;left:6px;border:0;background:var(--soft-danger);color:var(--danger);border-radius:999px;font-size:12.5px;font-weight:800;padding:3px 10px}
+  .grid-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 10px;margin-top:6px}
+  .grid-fields .full{grid-column:1/-1}
+  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:2px}
+  .field input,.field textarea,.field select,.inp{
+    width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px 10px;font-size:15px;outline:none;
+  }
+  .field textarea,textarea.inp{min-height:70px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus,.inp:focus{border-color:var(--moe-teal);box-shadow:0 0 0 3px rgba(53,155,167,.15)}
+  .add-row{margin-top:10px}
+  .list-edit{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+  .list-edit .inp{flex:1}
+  .x-sm{border:0;background:var(--soft-danger);color:var(--danger);width:34px;height:34px;border-radius:50%;font-size:18px;flex-shrink:0}
+
+  ul.bullets{margin:0;padding:0 18px 0 0}
+  ul.bullets li{margin:3px 0}
+
+  /* الغلاف */
+  .cover{
+    position:relative;border-radius:22px;overflow:hidden;background:var(--moe-navy);color:#fff;text-align:center;
+    padding:28px 20px 34px;box-shadow:var(--shadow);margin-bottom:14px
+  }
+  .cover::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:var(--grad)}
+  .cover::after{content:"";position:absolute;inset:auto 0 0 0;height:8px;background:var(--grad)}
+  .cover img{height:78px;margin:6px auto 10px;display:block}
+  .cover .adm{font-size:13.5px;color:#BFE3E6;line-height:1.7}
+  .cover h2{margin:18px 0 4px;font-size:30px;font-weight:800;line-height:1.3}
+  .cover h2 span{display:block;font-size:19px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cover .school{display:inline-block;margin-top:14px;border:1px solid rgba(70,186,123,.6);border-radius:14px;padding:8px 16px;font-weight:800;background:var(--moe-navy-2)}
+  .cover .sig{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:22px;font-size:13.5px;color:#BFE3E6}
+  .cover .sig b{display:block;color:#fff;font-size:15px}
+
+  /* SWOT */
+  .quad{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .quad > div{border-radius:14px;padding:12px;border:1px solid var(--line);background:var(--card)}
+  .quad h4{margin:0 0 6px;font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px}
+  .quad .q-s{border-top:5px solid var(--moe-green-deep)} .quad .q-s h4{color:var(--moe-green-deep)}
+  .quad .q-w{border-top:5px solid var(--danger)} .quad .q-w h4{color:var(--danger)}
+  .quad .q-o{border-top:5px solid var(--moe-blue)} .quad .q-o h4{color:#1B5E8C}
+  .quad .q-t{border-top:5px solid var(--warn)} .quad .q-t h4{color:var(--warn)}
+
+  /* السجلات (محاضر) */
+  .rec{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;background:#FAFCFC}
+  .rec-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .rec-head b{font-size:15.5px;color:var(--moe-navy)}
+  .rec-head .d{color:var(--ink-2);font-size:13px}
 
   /* ============ الإحصاءات ============ */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
@@ -102,23 +212,42 @@
   .stat .n{font-size:28px;font-weight:800;color:var(--moe-navy);line-height:1.2}
   .stat .l{font-size:13px;color:var(--ink-2)}
   .progress{height:8px;border-radius:99px;background:var(--soft-teal);overflow:hidden;margin-top:8px}
-  .progress i{display:block;height:100%;width:0;background:var(--grad);transition:width .4s}
+  .progress i{display:block;height:100%;width:0;background:var(--grad);border-radius:99px;transition:width .4s}
+
+  /* ============ لوحة المتابعة ============ */
+  .welcome{background:var(--moe-navy);color:#fff;border-radius:var(--radius);padding:16px 18px;margin-top:16px;position:relative;overflow:hidden}
+  .welcome::after{content:"";position:absolute;inset:auto 0 0 0;height:5px;background:var(--grad)}
+  .welcome h2{margin:0;font-size:19px;font-weight:800}
+  .welcome p{margin:2px 0 0;color:#BFE3E6;font-size:14px}
+  .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .meter{display:grid;grid-template-columns:minmax(120px,1.2fr) 2fr auto;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .meter:last-child{border-bottom:0}
+  .meter .nm{font-size:14px;font-weight:700}
+  .meter .track{height:10px;background:var(--soft-teal);border-radius:99px;overflow:hidden}
+  .meter .track i{display:block;height:100%;background:var(--moe-teal);border-radius:99px}
+  .meter .val{font-size:13px;color:var(--ink-2);font-weight:700;white-space:nowrap}
+  .mini-list{list-style:none;margin:0;padding:0}
+  .mini-list li{border-bottom:1px dashed var(--line)}
+  .mini-list li:last-child{border-bottom:0}
+  .mini-list button{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;text-align:right;padding:9px 2px}
+  .mini-list .nm{flex:1;font-weight:700;font-size:14.5px;color:var(--moe-navy)}
+  .mini-list .d{font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+  .sec-check{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+  .sec-check a{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;background:var(--bg)}
+  .sec-check a .e{font-size:18px}
+  .sec-check a .st{margin-inline-start:auto;font-size:12px;border-radius:999px;padding:1px 8px}
+  .sec-check a .st.ok{background:var(--soft-green);color:var(--moe-green-deep)}
+  .sec-check a .st.no{background:#EEF1F2;color:#5A6B70}
 
   /* ============ البحث والتصفية ============ */
-  .filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);position:sticky;top:0;z-index:5}
+  .filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);position:sticky;top:calc(var(--bar-h) + 1px);z-index:5}
   .search{position:relative}
-  .search input{
-    width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);
-    padding:11px 42px 11px 14px;font-size:15px;outline:none;
-  }
+  .search input{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:11px 42px 11px 14px;font-size:15px;outline:none}
   .search input:focus{border-color:var(--moe-teal);background:#fff}
   .search svg{position:absolute;right:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--ink-2)}
   .chip-row{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
   .chip-row::-webkit-scrollbar{display:none}
-  .chip{
-    flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:999px;
-    padding:6px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2);white-space:nowrap;
-  }
+  .chip{flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2);white-space:nowrap}
   .chip[aria-pressed="true"]{background:var(--moe-navy);border-color:var(--moe-navy);color:#fff}
   .chip .c{opacity:.7;font-weight:500;margin-inline-start:4px}
   .sub-label{font-size:12px;color:var(--ink-2);font-weight:700;margin-top:6px}
@@ -127,17 +256,13 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:16px 0 28px}
   .card{
     background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:0;text-align:right;display:flex;flex-direction:column;overflow:hidden;
-    transition:transform .15s,box-shadow .15s,border-color .15s;
+    padding:0;text-align:right;display:flex;flex-direction:column;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s
   }
   .card:hover{transform:translateY(-2px);border-color:var(--moe-teal);box-shadow:0 10px 26px rgba(11,57,69,.12)}
   .card-top{height:4px;background:var(--grad)}
   .card-body{padding:14px 16px 12px;flex:1;display:flex;flex-direction:column;gap:8px}
   .card-head{display:flex;align-items:flex-start;gap:10px}
-  .num{
-    flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--soft-teal);color:var(--moe-navy);
-    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;
-  }
+  .num{flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--soft-teal);color:var(--moe-navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
   .card h3{margin:0;font-size:17.5px;font-weight:800;line-height:1.4;color:var(--moe-navy)}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:3px}
   .tag{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--soft-blue);color:#1B5E8C}
@@ -146,74 +271,50 @@
   .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2);margin-top:auto;padding-top:6px}
   .meta span{display:inline-flex;align-items:center;gap:5px}
   .meta svg{width:15px;height:15px;color:var(--moe-teal)}
-  .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:9px 16px;background:#FAFCFC}
-  .status{font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px}
+  .card-foot{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:9px 16px;background:#FAFCFC}
+  .card-foot .more{margin-inline-start:auto}
+  .status{font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
   .status::before{content:"";flex-shrink:0;width:7px;height:7px;border-radius:50%;background:currentColor}
   .s0{background:#EEF1F2;color:#5A6B70}
   .s1{background:var(--soft-warn);color:var(--warn)}
   .s2{background:var(--soft-green);color:var(--moe-green-deep)}
-  .more{font-size:13px;font-weight:700;color:var(--moe-teal)}
-  .empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--ink-2);background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
-
-  /* ============ النافذة المنبثقة ============ */
-  .overlay{position:fixed;inset:0;background:rgba(6,30,37,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
-  .overlay.show{display:flex}
-  .sheet{
-    background:var(--bg);width:100%;max-width:760px;max-height:94vh;border-radius:22px 22px 0 0;
-    display:flex;flex-direction:column;overflow:hidden;animation:up .22s ease-out;
-  }
-  @keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
-  @media (min-width:760px){ .overlay{align-items:center} .sheet{border-radius:22px;max-height:88vh} }
-  .sheet-head{background:var(--moe-navy);color:#fff;padding:16px 18px 14px;position:relative}
-  .sheet-head::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--grad)}
-  .sheet-head .k{font-size:12.5px;color:#9FD6DC;font-weight:700}
-  .sheet-head h3{margin:2px 0 0;font-size:21px;font-weight:800;line-height:1.35}
-  .x{position:absolute;left:12px;top:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center}
-  .x svg{width:20px;height:20px}
-  .sheet-body{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
-  .sheet-foot{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
-  .sheet-foot .spacer{flex:1}
-
-  .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-  .sec h4{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--moe-teal);display:flex;align-items:center;gap:6px}
-  .sec h4 svg{width:17px;height:17px}
-  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-  .kv div{background:var(--bg);border-radius:10px;padding:8px 10px}
-  .kv .k{font-size:12px;color:var(--ink-2);font-weight:700}
-  .kv .v{font-size:14.5px;font-weight:700;color:var(--ink)}
-  .sec p{margin:0}
-  .list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-  .list li{background:var(--soft-teal);color:var(--moe-navy);font-size:13.5px;font-weight:700;border-radius:8px;padding:4px 10px}
-  .s3{background:#FCEBEA;color:var(--danger)}
+  .s3{background:var(--soft-danger);color:var(--danger)}
+  .s4{background:#7A1E14;color:#fff}
   .status.s1::before{animation:pulse 1.6s infinite}
   @keyframes pulse{50%{opacity:.35}}
   .status-note{font-size:12.5px;color:var(--ink-2);margin-top:6px}
   .ev-count{font-size:12.5px;font-weight:700;color:var(--moe-teal);display:inline-flex;align-items:center;gap:4px}
   .ev-count svg{width:14px;height:14px}
+  .more{font-size:13px;font-weight:700;color:var(--moe-teal)}
+  .empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--ink-2);background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
+
+  /* ============ المتابعة ============ */
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+  .seg button{border:0;background:transparent;padding:7px 14px;font-weight:800;font-size:13.5px;color:var(--ink-2);min-height:38px}
+  .seg button + button{border-inline-start:1px solid var(--line)}
+  .seg button[aria-pressed="true"].yes{background:var(--moe-green-deep);color:#fff}
+  .seg button[aria-pressed="true"].no{background:var(--danger);color:#fff}
+  .fu-row{display:grid;grid-template-columns:34px minmax(0,1.4fr) auto auto minmax(0,1.6fr);gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;box-shadow:var(--shadow)}
+  .fu-row .nm{border:0;background:transparent;text-align:right;padding:0;font-weight:800;color:var(--moe-navy);font-size:15px;line-height:1.4}
+  .fu-row .nm small{display:block;font-weight:500;color:var(--ink-2);font-size:12.5px}
+  .fu-row textarea{min-height:40px;height:40px;resize:vertical}
+  .fu-head{display:grid;grid-template-columns:34px minmax(0,1.4fr) auto auto minmax(0,1.6fr);gap:10px;padding:0 12px 6px;font-size:12.5px;font-weight:800;color:var(--ink-2)}
 
   /* ============ الشواهد ============ */
   .ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
-  .ev{
-    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    aspect-ratio:1/1;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden;
-    padding:6px;text-decoration:none;color:var(--moe-navy);text-align:center;width:100%;
-  }
+  .ev{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;aspect-ratio:1/1;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden;padding:6px;text-decoration:none;color:var(--moe-navy);text-align:center;width:100%}
   .ev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .ev .ic{width:30px;height:30px;color:var(--moe-teal)}
   .ev .nm{font-size:11px;font-weight:700;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative}
   .ev.has-img .nm{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(6,30,37,.8));color:#fff;padding:14px 6px 4px}
-  .ev .kind{position:absolute;top:5px;right:5px;background:rgba(11,57,69,.8);color:#fff;font-size:10px;font-weight:700;border-radius:6px;padding:1px 6px}
-  .ev-del{
-    position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;border:0;z-index:2;
-    background:rgba(192,57,43,.92);color:#fff;display:none;align-items:center;justify-content:center;font-size:16px;line-height:1
-  }
+  .ev .kind{position:absolute;top:5px;right:5px;background:rgba(11,57,69,.8);color:#fff;font-size:10px;font-weight:700;border-radius:6px;padding:1px 6px;z-index:1}
+  .ev-del{position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;border:0;z-index:2;background:rgba(192,57,43,.92);color:#fff;display:none;align-items:center;justify-content:center;font-size:16px;line-height:1}
   body.editing .ev-del{display:flex}
   .ev-wrap{position:relative}
   .ev-add{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .ev-empty{font-size:13.5px;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;text-align:center}
   .ev-local{font-size:12px;color:var(--warn);margin-top:6px}
 
-  .viewer{position:fixed;inset:0;background:rgba(3,15,19,.92);z-index:70;display:none;flex-direction:column}
+  .viewer{position:fixed;inset:0;background:rgba(3,15,19,.92);z-index:90;display:none;flex-direction:column}
   .viewer.show{display:flex}
   .viewer-bar{display:flex;align-items:center;gap:8px;padding:10px 12px;color:#fff}
   .viewer-bar .nm{flex:1;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -221,43 +322,46 @@
   .viewer-body{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;min-height:0}
   .viewer-body img,.viewer-body video{max-width:100%;max-height:100%;border-radius:8px;background:#000}
 
-  .home-btn{
-    position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;
-    background:rgba(255,255,255,.14);color:#fff;font-weight:800;font-size:13.5px;padding:8px 14px;min-height:38px
-  }
+  /* ============ النافذة المنبثقة ============ */
+  .overlay{position:fixed;inset:0;background:rgba(6,30,37,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
+  .overlay.show{display:flex}
+  .sheet{background:var(--bg);width:100%;max-width:760px;max-height:94vh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:up .22s ease-out}
+  @keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+  @media (min-width:760px){ .overlay{align-items:center} .sheet{border-radius:22px;max-height:88vh} }
+  .sheet-head{background:var(--moe-navy);color:#fff;padding:16px 18px 14px;position:relative}
+  .sheet-head::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--grad)}
+  .sheet-head .k{font-size:12.5px;color:#9FD6DC;font-weight:700}
+  .sheet-head h3{margin:2px 0 0;font-size:21px;font-weight:800;line-height:1.35}
+  .sheet-head h3,.sheet-head .k{padding-left:118px}
+  .home-btn{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-weight:800;font-size:13.5px;padding:8px 14px;min-height:38px}
   .home-btn:hover{background:rgba(255,255,255,.24)}
   .home-btn svg{width:18px;height:18px}
-  .sheet-head h3,.sheet-head .k{padding-left:118px}
+  .sheet-body{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
+  .sheet-foot{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+  .sheet-foot .spacer{flex:1}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .sec h4{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--moe-teal);display:flex;align-items:center;gap:6px}
+  .sec h4 svg{width:17px;height:17px}
+  .sec p{margin:0}
+  .list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+  .list li{background:var(--soft-teal);color:var(--moe-navy);font-size:13.5px;font-weight:700;border-radius:8px;padding:4px 10px}
 
   /* ============ النموذج ============ */
   .form{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
   .form .full{grid-column:1/-1}
   .form .group{grid-column:1/-1;font-size:14px;font-weight:800;color:var(--moe-teal);margin-top:6px;border-bottom:1px solid var(--line);padding-bottom:4px}
-  .field label{display:block;font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:3px}
   .field label .req{color:var(--danger)}
-  .field input,.field textarea,.field select{
-    width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px;font-size:15px;outline:none;
-  }
-  .field textarea{min-height:74px;resize:vertical}
-  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--moe-teal);box-shadow:0 0 0 3px rgba(53,155,167,.15)}
   .hint{font-size:12px;color:var(--ink-2);margin-top:2px}
 
-  /* ============ زر الإضافة العائم ============ */
-  .fab{
-    position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:20;display:none;
-    border:0;border-radius:999px;background:var(--moe-green-deep);color:#fff;font-weight:800;font-size:15px;
-    padding:13px 20px;box-shadow:0 8px 24px rgba(3,140,95,.35);align-items:center;gap:8px;
-  }
+  .fab{position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:20;display:none;border:0;border-radius:999px;background:var(--moe-green-deep);color:#fff;font-weight:800;font-size:15px;padding:13px 20px;box-shadow:0 8px 24px rgba(3,140,95,.35);align-items:center;gap:8px}
   .fab svg{width:20px;height:20px}
-  body.editing .fab{display:inline-flex}
+  body.editing.on-programs .fab{display:inline-flex}
   .edit-only{display:none !important}
   body.editing .edit-only{display:inline-flex !important}
+  .view-only{}
+  body.editing .view-only{display:none !important}
 
-  .toast{
-    position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
-    background:var(--moe-navy);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:80;
-    transition:opacity .2s,transform .2s;white-space:nowrap;
-  }
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:var(--moe-navy);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:95;transition:opacity .2s,transform .2s;max-width:92vw;text-align:center}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
   /* ============ التذييل ============ */
@@ -267,27 +371,34 @@
   footer .credit b{color:#fff;font-weight:800}
   footer .small{font-size:12.5px;color:#8FBFC6;margin-top:4px}
 
-  @media (max-width:720px){
+  @media (max-width:760px){
     .masthead-inner{flex-direction:column-reverse;align-items:center;text-align:center;gap:10px;padding-top:14px;padding-bottom:16px}
-    .gov{flex-direction:column;gap:4px}
     .logo-box .bar{display:none}
     .logo-box img{height:58px}
     .gov-lines{font-size:13px}
     .school-pill h1{font-size:15.5px}
     .stats{grid-template-columns:repeat(2,1fr)}
-    .hero h2{font-size:19px}
     .grid{grid-template-columns:1fr}
     .form{grid-template-columns:1fr}
-    .actions .btn .t{display:none}
-    .actions .btn{padding:8px 11px}
+    .actions .btn .t,.menu-btn .t{display:none}
+    .actions .btn{padding:8px 10px}
+    .dash-grid{grid-template-columns:1fr}
+    .quad{grid-template-columns:1fr}
+    .fu-head{display:none}
+    .fu-row{grid-template-columns:34px 1fr auto;grid-template-areas:"n nm st" "seg seg seg" "nt nt nt"}
+    .fu-row .num{grid-area:n} .fu-row .nm{grid-area:nm} .fu-row .status{grid-area:st}
+    .fu-row .seg{grid-area:seg;justify-self:start} .fu-row textarea{grid-area:nt}
+    .meter{grid-template-columns:1fr auto;grid-template-areas:"nm val" "tr tr"}
+    .meter .nm{grid-area:nm} .meter .val{grid-area:val} .meter .track{grid-area:tr}
+    .cover h2{font-size:24px}
   }
 
   @media print{
-    .filters,.actions,.fab,.notice,.card-foot .more,footer .small{display:none !important}
+    .appbar,.filters,.fab,.notice,.card-foot .more,footer .small,.hint-bar,.page-nav,.drawer,.scrim,.add-row,.ev-add{display:none !important}
     body{background:#fff}
     .grid{grid-template-columns:1fr 1fr}
-    .card{break-inside:avoid;box-shadow:none}
-    .masthead,footer,.card-top,.sheet-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card,.block{break-inside:avoid;box-shadow:none}
+    .masthead,footer,.card-top,.cover,.tbl th,.welcome{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
@@ -296,12 +407,10 @@
 <!-- ======= الترويسة ======= -->
 <header class="masthead">
   <div class="wrap masthead-inner">
-    <div class="gov">
-      <div class="gov-lines">
-        <b>المملكة العربية السعودية</b><br>
-        وزارة التعليم<br>
-        <span class="muted">الإدارة العامة للتعليم بمنطقة الجوف</span>
-      </div>
+    <div class="gov-lines">
+      <b>المملكة العربية السعودية</b><br>
+      وزارة التعليم<br>
+      <span class="muted">الإدارة العامة للتعليم بمنطقة الجوف</span>
     </div>
     <div class="logo-box">
       <span class="bar" aria-hidden="true"></span>
@@ -316,56 +425,50 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap hero-inner">
-    <div>
-      <h2>الخطة التشغيلية <span>للعام الدراسي ١٤٤٨هـ</span></h2>
-      <p>اضغطي على أي برنامج لعرض تفاصيله كاملة</p>
-    </div>
+<!-- ======= شريط التطبيق ======= -->
+<div class="appbar">
+  <div class="wrap appbar-inner">
+    <button class="menu-btn" id="btnMenu" type="button" aria-controls="drawer" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span class="t">القائمة</span>
+    </button>
+    <div class="page-title" id="pageTitle"></div>
     <div class="actions">
       <button class="btn" id="btnEdit" type="button" aria-pressed="false" title="وضع التعديل">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        <span class="t">وضع التعديل</span>
+        <span class="t">تعديل</span>
       </button>
-      <button class="btn edit-only" id="btnExport" type="button" title="حفظ نسخة من البيانات">
+      <button class="btn edit-only" id="btnExport" type="button" title="تصدير للنشر">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-        <span class="t">تصدير للنشر</span>
+        <span class="t">تصدير</span>
       </button>
       <button class="btn edit-only" id="btnImport" type="button" title="استيراد نسخة محفوظة">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
         <span class="t">استيراد</span>
       </button>
-      <button class="btn" id="btnPrint" type="button" title="طباعة">
+      <button class="btn" id="btnPrint" type="button" title="طباعة الصفحة">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
         <span class="t">طباعة</span>
       </button>
-      <input type="file" id="fileImport" accept=".json,.zip,application/json,application/zip" hidden>
     </div>
   </div>
-</section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="أقسام الخطة" aria-hidden="true">
+  <div class="drawer-head">
+    <img src="moe-logo.png" alt="">
+    <div class="t"><b>الخطة التشغيلية ١٤٤٨هـ</b>الثانوية الرابعة والمتوسطة الخامسة عشر</div>
+    <button class="drawer-close" id="btnDrawerClose" type="button" aria-label="إغلاق القائمة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav id="nav"></nav>
+</aside>
 
 <main class="wrap">
   <div class="notice" id="notice"></div>
-
-  <div class="stats">
-    <div class="stat"><div class="n" id="stTotal">–</div><div class="l">برنامج في الخطة</div></div>
-    <div class="stat"><div class="n" id="stStarted">–</div><div class="l">برامج بدأت</div></div>
-    <div class="stat"><div class="n" id="stDone">–</div><div class="l">منفّذة (برفع شاهد)</div></div>
-    <div class="stat"><div class="n" id="stPct">–</div><div class="l">نسبة الإنجاز</div><div class="progress"><i id="stBar"></i></div></div>
-  </div>
-
-  <div class="filters">
-    <div class="search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="ابحثي باسم البرنامج أو المنفذة أو الهدف…" aria-label="بحث">
-    </div>
-    <div class="sub-label">المجال</div>
-    <div class="chip-row" id="domainChips" role="group" aria-label="تصفية حسب المجال"></div>
-    <div class="sub-label">الفصل وحالة التنفيذ</div>
-    <div class="chip-row" id="termChips" role="group" aria-label="تصفية حسب الفصل"></div>
-  </div>
-
-  <div class="grid" id="grid" aria-live="polite"></div>
+  <div id="page"></div>
 </main>
 
 <footer>
@@ -393,6 +496,7 @@
   <div class="viewer-body" id="viewerBody"></div>
 </div>
 
+<input type="file" id="fileImport" accept=".json,.zip,application/json,application/zip" hidden>
 <input type="file" id="fileProof" accept="image/*,video/*,application/pdf,.pdf" multiple hidden>
 <div class="toast" id="toast" role="status"></div>
 
@@ -403,9 +507,114 @@
   var STORE_KEY = "school-plan-1448";
   var PLAN_YEAR = 1448;
   var TERMS = ["الفصل الأول","الفصل الثاني","طوال العام"];
-  // 0 لم يبدأ · 1 بدأ · 2 منفّذ · 3 انتهت المدة بلا شاهد
-  var STATUS = ["لم يبدأ","بدأ","منفّذ","بانتظار الشاهد"];
+  // 0 لم يبدأ · 1 بدأ · 2 منفّذ · 3 انتهت المدة بلا متابعة · 4 لم يُنفّذ
+  var STATUS = ["لم يبدأ","بدأ","منفّذ","بانتظار المتابعة","لم يُنفّذ"];
+  var FU_YES = "نفذ", FU_NO = "لم ينفذ";
   var BIG_FILE = 25 * 1024 * 1024;
+
+  /* ---------- أقسام المنصة ---------- */
+  var NAV = [
+    {g:"الرئيسية", items:[{id:"dashboard", t:"لوحة المتابعة", e:"📊"}]},
+    {g:"البداية", items:[{id:"cover", t:"الغلاف", e:"📘"},{id:"vision", t:"الرؤية والرسالة والقيم", e:"🌟"}]},
+    {g:"التأسيس والفريق", items:[{id:"committee", t:"قرار تشكيل لجنة التخطيط", e:"📝"},{id:"meetings", t:"فهرس اجتماعات الفريق", e:"🗂️"},{id:"minutes", t:"محاضر الاجتماعات", e:"🧾"}]},
+    {g:"بيانات المدرسة", items:[{id:"school", t:"بيانات المدرسة", e:"🏫"},{id:"staff", t:"بيانات رقمية ١ – الهيئة", e:"👩‍🏫"},{id:"rooms", t:"بيانات رقمية ٢ – الغرف والتجهيزات", e:"🏗️"},{id:"students", t:"بيانات رقمية ٣ – الطالبات والفصول", e:"🎒"}]},
+    {g:"التشخيص والأهداف", items:[{id:"swot", t:"تحليل SWOT", e:"🧭"},{id:"sources", t:"مصادر ومرتكزات الخطة", e:"📚"}]},
+    {g:"التنفيذ والمتابعة", items:[{id:"programs", t:"البرامج التشغيلية", e:"🎯"},{id:"followup", t:"متابعة تنفيذ البرامج", e:"✅"}]}
+  ];
+  var PAGE_LIST = [];
+  NAV.forEach(function(g){ g.items.forEach(function(it){ PAGE_LIST.push(it); }); });
+  function pageInfo(id){ return PAGE_LIST.find(function(p){ return p.id === id; }); }
+
+  var ROOM_STATES = ["جيدة","تحتاج صيانة","غير صالحة"];
+  var SECTIONS = {
+    cover:{desc:"بيانات غلاف الخطة التشغيلية", blocks:[
+      {type:"cover", key:"info", fields:[
+        {k:"title", l:"عنوان الخطة"},{k:"year", l:"العام الدراسي"},{k:"school", l:"اسم المدرسة"},
+        {k:"admin", l:"الإدارة التعليمية"},{k:"office", l:"مكتب التعليم"},
+        {k:"preparedBy", l:"إعداد"},{k:"principal", l:"اعتماد مديرة المدرسة"}
+      ]}
+    ]},
+    vision:{desc:"التوجه الاستراتيجي للمدرسة", blocks:[
+      {type:"fields", key:"vm", title:"الرؤية والرسالة", fields:[{k:"vision", l:"الرؤية", ta:true, full:true},{k:"mission", l:"الرسالة", ta:true, full:true}]},
+      {type:"table", key:"values", title:"القيم", item:"قيمة", cols:[{k:"value", l:"القيمة"},{k:"meaning", l:"معناها والسلوك المعبّر عنها", ta:true}]}
+    ]},
+    committee:{desc:"قرار تشكيل لجنة التخطيط المدرسي وأعضاؤها ومهامها", blocks:[
+      {type:"fields", key:"decision", title:"بيانات القرار", fields:[
+        {k:"number", l:"رقم القرار"},{k:"date", l:"تاريخ القرار"},{k:"basis", l:"بناءً على", full:true, ta:true},{k:"tasks", l:"مهام اللجنة", full:true, ta:true}
+      ]},
+      {type:"table", key:"members", title:"أعضاء اللجنة", item:"عضوة", cols:[
+        {k:"name", l:"الاسم"},{k:"role", l:"الصفة في اللجنة", select:["رئيسة اللجنة","نائبة الرئيسة","مقررة","عضوة"]},{k:"job", l:"العمل الحالي"},{k:"tasks", l:"المهام", ta:true}
+      ]},
+      {type:"files", key:"files", title:"صورة القرار الموقّع"}
+    ]},
+    meetings:{desc:"سجل اجتماعات فريق التخطيط", blocks:[
+      {type:"table", key:"list", title:"الاجتماعات", item:"اجتماع", cols:[
+        {k:"no", l:"رقم الاجتماع", num:true, noSum:true},{k:"date", l:"التاريخ"},{k:"day", l:"اليوم", select:["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس"]},
+        {k:"topic", l:"موضوع الاجتماع", ta:true},{k:"place", l:"المكان"},{k:"attend", l:"عدد الحضور", num:true, noSum:true}
+      ]}
+    ]},
+    minutes:{desc:"محاضر اجتماعات فريق التخطيط وقراراتها", blocks:[
+      {type:"records", key:"list", title:"المحاضر", item:"محضر", head:["no","date"], fields:[
+        {k:"no", l:"رقم الاجتماع"},{k:"date", l:"التاريخ"},{k:"time", l:"الوقت"},{k:"place", l:"المكان"},
+        {k:"attendees", l:"الحاضرات", ta:true, full:true},{k:"agenda", l:"جدول الأعمال", ta:true, full:true},
+        {k:"decisions", l:"القرارات والتوصيات", ta:true, full:true},{k:"owner", l:"المسؤولة عن المتابعة"},{k:"due", l:"موعد التنفيذ"}
+      ]}
+    ]},
+    school:{desc:"البيانات الأساسية للمدرسة", blocks:[
+      {type:"fields", key:"info", title:"البيانات الأساسية", fields:[
+        {k:"name", l:"اسم المدرسة"},{k:"ministryNo", l:"الرقم الوزاري"},{k:"stage", l:"المرحلة"},{k:"building", l:"نوع المبنى", select:["حكومي","مستأجر"]},
+        {k:"shift", l:"الفترة", select:["صباحية","مسائية"]},{k:"city", l:"المدينة / الحي"},{k:"office", l:"مكتب التعليم"},{k:"admin", l:"الإدارة التعليمية"},
+        {k:"founded", l:"تاريخ التأسيس"},{k:"principal", l:"مديرة المدرسة"},{k:"deputies", l:"الوكيلات"},{k:"phone", l:"الهاتف"},{k:"email", l:"البريد الإلكتروني"}
+      ]},
+      {type:"fields", key:"totals", title:"أرقام عامة", fields:[
+        {k:"students", l:"عدد الطالبات"},{k:"classes", l:"عدد الفصول"},{k:"teachers", l:"عدد المعلمات"},{k:"staff", l:"عدد الإداريات"}
+      ]}
+    ]},
+    staff:{desc:"أعداد منسوبات المدرسة ومؤهلاتهن", blocks:[
+      {type:"table", key:"list", title:"الهيئة الإدارية والتعليمية", item:"فئة", labelCols:1, cols:[
+        {k:"cat", l:"الفئة"},{k:"count", l:"العدد", num:true},{k:"bach", l:"بكالوريوس", num:true},{k:"grad", l:"دراسات عليا", num:true},{k:"notes", l:"ملاحظات"}
+      ]}
+    ]},
+    rooms:{desc:"المرافق والغرف والتجهيزات وحالتها", blocks:[
+      {type:"table", key:"list", title:"الغرف والتجهيزات", item:"مرفق", labelCols:1, cols:[
+        {k:"item", l:"المرفق / التجهيز"},{k:"count", l:"العدد", num:true, noSum:true},{k:"state", l:"الحالة", select:ROOM_STATES},{k:"notes", l:"ملاحظات"}
+      ]}
+    ]},
+    students:{desc:"توزيع الطالبات على الصفوف والفصول", blocks:[
+      {type:"table", key:"list", title:"الطالبات والفصول", item:"صف", labelCols:2, cols:[
+        {k:"stage", l:"المرحلة", select:["المتوسطة","الثانوية"]},{k:"grade", l:"الصف"},{k:"classes", l:"عدد الفصول", num:true},{k:"count", l:"عدد الطالبات", num:true},{k:"notes", l:"ملاحظات"}
+      ]}
+    ]},
+    swot:{desc:"التحليل الرباعي لواقع المدرسة", blocks:[
+      {type:"quad", key:"q", parts:[
+        {k:"s", l:"نقاط القوة", cls:"q-s", e:"💪"},{k:"w", l:"نقاط الضعف", cls:"q-w", e:"⚠️"},
+        {k:"o", l:"الفرص", cls:"q-o", e:"🚀"},{k:"t", l:"التهديدات", cls:"q-t", e:"⛔"}
+      ]}
+    ]},
+    sources:{desc:"المصادر والمرتكزات التي بُنيت عليها الخطة", blocks:[
+      {type:"table", key:"list", title:"المصادر والمرتكزات", item:"مصدر", cols:[{k:"src", l:"المصدر / المرتكز"},{k:"impact", l:"أثره في الخطة", ta:true}]},
+      {type:"files", key:"files", title:"مرفقات"}
+    ]}
+  };
+
+  var DEFAULTS = {
+    cover:{info:{title:"الخطة التشغيلية", year:"للعام الدراسي ١٤٤٨هـ", school:"الثانوية الرابعة والمتوسطة الخامسة عشر",
+      admin:"الإدارة العامة للتعليم بمنطقة الجوف", office:"مكتب التعليم بالقريات", preparedBy:"لجنة التخطيط المدرسي", principal:"منار الشامخ"}},
+    committee:{members:[{name:"منار الشامخ", role:"رئيسة اللجنة", job:"مديرة المدرسة"}]},
+    school:{
+      info:{name:"الثانوية الرابعة والمتوسطة الخامسة عشر", stage:"المتوسطة والثانوية", office:"مكتب التعليم بالقريات",
+        admin:"الإدارة العامة للتعليم بمنطقة الجوف", principal:"منار الشامخ", deputies:"حنان عبدالله، ابتسام حمدي"},
+      totals:{students:"٥٨٩"}
+    },
+    staff:{list:["مديرة المدرسة","الوكيلات","المعلمات","الموجهات الطلابيات","رائدة النشاط","أمينة مصادر التعلم","الإداريات","المستخدمات والحارسات"].map(function(c){ return {cat:c}; })},
+    rooms:{list:["الفصول الدراسية","معامل العلوم","معمل الحاسب","مركز مصادر التعلم","المسرح المدرسي","المصلى","الساحة الداخلية","العيادة المدرسية","دورات المياه","الشاشات التفاعلية","أجهزة العرض (بروجكتر)","أجهزة الحاسب","طفايات الحريق"].map(function(c){ return {item:c}; })},
+    students:{list:[
+      {stage:"المتوسطة", grade:"الأول المتوسط"},{stage:"المتوسطة", grade:"الثاني المتوسط"},{stage:"المتوسطة", grade:"الثالث المتوسط", count:"٨٣"},
+      {stage:"الثانوية", grade:"الأول الثانوي (السنة المشتركة)"},{stage:"الثانوية", grade:"الثاني الثانوي"},{stage:"الثانوية", grade:"الثالث الثانوي"}
+    ]},
+    swot:{q:{s:[], w:[], o:[], t:[]}},
+    sources:{list:["رؤية المملكة العربية السعودية ٢٠٣٠","برنامج تنمية القدرات البشرية","الخطة الاستراتيجية لوزارة التعليم","نتائج الاختبارات الوطنية (نافس)","نتائج التقويم المدرسي","مؤشرات الأداء المدرسي","تحليل SWOT لواقع المدرسة","توجيهات الإدارة العامة للتعليم بمنطقة الجوف"].map(function(s){ return {src:s}; })}
+  };
 
   var FIELDS = [
     {group:"البيانات الأساسية"},
@@ -435,16 +644,13 @@
   ];
 
   var state = {
-    programs: [],
-    local: false,
-    q: "",
-    domain: "الكل",
-    term: "الكل",
-    editing: false
+    programs: [], sections: {},
+    local: false, q: "", domain: "الكل", term: "الكل", fuFilter: "الكل",
+    editing: false, page: "dashboard"
   };
 
   var $ = function(id){ return document.getElementById(id); };
-  var grid = $("grid"), overlay = $("overlay"), sheet = $("sheet");
+  var pageEl = $("page"), overlay = $("overlay"), sheet = $("sheet");
 
   /* ---------- أدوات ---------- */
   function esc(s){
@@ -454,22 +660,24 @@
   }
   var AR = "٠١٢٣٤٥٦٧٨٩";
   function ar(n){ return String(n).replace(/\d/g, function(d){ return AR[d]; }); }
-  function latin(s){ return String(s || "").replace(/[٠-٩]/g, function(d){ return AR.indexOf(d); }).replace(/[۰-۹]/g, function(d){ return d.charCodeAt(0) - 1776; }); }
+  function latin(s){ return String(s == null ? "" : s).replace(/[٠-٩]/g, function(d){ return AR.indexOf(d); }).replace(/[۰-۹]/g, function(d){ return d.charCodeAt(0) - 1776; }); }
+  function toNum(s){ var n = parseFloat(latin(s).replace(/[^\d.]/g, "")); return isNaN(n) ? 0 : n; }
   function norm(s){
-    return String(s || "").toLowerCase()
-      .replace(/[إأآا]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
-      .replace(/[ً-ْـ]/g,"");
+    return String(s || "").toLowerCase().replace(/[إأآا]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/[ً-ْـ]/g,"");
   }
-  function splitList(s){
-    return String(s || "").split(/[،,\n]+/).map(function(x){ return x.trim(); }).filter(Boolean);
-  }
+  function splitList(s){ return String(s || "").split(/[،,\n]+/).map(function(x){ return x.trim(); }).filter(Boolean); }
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
   function unique(arr){ return arr.filter(function(v,i){ return v && arr.indexOf(v) === i; }); }
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
   function byId(id){ return state.programs.find(function(x){ return x.id === id; }); }
   function proofsOf(p){ if (!Array.isArray(p.proofs)) p.proofs = []; return p.proofs; }
-  function fmtSize(b){
-    if (!b) return "";
-    return b > 1048576 ? ar((b / 1048576).toFixed(1)) + " م.ب" : ar(Math.max(1, Math.round(b / 1024))) + " ك.ب";
+  function fuOf(p){ if (!p.followup || typeof p.followup !== "object") p.followup = {done:"", notes:""}; return p.followup; }
+  function isBlank(v){
+    if (v == null) return true;
+    if (typeof v === "string") return !v.trim();
+    if (Array.isArray(v)) return v.every(isBlank);
+    if (typeof v === "object") return Object.keys(v).every(function(k){ return k === "id" || isBlank(v[k]); });
+    return false;
   }
 
   function toast(msg){
@@ -486,6 +694,14 @@
       return {y:o.year, m:o.month, d:o.day, key:o.year * 10000 + o.month * 100 + o.day};
     } catch(e){ return null; }
   })();
+  function hijriLong(date){
+    try { return new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura", {weekday:"long", day:"numeric", month:"long", year:"numeric"}).format(date); }
+    catch(e){ return ""; }
+  }
+  function hijriShort(iso){
+    try { return new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura", {day:"numeric", month:"long"}).format(new Date(iso)); }
+    catch(e){ return ""; }
+  }
 
   function parseRange(str){
     var re = /(\d{1,2})\s*[-\/]\s*(\d{1,2})/g, m, keys = [];
@@ -499,6 +715,9 @@
   }
 
   function statusOf(p){
+    var fu = fuOf(p);
+    if (fu.done === FU_YES) return 2;
+    if (fu.done === FU_NO) return 4;
     if (proofsOf(p).length) return 2;
     var r = parseRange(p.date);
     if (!r || !TODAY) return 0;
@@ -507,12 +726,52 @@
     return 3;
   }
   function statusNote(p, s){
-    var r = parseRange(p.date);
-    if (s === 2) return "تم رفع " + ar(proofsOf(p).length) + " شاهد لهذا البرنامج.";
+    var r = parseRange(p.date), fu = fuOf(p);
+    if (s === 2) return fu.done === FU_YES ? "تم تسجيل التنفيذ في المتابعة" + (proofsOf(p).length ? " ورفع " + ar(proofsOf(p).length) + " شاهد." : ".") : "تم رفع " + ar(proofsOf(p).length) + " شاهد لهذا البرنامج.";
+    if (s === 4) return "سُجّل في المتابعة أن البرنامج لم يُنفّذ.";
     if (!r) return "أضيفي تاريخ التنفيذ ليتم احتساب الحالة تلقائياً.";
     if (s === 0) return "لم يحن موعد البدء بعد.";
-    if (s === 1) return "البرنامج في فترة التنفيذ الآن — ارفعي الشاهد عند الانتهاء.";
-    return "انتهت فترة التنفيذ ولم يُرفع شاهد بعد.";
+    if (s === 1) return "البرنامج في فترة التنفيذ الآن.";
+    return "انتهت فترة التنفيذ ولم تُسجَّل المتابعة بعد.";
+  }
+
+  /* ---------- الأقسام: الوصول للبيانات ---------- */
+  function secVal(page, key){
+    var s = state.sections[page] || (state.sections[page] = {});
+    if (s[key] === undefined) {
+      var d = DEFAULTS[page] && DEFAULTS[page][key];
+      var b = SECTIONS[page].blocks.find(function(x){ return x.key === key; });
+      s[key] = d !== undefined ? clone(d) : (b.type === "fields" || b.type === "cover" ? {} : b.type === "quad" ? {} : []);
+    }
+    return s[key];
+  }
+  function getPath(path){
+    var o = state.sections;
+    for (var i = 0; i < path.length; i++) {
+      if (i === 1) { o = secVal(path[0], path[1]); continue; }
+      if (i === 0) continue;
+      if (o[path[i]] == null) o[path[i]] = (typeof path[i + 1] === "number" || i === path.length - 1) ? [] : {};
+      o = o[path[i]];
+    }
+    return o;
+  }
+  function setPath(path, val){
+    var parent = getPath(path.slice(0, -1));
+    parent[path[path.length - 1]] = val;
+  }
+  function sectionFilled(page){
+    var def = SECTIONS[page];
+    return def.blocks.some(function(b){
+      var v = secVal(page, b.key);
+      // البيانات المعبّأة مسبقاً لا تُحسب إلا في الغلاف وبيانات المدرسة
+      var d = DEFAULTS[page] && DEFAULTS[page][b.key];
+      if (d !== undefined && page !== "cover" && page !== "school" && JSON.stringify(v) === JSON.stringify(d)) return false;
+      if (b.type === "table") {
+        var lc = b.labelCols || 0;
+        return v.some(function(r){ return b.cols.slice(lc).some(function(c){ return !isBlank(r[c.k]); }) || (!lc && !isBlank(r)); });
+      }
+      return !isBlank(v);
+    });
   }
 
   /* ---------- تخزين الملفات على الجهاز (IndexedDB) ---------- */
@@ -565,6 +824,24 @@
   }
   var KIND_LABEL = {image:"صورة", video:"فيديو", pdf:"PDF", link:"رابط", file:"ملف"};
 
+  // الهدف: "prog:<id>" لشواهد البرنامج، أو مسار JSON داخل الأقسام
+  function resolveTarget(t){
+    if (t.indexOf("prog:") === 0) { var p = byId(t.slice(5)); return p ? proofsOf(p) : null; }
+    try { return getPath(JSON.parse(t)); } catch(e){ return null; }
+  }
+  function walkFiles(o, fn){
+    if (Array.isArray(o)) { o.forEach(function(x){ walkFiles(x, fn); }); return; }
+    if (o && typeof o === "object") {
+      if (typeof o.src === "string" && o.id) fn(o);
+      Object.keys(o).forEach(function(k){ if (o[k] && typeof o[k] === "object") walkFiles(o[k], fn); });
+    }
+  }
+  function hasLocalFiles(){
+    var found = false;
+    walkFiles({p:state.programs, s:state.sections}, function(f){ if (f.src.indexOf("idb:") === 0) found = true; });
+    return found;
+  }
+
   /* ---------- حفظ البيانات ---------- */
   function readLocal(){
     try { var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; }
@@ -572,17 +849,16 @@
   }
   function save(){
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({savedAt:new Date().toISOString(), programs:state.programs}));
+      localStorage.setItem(STORE_KEY, JSON.stringify({savedAt:new Date().toISOString(), programs:state.programs, sections:state.sections}));
       state.local = true;
     } catch(e){ toast("تعذّر الحفظ على هذا الجهاز"); }
     renderNotice();
   }
+  var saveT = null;
+  function saveSoon(){ clearTimeout(saveT); saveT = setTimeout(save, 400); }
   function clearLocal(){
     try { localStorage.removeItem(STORE_KEY); } catch(e){}
     state.local = false;
-  }
-  function hasLocalFiles(){
-    return state.programs.some(function(p){ return proofsOf(p).some(function(x){ return x.src && x.src.indexOf("idb:") === 0; }); });
   }
 
   function load(){
@@ -590,95 +866,23 @@
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(pub){
         var loc = readLocal();
-        // إذا كانت النسخة المنشورة أحدث من تعديلات الجهاز نعتمد المنشورة
+        state._published = {programs:pub.programs || [], sections:pub.sections || {}};
         if (loc && Array.isArray(loc.programs) && !(pub.updated && loc.savedAt && pub.updated >= loc.savedAt)) {
-          state.programs = loc.programs; state.local = true;
+          state.programs = loc.programs; state.sections = loc.sections || clone(state._published.sections); state.local = true;
         } else {
           if (loc) clearLocal();
-          state.programs = pub.programs || [];
+          state.programs = clone(state._published.programs); state.sections = clone(state._published.sections);
         }
-        state._published = pub.programs || [];
-        renderAll();
-        openFromHash();
+        route();
       })
       .catch(function(){
         var loc = readLocal();
-        if (loc && Array.isArray(loc.programs)) { state.programs = loc.programs; state.local = true; renderAll(); return; }
-        grid.innerHTML = '<div class="empty">تعذّر تحميل بيانات الخطة. تأكدي من الاتصال بالإنترنت ثم أعيدي تحميل الصفحة.</div>';
+        if (loc && Array.isArray(loc.programs)) { state.programs = loc.programs; state.sections = loc.sections || {}; state.local = true; route(); return; }
+        pageEl.innerHTML = '<div class="empty" style="margin-top:20px">تعذّر تحميل بيانات الخطة. تأكدي من الاتصال بالإنترنت ثم أعيدي تحميل الصفحة.</div>';
       });
   }
 
-  /* ---------- العرض ---------- */
-  function renderNotice(){
-    var n = $("notice");
-    if (!state.local) { n.classList.remove("show"); n.innerHTML = ""; return; }
-    var files = hasLocalFiles();
-    n.innerHTML =
-      '<b>تعديلاتك محفوظة على هذا الجهاز فقط.</b> لتظهر لكل من يفتح الرابط: اضغطي «تصدير للنشر»' +
-      (files
-        ? '، سينزل ملف مضغوط فيه <b>data.json</b> ومجلد <b>evidence</b> (الشواهد). فكّيه وارفعي محتواه إلى مجلد <b>plan</b> في GitHub.'
-        : ' ثم ارفعي الملف <b>data.json</b> إلى مجلد <b>plan</b> في GitHub.') +
-      '<div class="row">' +
-        '<button class="btn green" type="button" data-act="export">تصدير للنشر</button>' +
-        '<button class="btn danger" type="button" data-act="discard">تجاهل تعديلاتي وعرض النسخة المنشورة</button>' +
-      '</div>';
-    n.classList.add("show");
-  }
-
-  function renderStats(){
-    var total = state.programs.length, started = 0, done = 0;
-    state.programs.forEach(function(p){
-      var s = statusOf(p);
-      if (s === 2) done++;
-      if (s !== 0) started++;
-    });
-    var pct = total ? Math.round(done / total * 100) : 0;
-    $("stTotal").textContent = ar(total);
-    $("stStarted").textContent = ar(started);
-    $("stDone").textContent = ar(done);
-    $("stPct").textContent = ar(pct) + "٪";
-    $("stBar").style.width = pct + "%";
-  }
-
-  function chip(label, count, pressed, attr){
-    return '<button type="button" class="chip" ' + attr + ' aria-pressed="' + pressed + '">' + esc(label) +
-      (count != null ? '<span class="c">' + ar(count) + '</span>' : '') + '</button>';
-  }
-
-  function renderChips(){
-    var domains = unique(state.programs.map(function(p){ return p.domain; }));
-    if (state.domain !== "الكل" && domains.indexOf(state.domain) < 0) state.domain = "الكل";
-    var h = chip("الكل", state.programs.length, state.domain === "الكل", 'data-domain="الكل"');
-    domains.forEach(function(d){
-      var c = state.programs.filter(function(p){ return p.domain === d; }).length;
-      h += chip(d, c, state.domain === d, 'data-domain="' + esc(d) + '"');
-    });
-    $("domainChips").innerHTML = h;
-
-    var t = chip("الكل", null, state.term === "الكل", 'data-term="الكل"');
-    TERMS.forEach(function(x){ t += chip(x, null, state.term === x, 'data-term="' + esc(x) + '"'); });
-    [1,3,2,0].forEach(function(k){
-      var c = state.programs.filter(function(p){ return statusOf(p) === k; }).length;
-      t += chip(STATUS[k], c, state.term === STATUS[k], 'data-term="' + STATUS[k] + '"');
-    });
-    $("termChips").innerHTML = t;
-  }
-
-  function matches(p){
-    if (state.domain !== "الكل" && p.domain !== state.domain) return false;
-    if (state.term !== "الكل") {
-      var si = STATUS.indexOf(state.term);
-      if (si >= 0) { if (statusOf(p) !== si) return false; }
-      else if (p.term !== state.term) return false;
-    }
-    if (state.q) {
-      var hay = norm(FIELDS.filter(function(f){ return f.k; }).map(function(f){ return p[f.k]; }).join(" "));
-      var terms = norm(state.q).split(/\s+/).filter(Boolean);
-      for (var i = 0; i < terms.length; i++) if (hay.indexOf(terms[i]) < 0) return false;
-    }
-    return true;
-  }
-
+  /* ---------- الأيقونات ---------- */
   var ICON = {
     cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
     user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
@@ -687,21 +891,217 @@
     clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     tools:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4Z"/></svg>',
     check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    note:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12l-4 4H4z"/><path d="M8 9h8M8 13h5"/></svg>',
     clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>',
     home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
     image:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>',
     video:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/></svg>',
     pdf:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
-    link:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>'
+    link:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
+    search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'
   };
   ICON.file = ICON.pdf;
 
-  function renderGrid(){
-    var list = state.programs.filter(matches);
-    if (!list.length) {
-      grid.innerHTML = '<div class="empty">لا توجد برامج مطابقة للبحث أو التصفية.</div>';
-      return;
+  /* ---------- التنبيه ---------- */
+  function renderNotice(){
+    var n = $("notice");
+    if (!state.local) { n.classList.remove("show"); n.innerHTML = ""; return; }
+    var files = hasLocalFiles();
+    n.innerHTML =
+      '<b>تعديلاتك محفوظة على هذا الجهاز فقط.</b> لتظهر لكل من يفتح الرابط: اضغطي «تصدير للنشر»' +
+      (files
+        ? '، سينزل ملف مضغوط فيه <b>data.json</b> ومجلد <b>evidence</b> (الملفات). فكّيه وارفعي محتواه إلى مجلد <b>plan</b> في GitHub.'
+        : ' ثم ارفعي الملف <b>data.json</b> إلى مجلد <b>plan</b> في GitHub.') +
+      '<div class="row">' +
+        '<button class="btn green" type="button" data-act="export">تصدير للنشر</button>' +
+        '<button class="btn danger" type="button" data-act="discard">تجاهل تعديلاتي وعرض النسخة المنشورة</button>' +
+      '</div>';
+    n.classList.add("show");
+  }
+
+  /* ---------- القائمة الجانبية ---------- */
+  function renderNav(){
+    $("nav").innerHTML = NAV.map(function(g){
+      return '<div class="nav-group">' + g.g + '</div>' + g.items.map(function(it){
+        var dot = SECTIONS[it.id] && sectionFilled(it.id) ? '<span class="dot" title="تمت تعبئته"></span>' : '';
+        return '<a class="nav-item" href="#/' + it.id + '"' + (state.page === it.id ? ' aria-current="page"' : '') + '><span class="e">' + it.e + '</span>' + it.t + dot + '</a>';
+      }).join("");
+    }).join("");
+  }
+  function openDrawer(){
+    renderNav();
+    $("drawer").classList.add("show"); $("scrim").classList.add("show");
+    $("drawer").setAttribute("aria-hidden", "false"); $("btnMenu").setAttribute("aria-expanded", "true");
+    var cur = $("nav").querySelector('[aria-current="page"]') || $("nav").querySelector("a");
+    if (cur) cur.focus({preventScroll:true});
+  }
+  function closeDrawer(){
+    $("drawer").classList.remove("show"); $("scrim").classList.remove("show");
+    $("drawer").setAttribute("aria-hidden", "true"); $("btnMenu").setAttribute("aria-expanded", "false");
+  }
+
+  /* ---------- التوجيه ---------- */
+  function route(){
+    var id = (location.hash.match(/^#\/([\w-]+)/) || [])[1];
+    if (!id || !pageInfo(id)) id = "dashboard";
+    var changed = state.page !== id;
+    state.page = id;
+    closeDrawer();
+    renderPage();
+    if (changed) window.scrollTo(0, Math.min(window.scrollY, document.querySelector(".appbar").offsetTop));
+  }
+  function renderPage(){
+    var info = pageInfo(state.page);
+    $("pageTitle").textContent = info.e + " " + info.t;
+    document.title = info.t + " – الخطة التشغيلية ١٤٤٨هـ";
+    document.body.classList.toggle("on-programs", state.page === "programs");
+    renderNotice();
+    if (state.page === "dashboard") renderDashboard();
+    else if (state.page === "programs") renderProgramsPage();
+    else if (state.page === "followup") renderFollowupPage();
+    else renderSection(state.page);
+    hydrateTiles(pageEl);
+  }
+  function pageHead(info, desc){
+    return '<div class="page-head"><div class="e">' + info.e + '</div><div><h2>' + esc(info.t) + '</h2>' + (desc ? '<p>' + esc(desc) + '</p>' : '') + '</div></div>';
+  }
+  function pageNav(){
+    var i = PAGE_LIST.findIndex(function(p){ return p.id === state.page; });
+    var prev = PAGE_LIST[i - 1], next = PAGE_LIST[i + 1];
+    return '<div class="page-nav">' +
+      (prev ? '<a class="btn" href="#/' + prev.id + '">→ ' + prev.t + '</a>' : '<span></span>') +
+      (next ? '<a class="btn primary" href="#/' + next.id + '">' + next.t + ' ←</a>' : '<span></span>') +
+    '</div>';
+  }
+
+  /* ---------- الإحصاءات ---------- */
+  function counts(){
+    var c = {total:state.programs.length, s:[0,0,0,0,0]};
+    state.programs.forEach(function(p){ c.s[statusOf(p)]++; });
+    c.started = c.total - c.s[0];
+    c.pct = c.total ? Math.round(c.s[2] / c.total * 100) : 0;
+    return c;
+  }
+  function statTiles(){
+    var c = counts();
+    return '<div class="stats">' +
+      '<div class="stat"><div class="n">' + ar(c.total) + '</div><div class="l">برنامج في الخطة</div></div>' +
+      '<div class="stat"><div class="n">' + ar(c.started) + '</div><div class="l">برامج بدأت</div></div>' +
+      '<div class="stat"><div class="n">' + ar(c.s[2]) + '</div><div class="l">برامج منفّذة</div></div>' +
+      '<div class="stat" title="نسبة البرامج المنفّذة من إجمالي البرامج"><div class="n">' + ar(c.pct) + '٪</div><div class="l">نسبة الإنجاز</div><div class="progress"><i style="width:' + c.pct + '%"></i></div></div>' +
+    '</div>';
+  }
+
+  /* ---------- لوحة المتابعة ---------- */
+  function miniItem(p, extra){
+    var s = statusOf(p);
+    return '<li><button type="button" data-open="' + esc(p.id) + '"><span class="nm">' + esc(p.name) + '</span>' +
+      '<span class="d">' + esc(extra || p.date || "") + '</span><span class="status s' + s + '">' + STATUS[s] + '</span></button></li>';
+  }
+  function renderDashboard(){
+    var c = counts();
+    var domains = unique(state.programs.map(function(p){ return p.domain; }));
+    var meters = domains.map(function(d){
+      var list = state.programs.filter(function(p){ return p.domain === d; });
+      var done = list.filter(function(p){ return statusOf(p) === 2; }).length;
+      var pct = list.length ? Math.round(done / list.length * 100) : 0;
+      return '<div class="meter" title="' + esc(d) + ': ' + ar(done) + ' منفّذ من ' + ar(list.length) + ' (' + ar(pct) + '٪)">' +
+        '<span class="nm">' + esc(d) + '</span><span class="track"><i style="width:' + pct + '%"></i></span>' +
+        '<span class="val">' + ar(done) + ' من ' + ar(list.length) + '</span></div>';
+    }).join("");
+    var running = state.programs.filter(function(p){ return statusOf(p) === 1; });
+    var attention = state.programs.filter(function(p){ var s = statusOf(p); return s === 3 || s === 4; });
+    var upcoming = state.programs.filter(function(p){ return statusOf(p) === 0 && parseRange(p.date); })
+      .sort(function(a, b){ return parseRange(a.date).start - parseRange(b.date).start; }).slice(0, 5);
+    var meetings = secVal("meetings", "list").filter(function(r){ return !isBlank(r); }).slice(-3).reverse();
+    var secs = PAGE_LIST.filter(function(p){ return SECTIONS[p.id]; });
+    var filled = secs.filter(function(p){ return sectionFilled(p.id); }).length;
+
+    function listBlock(title, arr, empty, extraFn){
+      return '<div class="block"><h3>' + title + '<span class="c">' + ar(arr.length) + '</span></h3>' +
+        (arr.length ? '<ul class="mini-list">' + arr.map(function(p){ return miniItem(p, extraFn && extraFn(p)); }).join("") + '</ul>'
+                    : '<div class="empty-note">' + empty + '</div>') + '</div>';
     }
+
+    pageEl.innerHTML =
+      '<div class="welcome"><h2>لوحة متابعة مديرة المدرسة</h2><p>' + esc(hijriLong(new Date())) + '</p></div>' +
+      statTiles() +
+      '<div class="dash-grid">' +
+        '<div class="block"><h3>الإنجاز حسب المجال</h3>' + (meters || '<div class="empty-note">لا توجد برامج.</div>') + '</div>' +
+        listBlock("⚠️ بحاجة لمتابعة", attention, "لا توجد برامج متأخرة. أحسنتن!") +
+        listBlock("▶️ جارية الآن", running, "لا توجد برامج في فترة التنفيذ حالياً.") +
+        listBlock("📅 القادمة", upcoming, "لا توجد برامج قادمة.") +
+      '</div>' +
+      '<div class="block"><h3>🗂️ آخر اجتماعات الفريق<span class="c"><a href="#/meetings" class="more">عرض الكل</a></span></h3>' +
+        (meetings.length ? '<ul class="mini-list">' + meetings.map(function(m){
+          return '<li><a class="btn sm" style="width:100%;justify-content:flex-start;border:0;border-radius:8px" href="#/meetings">' +
+            '<b>' + (m.no ? "اجتماع " + esc(m.no) + ": " : "") + esc(m.topic || "—") + '</b><span class="d" style="margin-inline-start:auto">' + esc(m.date || "") + '</span></a></li>';
+        }).join("") + '</ul>' : '<div class="empty-note">لم تُسجَّل اجتماعات بعد.</div>') +
+      '</div>' +
+      '<div class="block"><h3>📁 اكتمال ملف الخطة<span class="c">' + ar(filled) + ' من ' + ar(secs.length) + '</span></h3>' +
+        '<div class="progress" style="margin:0 0 12px"><i style="width:' + Math.round(filled / secs.length * 100) + '%"></i></div>' +
+        '<div class="sec-check">' + secs.map(function(p){
+          var ok = sectionFilled(p.id);
+          return '<a href="#/' + p.id + '"><span class="e">' + p.e + '</span>' + p.t + '<span class="st ' + (ok ? 'ok">مكتمل' : 'no">فارغ') + '</span></a>';
+        }).join("") + '</div>' +
+      '</div>';
+  }
+
+  /* ---------- صفحة البرامج ---------- */
+  function chip(label, count, pressed, attr){
+    return '<button type="button" class="chip" ' + attr + ' aria-pressed="' + pressed + '">' + esc(label) +
+      (count != null ? '<span class="c">' + ar(count) + '</span>' : '') + '</button>';
+  }
+  function renderProgramsPage(){
+    pageEl.innerHTML =
+      pageHead(pageInfo("programs"), "برامج الخطة التشغيلية للعام الدراسي ١٤٤٨هـ — اضغطي على أي برنامج لعرض تفاصيله") +
+      '<div id="statsBox"></div>' +
+      '<div class="filters">' +
+        '<div class="search">' + ICON.search + '<input id="q" type="search" placeholder="ابحثي باسم البرنامج أو المنفذة أو الهدف…" aria-label="بحث" value="' + esc(state.q) + '"></div>' +
+        '<div class="sub-label">المجال</div><div class="chip-row" id="domainChips" role="group" aria-label="تصفية حسب المجال"></div>' +
+        '<div class="sub-label">الفصل وحالة التنفيذ</div><div class="chip-row" id="termChips" role="group" aria-label="تصفية حسب الفصل والحالة"></div>' +
+      '</div>' +
+      '<div class="grid" id="grid" aria-live="polite"></div>';
+    refreshPrograms();
+  }
+  function refreshPrograms(){
+    if (state.page !== "programs") return;
+    $("statsBox").innerHTML = statTiles();
+    renderChips(); renderGrid();
+  }
+  function renderChips(){
+    var domains = unique(state.programs.map(function(p){ return p.domain; }));
+    if (state.domain !== "الكل" && domains.indexOf(state.domain) < 0) state.domain = "الكل";
+    var h = chip("الكل", state.programs.length, state.domain === "الكل", 'data-domain="الكل"');
+    domains.forEach(function(d){
+      h += chip(d, state.programs.filter(function(p){ return p.domain === d; }).length, state.domain === d, 'data-domain="' + esc(d) + '"');
+    });
+    $("domainChips").innerHTML = h;
+    var t = chip("الكل", null, state.term === "الكل", 'data-term="الكل"');
+    TERMS.forEach(function(x){ t += chip(x, null, state.term === x, 'data-term="' + esc(x) + '"'); });
+    [1,3,2,4,0].forEach(function(k){
+      t += chip(STATUS[k], state.programs.filter(function(p){ return statusOf(p) === k; }).length, state.term === STATUS[k], 'data-term="' + STATUS[k] + '"');
+    });
+    $("termChips").innerHTML = t;
+  }
+  function matches(p){
+    if (state.domain !== "الكل" && p.domain !== state.domain) return false;
+    if (state.term !== "الكل") {
+      var si = STATUS.indexOf(state.term);
+      if (si >= 0) { if (statusOf(p) !== si) return false; }
+      else if (p.term !== state.term) return false;
+    }
+    if (state.q) {
+      var hay = norm(FIELDS.filter(function(f){ return f.k; }).map(function(f){ return p[f.k]; }).join(" ") + " " + fuOf(p).notes);
+      var terms = norm(state.q).split(/\s+/).filter(Boolean);
+      for (var i = 0; i < terms.length; i++) if (hay.indexOf(terms[i]) < 0) return false;
+    }
+    return true;
+  }
+  function renderGrid(){
+    var grid = $("grid"); if (!grid) return;
+    var list = state.programs.filter(matches);
+    if (!list.length) { grid.innerHTML = '<div class="empty">لا توجد برامج مطابقة للبحث أو التصفية.</div>'; return; }
     grid.innerHTML = list.map(function(p){
       var i = state.programs.indexOf(p), s = statusOf(p), n = proofsOf(p).length;
       return '<button type="button" class="card" data-open="' + esc(p.id) + '">' +
@@ -725,149 +1125,245 @@
     }).join("");
   }
 
-  function renderAll(){ renderNotice(); renderStats(); renderChips(); renderGrid(); }
+  /* ---------- صفحة متابعة التنفيذ ---------- */
+  function segHTML(p){
+    var fu = fuOf(p);
+    return '<div class="seg" role="group" aria-label="حالة التنفيذ">' +
+      '<button type="button" class="yes" data-fu="' + esc(p.id) + '|' + FU_YES + '" aria-pressed="' + (fu.done === FU_YES) + '">✓ نُفّذ</button>' +
+      '<button type="button" class="no" data-fu="' + esc(p.id) + '|' + FU_NO + '" aria-pressed="' + (fu.done === FU_NO) + '">✗ لم يُنفّذ</button>' +
+    '</div>';
+  }
+  function renderFollowupPage(){
+    var filters = [["الكل", function(){ return true; }],
+      ["لم تُتابَع", function(p){ return !fuOf(p).done; }],
+      ["نُفّذ", function(p){ return fuOf(p).done === FU_YES; }],
+      ["لم يُنفّذ", function(p){ return fuOf(p).done === FU_NO; }],
+      ["بحاجة لمتابعة", function(p){ return statusOf(p) === 3; }]];
+    var f = filters.find(function(x){ return x[0] === state.fuFilter; }) || filters[0];
+    var list = state.programs.filter(f[1]);
+    var yes = state.programs.filter(function(p){ return fuOf(p).done === FU_YES; }).length;
+    var no = state.programs.filter(function(p){ return fuOf(p).done === FU_NO; }).length;
+    pageEl.innerHTML =
+      pageHead(pageInfo("followup"), "سجّلي لكل برنامج هل نُفّذ أم لا، مع الملاحظات — تنعكس مباشرة على نسبة الإنجاز") +
+      '<div class="stats">' +
+        '<div class="stat"><div class="n">' + ar(state.programs.length) + '</div><div class="l">إجمالي البرامج</div></div>' +
+        '<div class="stat"><div class="n" style="color:var(--moe-green-deep)">' + ar(yes) + '</div><div class="l">✓ نُفّذ</div></div>' +
+        '<div class="stat"><div class="n" style="color:var(--danger)">' + ar(no) + '</div><div class="l">✗ لم يُنفّذ</div></div>' +
+        '<div class="stat"><div class="n">' + ar(state.programs.length - yes - no) + '</div><div class="l">لم تُسجَّل متابعتها</div></div>' +
+      '</div>' +
+      '<div class="chip-row" style="margin-bottom:10px">' + filters.map(function(x){
+        return chip(x[0], state.programs.filter(x[1]).length, state.fuFilter === x[0], 'data-fufilter="' + x[0] + '"');
+      }).join("") + '</div>' +
+      '<div class="fu-head"><span>م</span><span>البرنامج</span><span>الحالة</span><span>التنفيذ</span><span>ملاحظات</span></div>' +
+      (list.length ? list.map(function(p){
+        var i = state.programs.indexOf(p), s = statusOf(p);
+        return '<div class="fu-row">' +
+          '<div class="num">' + ar(i + 1) + '</div>' +
+          '<button type="button" class="nm" data-open="' + esc(p.id) + '">' + esc(p.name) + '<small>' + esc(p.date || "") + '</small></button>' +
+          '<span class="status s' + s + '">' + STATUS[s] + '</span>' +
+          segHTML(p) +
+          '<textarea class="inp" data-fu-notes="' + esc(p.id) + '" placeholder="ملاحظات المتابعة…" aria-label="ملاحظات ' + esc(p.name) + '">' + esc(fuOf(p).notes) + '</textarea>' +
+        '</div>';
+      }).join("") : '<div class="empty">لا توجد برامج في هذا التصنيف.</div>') +
+      pageNav();
+  }
+  function setFollowup(id, val){
+    var p = byId(id); if (!p) return;
+    var fu = fuOf(p);
+    fu.done = fu.done === val ? "" : val;
+    fu.at = new Date().toISOString();
+    save();
+    toast(fu.done ? "تم التسجيل: " + (fu.done === FU_YES ? "نُفّذ" : "لم يُنفّذ") : "تم إلغاء التسجيل");
+  }
 
-  /* ---------- التفاصيل ---------- */
-  function kv(pairs){
-    return '<div class="kv">' + pairs.filter(function(x){ return x[1]; }).map(function(x){
-      return '<div><div class="k">' + x[0] + '</div><div class="v">' + esc(x[1]) + '</div></div>';
+  /* ---------- صفحات الأقسام ---------- */
+  function inputHTML(f, val, path, cls){
+    var bind = " data-bind='" + esc(JSON.stringify(path)) + "'";
+    var id = "i" + uid();
+    var lab = '<label for="' + id + '">' + esc(f.l) + '</label>';
+    var el;
+    if (f.select) {
+      var opts = f.select.slice(); if (val && opts.indexOf(val) < 0) opts.unshift(val);
+      el = '<select id="' + id + '"' + bind + '><option value="">—</option>' + opts.map(function(o){ return '<option' + (o === val ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join("") + '</select>';
+    } else if (f.ta) el = '<textarea id="' + id + '"' + bind + '>' + esc(val) + '</textarea>';
+    else el = '<input id="' + id + '"' + bind + ' value="' + esc(val) + '"' + (f.num ? ' inputmode="numeric"' : '') + ' autocomplete="off">';
+    return '<div class="field' + (f.full ? ' full' : '') + (cls ? ' ' + cls : '') + '">' + lab + el + '</div>';
+  }
+  function kvView(fields, v){
+    var items = fields.filter(function(f){ return !isBlank(v[f.k]); });
+    if (!items.length) return '<div class="empty-note">لم تُضف بيانات بعد.</div>';
+    return '<div class="kv">' + items.map(function(f){
+      return '<div' + (f.full ? ' class="full"' : '') + '><div class="k">' + esc(f.l) + '</div><div class="v">' + esc(v[f.k]) + '</div></div>';
     }).join("") + '</div>';
   }
-  function sec(icon, title, inner, id){
-    return '<div class="sec"' + (id ? ' id="' + id + '"' : '') + '><h4>' + icon + title + '</h4>' + inner + '</div>';
+  function addBtn(path, label, kind){
+    return '<button type="button" class="btn sm green add-row edit-only" data-add=\'' + esc(JSON.stringify(path)) + '\' data-kind="' + (kind || "obj") + '">+ ' + esc(label) + '</button>';
   }
 
-  var current = null;
+  function blockHTML(page, b){
+    var v = secVal(page, b.key), ed = state.editing, path = [page, b.key];
+    if (b.type === "cover") {
+      var body = '<div class="cover"><img src="moe-logo.png" alt="شعار وزارة التعليم">' +
+        '<div class="adm">المملكة العربية السعودية<br>وزارة التعليم<br>' + esc(v.admin) + (v.office ? '<br>' + esc(v.office) : '') + '</div>' +
+        '<h2>' + esc(v.title || "الخطة التشغيلية") + '<span>' + esc(v.year) + '</span></h2>' +
+        (v.school ? '<div class="school">' + esc(v.school) + '</div>' : '') +
+        '<div class="sig">' + (v.preparedBy ? '<div>إعداد<b>' + esc(v.preparedBy) + '</b></div>' : '') +
+          (v.principal ? '<div>اعتماد مديرة المدرسة<b>' + esc(v.principal) + '</b></div>' : '') + '</div></div>';
+      if (ed) body += '<div class="block"><h3>تعديل بيانات الغلاف</h3><div class="grid-fields">' +
+        b.fields.map(function(f){ return inputHTML(f, v[f.k] || "", path.concat(f.k)); }).join("") + '</div></div>';
+      return body;
+    }
+    var h = '<div class="block"><h3>' + esc(b.title || "") + (Array.isArray(v) && b.type !== "files" ? '<span class="c">' + ar(v.length) + '</span>' : '') + '</h3>';
+    if (b.type === "fields") {
+      h += ed ? '<div class="grid-fields">' + b.fields.map(function(f){ return inputHTML(f, v[f.k] || "", path.concat(f.k)); }).join("") + '</div>'
+              : kvView(b.fields, v);
+    }
+    else if (b.type === "table") {
+      var numCols = b.cols.filter(function(c){ return c.num && !c.noSum; });
+      if (ed) {
+        h += '<div class="edit-rows">' + v.map(function(r, i){
+          return '<div class="edit-row"><span class="n">' + ar(i + 1) + '</span>' +
+            '<button type="button" class="row-del" data-del=\'' + esc(JSON.stringify(path.concat(i))) + '\'>حذف</button>' +
+            '<div class="grid-fields">' + b.cols.map(function(c){ return inputHTML(c, r[c.k] || "", path.concat(i, c.k), c.ta ? "full" : ""); }).join("") + '</div></div>';
+        }).join("") + '</div>' + addBtn(path, "إضافة " + b.item);
+      } else if (!v.length || v.every(isBlank)) {
+        h += '<div class="empty-note">لم تُضف بيانات بعد.</div>';
+      } else {
+        h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th class="cn">م</th>' + b.cols.map(function(c){ return '<th' + (c.num ? ' class="cn"' : '') + '>' + esc(c.l) + '</th>'; }).join("") + '</tr></thead><tbody>' +
+          v.map(function(r, i){ return '<tr><td class="cn">' + ar(i + 1) + '</td>' + b.cols.map(function(c){ return '<td' + (c.num ? ' class="cn"' : '') + '>' + esc(r[c.k] || "") + '</td>'; }).join("") + '</tr>'; }).join("") +
+          '</tbody>' + (numCols.length ? '<tfoot><tr><td></td>' + b.cols.map(function(c, ci){
+            if (c.num && !c.noSum) return '<td class="cn">' + ar(v.reduce(function(s, r){ return s + toNum(r[c.k]); }, 0)) + '</td>';
+            return '<td>' + (ci === 0 ? "المجموع" : "") + '</td>';
+          }).join("") + '</tr></tfoot>' : '') + '</table></div>';
+      }
+    }
+    else if (b.type === "quad") {
+      h = '<div class="quad">' + b.parts.map(function(pt){
+        var arr = v[pt.k] || (v[pt.k] = []);
+        var inner = ed
+          ? arr.map(function(item, i){
+              return '<div class="list-edit"><input class="inp" data-bind=\'' + esc(JSON.stringify(path.concat(pt.k, i))) + '\' value="' + esc(item) + '" aria-label="' + pt.l + '">' +
+                '<button type="button" class="x-sm" data-del=\'' + esc(JSON.stringify(path.concat(pt.k, i))) + '\' aria-label="حذف">×</button></div>';
+            }).join("") + addBtn(path.concat(pt.k), "إضافة", "str")
+          : (arr.filter(Boolean).length ? '<ul class="bullets">' + arr.filter(Boolean).map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '<div class="empty-note">لم تُضف عناصر بعد.</div>');
+        return '<div class="' + pt.cls + '"><h4>' + pt.e + ' ' + pt.l + '</h4>' + inner + '</div>';
+      }).join("") + '</div>';
+      return h;
+    }
+    else if (b.type === "records") {
+      if (!v.length) h += '<div class="empty-note">لم تُضف ' + esc(b.title) + ' بعد.</div>';
+      h += v.map(function(r, i){
+        if (!Array.isArray(r.files)) r.files = [];
+        var fpath = JSON.stringify(path.concat(i, "files"));
+        var head = '<div class="rec-head"><span class="num">' + ar(i + 1) + '</span><b>' + esc(b.item) + (r.no ? " رقم " + esc(r.no) : "") + '</b><span class="d">' + esc(r.date || "") + '</span></div>';
+        var body = ed
+          ? '<button type="button" class="row-del" data-del=\'' + esc(JSON.stringify(path.concat(i))) + '\'>حذف</button><div class="grid-fields">' + b.fields.map(function(f){ return inputHTML(f, r[f.k] || "", path.concat(i, f.k)); }).join("") + '</div>'
+          : kvView(b.fields.filter(function(f){ return b.head.indexOf(f.k) < 0; }), r);
+        return '<div class="rec' + (ed ? ' edit-row' : '') + '">' + head + body +
+          '<div style="margin-top:10px"><div class="k" style="font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:4px">المرفقات</div>' + tilesHTML(r.files, fpath, true) +
+          '<div class="ev-add edit-only"><button class="btn sm green" type="button" data-addfiles=\'' + esc(fpath) + '\'>+ إرفاق ملفات</button><button class="btn sm" type="button" data-addlink=\'' + esc(fpath) + '\'>+ رابط</button></div></div>' +
+        '</div>';
+      }).join("") + addBtn(path, "إضافة " + b.item);
+    }
+    else if (b.type === "files") {
+      var t = JSON.stringify(path);
+      h += tilesHTML(v, t, false) +
+        '<div class="ev-add edit-only"><button class="btn sm green" type="button" data-addfiles=\'' + esc(t) + '\'>+ إرفاق ملفات (صور، PDF، فيديو)</button><button class="btn sm" type="button" data-addlink=\'' + esc(t) + '\'>+ رابط</button></div>';
+    }
+    return h + '</div>';
+  }
 
-  function proofTiles(p){
-    var list = proofsOf(p);
-    if (!list.length) return '<div class="ev-empty">لم يُرفع شاهد بعد. أضيفي صوراً أو ملفات PDF أو فيديو أو رابطاً.</div>';
+  function renderSection(page){
+    var def = SECTIONS[page], info = pageInfo(page);
+    pageEl.innerHTML = pageHead(info, def.desc) +
+      '<div class="hint-bar">لإضافة البيانات أو تعديلها اضغطي زر «تعديل» في الأعلى — تُحفظ تلقائياً.</div>' +
+      def.blocks.map(function(b){ return blockHTML(page, b); }).join("") +
+      pageNav();
+  }
+
+  /* ---------- الشواهد والمرفقات ---------- */
+  function tilesHTML(list, target, compactEmpty){
+    list = list || [];
+    if (!list.length) return compactEmpty ? '<div class="hint">لا توجد مرفقات.</div>' : '<div class="empty-note">لا توجد مرفقات بعد.</div>';
     return '<div class="ev-grid">' + list.map(function(pr){
       var k = pr.kind || "file";
       return '<div class="ev-wrap">' +
-        '<a class="ev" href="#" data-proof="' + esc(pr.id) + '" title="' + esc(pr.name) + '">' +
-          '<span class="kind">' + KIND_LABEL[k] + '</span>' +
-          (ICON[k] || ICON.file) +
-          '<span class="nm">' + esc(pr.name) + '</span>' +
+        '<a class="ev" href="#" data-proof="' + esc(pr.id) + '" data-target=\'' + esc(target) + '\' title="' + esc(pr.name) + '">' +
+          '<span class="kind">' + KIND_LABEL[k] + '</span>' + (ICON[k] || ICON.file) + '<span class="nm">' + esc(pr.name) + '</span>' +
         '</a>' +
-        '<button type="button" class="ev-del" data-delproof="' + esc(pr.id) + '" aria-label="حذف الشاهد">×</button>' +
+        '<button type="button" class="ev-del" data-delproof="' + esc(pr.id) + '" data-target=\'' + esc(target) + '\' aria-label="حذف">×</button>' +
       '</div>';
     }).join("") + '</div>' +
     (list.some(function(x){ return x.src && x.src.indexOf("idb:") === 0; })
-      ? '<div class="ev-local">بعض الشواهد محفوظة على هذا الجهاز فقط — استخدمي «تصدير للنشر» لتظهر للجميع.</div>' : '');
+      ? '<div class="ev-local">بعض الملفات محفوظة على هذا الجهاز فقط — استخدمي «تصدير للنشر» لتظهر للجميع.</div>' : '');
   }
-
-  // تعبئة الروابط والصور المصغرة بعد العرض
-  function hydrateProofs(p){
-    proofsOf(p).forEach(function(pr){
-      var a = sheet.querySelector('[data-proof="' + CSS.escape(pr.id) + '"]');
-      if (!a) return;
+  function hydrateTiles(root){
+    Array.prototype.forEach.call(root.querySelectorAll("[data-proof]"), function(a){
+      var list = resolveTarget(a.getAttribute("data-target")) || [];
+      var pr = list.find(function(x){ return x.id === a.getAttribute("data-proof"); });
+      if (!pr) return;
       proofURL(pr).then(function(url){
         if (!url) { a.querySelector(".nm").textContent = "الملف غير متاح على هذا الجهاز"; return; }
         a.setAttribute("href", url);
-        if (pr.kind === "pdf" || pr.kind === "link" || pr.kind === "file") {
-          a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
-        }
-        if (pr.kind === "image") {
+        if (pr.kind === "pdf" || pr.kind === "link" || pr.kind === "file") { a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener"); }
+        if (pr.kind === "image" && !a.querySelector("img")) {
           var img = new Image(); img.alt = ""; img.src = url; img.loading = "lazy";
           a.insertBefore(img, a.firstChild); a.classList.add("has-img");
         }
       });
     });
   }
-
-  function openDetail(id){
-    var p = byId(id);
-    if (!p) return;
-    current = p.id;
-    var i = state.programs.indexOf(p), s = statusOf(p);
-    var reqs = splitList(p.requirements);
-
-    sheet.innerHTML =
-      '<div class="sheet-head">' +
-        '<div class="k">البرنامج رقم ' + ar(i + 1) + ' · ' + esc(p.domain) + (p.area ? ' · ' + esc(p.area) : '') + '</div>' +
-        '<h3 id="sheetTitle">' + esc(p.name) + '</h3>' +
-        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرئيسية</button>' +
-      '</div>' +
-      '<div class="sheet-body">' +
-        sec(ICON.check, "حالة التنفيذ",
-          '<span class="status s' + s + '">' + STATUS[s] + '</span>' +
-          '<div class="status-note">' + statusNote(p, s) + '</div>') +
-        sec(ICON.clip, "الشواهد المرفوعة (" + ar(proofsOf(p).length) + ")",
-          proofTiles(p) +
-          '<div class="ev-add">' +
-            '<button class="btn green" type="button" data-act="addfiles">+ إضافة شاهد (صور، PDF، فيديو)</button>' +
-            '<button class="btn" type="button" data-act="addlink">+ إضافة رابط</button>' +
-          '</div>', "proofSec") +
-        sec(ICON.target, "الأهداف",
-          (p.generalGoal ? '<p><b>الهدف العام:</b> ' + esc(p.generalGoal) + '</p>' : '') +
-          (p.detailedGoal ? '<p style="margin-top:6px"><b>الهدف التفصيلي:</b> ' + esc(p.detailedGoal) + '</p>' : '')) +
-        (p.method ? sec(ICON.check, "أسلوب التنفيذ", '<p>' + esc(p.method) + '</p>') : '') +
-        sec(ICON.clock, "زمن التنفيذ", kv([["الفصل",p.term],["الأسبوع",p.week],["التاريخ",p.date],["عدد أيام التنفيذ",p.days]])) +
-        sec(ICON.group, "الفئة المستهدفة", kv([["نوع الفئة",p.targetType],["المرحلة",p.stage],["العدد المرشح",p.count]])) +
-        sec(ICON.user, "الفئة المنفذة", kv([["الرئيسة",p.lead],["المساندة",p.support],["مكان التنفيذ",p.place],["الدعم الخارجي",p.external]])) +
-        (reqs.length ? sec(ICON.tools, "المتطلبات", '<ul class="list">' + reqs.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>') : '') +
-        sec(ICON.target, "المتابعة والتقويم", kv([["مؤشر تحقق الهدف",p.indicator],["الشاهد المطلوب",p.evidence]])) +
-      '</div>' +
-      '<div class="sheet-foot">' +
-        '<button class="btn primary" type="button" data-act="close">الرجوع للرئيسية</button>' +
-        '<button class="btn edit-only" type="button" data-act="edit">تعديل</button>' +
-        '<button class="btn danger edit-only" type="button" data-act="delete">حذف</button>' +
-        '<span class="spacer"></span>' +
-        '<button class="btn" type="button" data-act="prev">السابق</button>' +
-        '<button class="btn" type="button" data-act="next">التالي</button>' +
-      '</div>';
-    showOverlay();
-    hydrateProofs(p);
+  function afterFilesChange(target){
+    save();
+    if (target.indexOf("prog:") === 0) { refreshAfterProgramChange(); openDetail(target.slice(5)); var el = $("proofSec"); if (el) el.scrollIntoView({block:"center"}); }
+    else renderPage();
   }
 
-  /* ---------- إضافة الشواهد ---------- */
+  var pendingTarget = null;
+  function pickFiles(target){ pendingTarget = target; $("fileProof").click(); }
   function addFiles(files){
-    var p = byId(current); if (!p || !files.length) return;
+    var target = pendingTarget, arr = target && resolveTarget(target);
+    if (!arr || !files.length) return;
     var big = false;
-    var jobs = Array.prototype.map.call(files, function(f){
+    Promise.all(files.map(function(f){
       var id = uid();
       if (f.size > BIG_FILE) big = true;
       return idb.put(id, f).then(function(){
-        proofsOf(p).push({id:id, name:f.name || "شاهد", kind:kindOf(f), size:f.size, src:"idb:" + id, added:new Date().toISOString()});
+        arr.push({id:id, name:f.name || "ملف", kind:kindOf(f), size:f.size, src:"idb:" + id, added:new Date().toISOString()});
         return true;
       }).catch(function(){ return false; });
-    });
-    Promise.all(jobs).then(function(res){
+    })).then(function(res){
       var ok = res.filter(Boolean).length;
       if (!ok) { toast("تعذّر حفظ الملفات على هذا الجهاز"); return; }
-      save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
-      var el = $("proofSec"); if (el) el.scrollIntoView({block:"center"});
-      toast(big ? "تمت الإضافة — ملاحظة: الملفات الأكبر من ٢٥ م.ب لا يقبلها GitHub، الأفضل رفعها رابطاً"
-                : "تمت إضافة " + ar(ok) + " شاهد");
+      afterFilesChange(target);
+      toast(big ? "تمت الإضافة — الملفات الأكبر من ٢٥ م.ب لا يقبلها GitHub، الأفضل رفعها رابطاً" : "تمت إضافة " + ar(ok) + " ملف");
     });
   }
-  function addLink(){
-    var p = byId(current); if (!p) return;
-    var url = prompt("الصقي رابط الشاهد (مثل Google Drive أو OneDrive أو يوتيوب):");
+  function addLink(target){
+    var arr = resolveTarget(target); if (!arr) return;
+    var url = prompt("الصقي الرابط (مثل Google Drive أو OneDrive أو يوتيوب):");
     if (!url) return;
     url = url.trim();
     if (!/^https?:\/\//i.test(url)) url = "https://" + url;
     try { new URL(url); } catch(e){ toast("الرابط غير صحيح"); return; }
-    var name = prompt("اكتبي وصفاً قصيراً للشاهد (اختياري):", "") || (function(){ try { return new URL(url).hostname; } catch(e){ return "رابط"; } })();
-    proofsOf(p).push({id:uid(), name:name.trim(), kind:"link", src:url, added:new Date().toISOString()});
-    save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
+    var name = prompt("اكتبي وصفاً قصيراً (اختياري):", "") || (function(){ try { return new URL(url).hostname; } catch(e){ return "رابط"; } })();
+    arr.push({id:uid(), name:name.trim(), kind:"link", src:url, added:new Date().toISOString()});
+    afterFilesChange(target);
     toast("تمت إضافة الرابط");
   }
-  function deleteProof(pid){
-    var p = byId(current); if (!p) return;
-    var list = proofsOf(p), k = list.findIndex(function(x){ return x.id === pid; });
-    if (k < 0 || !confirm("حذف الشاهد «" + list[k].name + "»؟")) return;
+  function deleteProof(target, pid){
+    var list = resolveTarget(target); if (!list) return;
+    var k = list.findIndex(function(x){ return x.id === pid; });
+    if (k < 0 || !confirm("حذف «" + list[k].name + "»؟")) return;
     var pr = list.splice(k, 1)[0];
     if (pr.src && pr.src.indexOf("idb:") === 0) idb.del(pr.id).catch(function(){});
-    save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
-    toast("تم حذف الشاهد");
+    afterFilesChange(target);
+    toast("تم الحذف");
   }
 
   /* ---------- عارض الصور والفيديو ---------- */
   function openViewer(pr, url){
-    var body = $("viewerBody");
-    body.innerHTML = "";
+    var body = $("viewerBody"); body.innerHTML = "";
     var el;
     if (pr.kind === "video") { el = document.createElement("video"); el.controls = true; el.playsInline = true; el.src = url; }
     else { el = document.createElement("img"); el.alt = pr.name; el.src = url; }
@@ -881,10 +1377,69 @@
     var vid = v.querySelector("video"); if (vid) vid.pause();
     $("viewerBody").innerHTML = "";
   }
-  $("viewerClose").addEventListener("click", closeViewer);
-  $("viewer").addEventListener("click", function(e){ if (e.target === this || e.target.id === "viewerBody") closeViewer(); });
 
-  /* ---------- النموذج ---------- */
+  /* ---------- تفاصيل البرنامج ---------- */
+  function kv(pairs){
+    return '<div class="kv">' + pairs.filter(function(x){ return x[1]; }).map(function(x){
+      return '<div><div class="k">' + x[0] + '</div><div class="v">' + esc(x[1]) + '</div></div>';
+    }).join("") + '</div>';
+  }
+  function sec(icon, title, inner, id){
+    return '<div class="sec"' + (id ? ' id="' + id + '"' : '') + '><h4>' + icon + title + '</h4>' + inner + '</div>';
+  }
+  var current = null;
+
+  function openDetail(id){
+    var p = byId(id); if (!p) return;
+    current = p.id;
+    var i = state.programs.indexOf(p), s = statusOf(p), fu = fuOf(p), target = "prog:" + p.id;
+    var reqs = splitList(p.requirements);
+    sheet.innerHTML =
+      '<div class="sheet-head">' +
+        '<div class="k">البرنامج رقم ' + ar(i + 1) + ' · ' + esc(p.domain) + (p.area ? ' · ' + esc(p.area) : '') + '</div>' +
+        '<h3 id="sheetTitle">' + esc(p.name) + '</h3>' +
+        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرجوع</button>' +
+      '</div>' +
+      '<div class="sheet-body">' +
+        sec(ICON.check, "المتابعة",
+          '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span class="status s' + s + '">' + STATUS[s] + '</span>' + segHTML(p) + '</div>' +
+          '<div class="status-note">' + statusNote(p, s) + '</div>' +
+          '<div class="field" style="margin-top:10px"><label for="fuNotes">ملاحظات المتابعة</label>' +
+          '<textarea class="inp" id="fuNotes" data-fu-notes="' + esc(p.id) + '" placeholder="اكتبي ملاحظاتك على تنفيذ البرنامج…">' + esc(fu.notes) + '</textarea></div>' +
+          (fu.at ? '<div class="hint">آخر تحديث: ' + esc(hijriShort(fu.at)) + '</div>' : '')) +
+        sec(ICON.clip, "الشواهد المرفوعة (" + ar(proofsOf(p).length) + ")",
+          tilesHTML(proofsOf(p), target, false) +
+          '<div class="ev-add">' +
+            '<button class="btn green" type="button" data-addfiles="' + esc(target) + '">+ إضافة شاهد (صور، PDF، فيديو)</button>' +
+            '<button class="btn" type="button" data-addlink="' + esc(target) + '">+ إضافة رابط</button>' +
+          '</div>', "proofSec") +
+        sec(ICON.target, "الأهداف",
+          (p.generalGoal ? '<p><b>الهدف العام:</b> ' + esc(p.generalGoal) + '</p>' : '') +
+          (p.detailedGoal ? '<p style="margin-top:6px"><b>الهدف التفصيلي:</b> ' + esc(p.detailedGoal) + '</p>' : '')) +
+        (p.method ? sec(ICON.check, "أسلوب التنفيذ", '<p>' + esc(p.method) + '</p>') : '') +
+        sec(ICON.clock, "زمن التنفيذ", kv([["الفصل",p.term],["الأسبوع",p.week],["التاريخ",p.date],["عدد أيام التنفيذ",p.days]])) +
+        sec(ICON.group, "الفئة المستهدفة", kv([["نوع الفئة",p.targetType],["المرحلة",p.stage],["العدد المرشح",p.count]])) +
+        sec(ICON.user, "الفئة المنفذة", kv([["الرئيسة",p.lead],["المساندة",p.support],["مكان التنفيذ",p.place],["الدعم الخارجي",p.external]])) +
+        (reqs.length ? sec(ICON.tools, "المتطلبات", '<ul class="list">' + reqs.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>') : '') +
+        sec(ICON.target, "مؤشرات التقويم", kv([["مؤشر تحقق الهدف",p.indicator],["الشاهد المطلوب",p.evidence]])) +
+      '</div>' +
+      '<div class="sheet-foot">' +
+        '<button class="btn primary" type="button" data-act="close">الرجوع</button>' +
+        '<button class="btn edit-only" type="button" data-act="edit">تعديل</button>' +
+        '<button class="btn danger edit-only" type="button" data-act="delete">حذف</button>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn" type="button" data-act="prev">السابق</button>' +
+        '<button class="btn" type="button" data-act="next">التالي</button>' +
+      '</div>';
+    showOverlay();
+    hydrateTiles(sheet);
+  }
+  function refreshAfterProgramChange(){
+    if (state.page === "programs") refreshPrograms();
+    else if (state.page === "dashboard" || state.page === "followup") renderPage();
+  }
+
+  /* ---------- نموذج البرنامج ---------- */
   function openForm(id){
     var p = id ? byId(id) : null;
     current = p ? p.id : null;
@@ -901,23 +1456,19 @@
         var opts = f.select.slice(); if (v && opts.indexOf(v) < 0) opts.unshift(v);
         input = '<select name="' + f.k + '" id="f_' + f.k + '"><option value="">—</option>' +
           opts.map(function(o){ return '<option' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join("") + '</select>';
-      } else if (f.ta) {
-        input = '<textarea name="' + f.k + '" id="f_' + f.k + '">' + esc(v) + '</textarea>';
-      } else {
-        input = '<input name="' + f.k + '" id="f_' + f.k + '" value="' + esc(v) + '"' + (f.list ? ' list="dl_' + f.list + '"' : '') + (f.req ? ' required' : '') + ' autocomplete="off">';
-      }
+      } else if (f.ta) input = '<textarea name="' + f.k + '" id="f_' + f.k + '">' + esc(v) + '</textarea>';
+      else input = '<input name="' + f.k + '" id="f_' + f.k + '" value="' + esc(v) + '"' + (f.list ? ' list="dl_' + f.list + '"' : '') + (f.req ? ' required' : '') + ' autocomplete="off">';
       return '<div class="field' + (f.full ? ' full' : '') + '"><label for="f_' + f.k + '">' + f.l + (f.req ? ' <span class="req">*</span>' : '') + '</label>' + input +
         (f.hint ? '<div class="hint">' + f.hint + '</div>' : '') + '</div>';
     }).join("");
     Object.keys(lists).forEach(function(k){
       html += '<datalist id="dl_' + k + '">' + lists[k].map(function(o){ return '<option value="' + esc(o) + '">'; }).join("") + '</datalist>';
     });
-
     sheet.innerHTML =
       '<div class="sheet-head">' +
         '<div class="k">' + (p ? "تعديل برنامج" : "برنامج جديد") + '</div>' +
         '<h3 id="sheetTitle">' + (p ? esc(p.name) : "إضافة برنامج إلى الخطة") + '</h3>' +
-        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرئيسية</button>' +
+        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرجوع</button>' +
       '</div>' +
       '<form class="sheet-body" id="progForm" novalidate><div class="form">' + html + '</div></form>' +
       '<div class="sheet-foot">' +
@@ -927,7 +1478,6 @@
     showOverlay();
     setTimeout(function(){ var el = $("f_name"); if (el && !p) el.focus(); }, 60);
   }
-
   function submitForm(form){
     var data = {};
     FIELDS.forEach(function(f){ if (f.k) data[f.k] = (form.elements[f.k].value || "").trim(); });
@@ -937,13 +1487,12 @@
       return;
     }
     if (current) {
-      var p = byId(current);
-      Object.assign(p, data);
-      save(); renderAll(); openDetail(p.id); toast("تم حفظ التعديلات");
+      var p = byId(current); Object.assign(p, data);
+      save(); refreshAfterProgramChange(); openDetail(p.id); toast("تم حفظ التعديلات");
     } else {
-      data.id = "p" + uid(); data.proofs = [];
+      data.id = "p" + uid(); data.proofs = []; data.followup = {done:"", notes:""};
       state.programs.push(data);
-      save(); renderAll(); openDetail(data.id); toast("تمت إضافة البرنامج");
+      save(); refreshAfterProgramChange(); openDetail(data.id); toast("تمت إضافة البرنامج");
     }
   }
 
@@ -952,9 +1501,7 @@
   function showOverlay(){
     if (!overlay.classList.contains("show")) {
       lastFocus = document.activeElement;
-      try { history.pushState({sheet:1}, "", location.pathname + location.search + "#" + (current || "new")); } catch(e){}
-    } else {
-      try { history.replaceState({sheet:1}, "", location.pathname + location.search + "#" + (current || "new")); } catch(e){}
+      try { history.pushState({sheet:1}, ""); } catch(e){}
     }
     overlay.classList.add("show");
     document.body.style.overflow = "hidden";
@@ -966,23 +1513,20 @@
     document.body.style.overflow = "";
     current = null;
     closeViewer();
-    if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+    if (lastFocus && lastFocus.focus && document.body.contains(lastFocus)) lastFocus.focus({preventScroll:true});
   }
   function closeOverlay(){
-    if (history.state && history.state.sheet) history.back();   // يغلق عبر popstate
-    else { hideOverlay(); try { history.replaceState(null, "", location.pathname + location.search); } catch(e){} }
+    if (history.state && history.state.sheet) history.back();
+    else hideOverlay();
   }
   window.addEventListener("popstate", function(){
     if ($("viewer").classList.contains("show")) closeViewer();
     if (overlay.classList.contains("show")) hideOverlay();
   });
-  function openFromHash(){
-    var id = decodeURIComponent(location.hash.slice(1));
-    if (id && byId(id)) {
-      try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
-      openDetail(id);
-    }
-  }
+  window.addEventListener("hashchange", function(){
+    if (overlay.classList.contains("show")) hideOverlay();
+    route();
+  });
 
   /* ---------- تصدير واستيراد ---------- */
   var jszipP = null;
@@ -1007,83 +1551,60 @@
   function extOf(name){ var m = /\.([a-z0-9]{1,5})$/i.exec(name || ""); return m ? "." + m[1].toLowerCase() : ""; }
 
   function exportData(){
-    var programs = JSON.parse(JSON.stringify(state.programs));
+    var doc = {updated:new Date().toISOString(), programs:clone(state.programs), sections:clone(state.sections)};
     var locals = [];
-    programs.forEach(function(p){
-      (p.proofs || []).forEach(function(pr){
-        if (pr.src && pr.src.indexOf("idb:") === 0) {
-          var path = "evidence/" + pr.id + extOf(pr.name);
-          locals.push({id:pr.id, path:path});
-          pr.src = path;
-        }
-      });
+    walkFiles(doc, function(f){
+      if (f.src.indexOf("idb:") === 0) {
+        var path = "evidence/" + f.id + extOf(f.name);
+        locals.push({id:f.id, path:path}); f.src = path;
+      }
     });
-    var json = JSON.stringify({updated:new Date().toISOString(), programs:programs}, null, 2);
-    if (!locals.length) {
-      download(new Blob([json], {type:"application/json"}), "data.json");
-      toast("تم تنزيل الملف data.json");
-      return;
-    }
+    var json = JSON.stringify(doc, null, 2);
+    if (!locals.length) { download(new Blob([json], {type:"application/json"}), "data.json"); toast("تم تنزيل الملف data.json"); return; }
     toast("جارٍ تجهيز الملف المضغوط…");
     loadJSZip().then(function(JSZip){
       var zip = new JSZip();
       zip.file("data.json", json);
-      return Promise.all(locals.map(function(l){
-        return idb.get(l.id).then(function(blob){ if (blob) zip.file(l.path, blob); });
-      })).then(function(){ return zip.generateAsync({type:"blob"}); });
+      return Promise.all(locals.map(function(l){ return idb.get(l.id).then(function(blob){ if (blob) zip.file(l.path, blob); }); }))
+        .then(function(){ return zip.generateAsync({type:"blob"}); });
     }).then(function(blob){
-      download(blob, "plan-update.zip");
-      toast("تم تنزيل plan-update.zip");
+      download(blob, "plan-update.zip"); toast("تم تنزيل plan-update.zip");
     }).catch(function(){ toast("تعذّر تجهيز الملف المضغوط — تحققي من الاتصال بالإنترنت"); });
   }
-
-  function applyImported(list){
+  function applyImported(d){
+    var list = Array.isArray(d) ? d : d.programs;
+    if (!Array.isArray(list)) throw 0;
     list.forEach(function(p){ if (!p.id) p.id = "p" + uid(); });
-    state.programs = list; save(); renderAll(); toast("تم استيراد " + ar(list.length) + " برنامج");
+    state.programs = list;
+    if (d.sections && typeof d.sections === "object") state.sections = d.sections;
+    save(); renderPage(); toast("تم الاستيراد بنجاح");
   }
   function importData(file){
     if (/\.zip$/i.test(file.name)) {
       loadJSZip().then(function(JSZip){ return JSZip.loadAsync(file); }).then(function(zip){
         var entry = zip.file("data.json"); if (!entry) throw 0;
         return entry.async("string").then(function(txt){
-          var d = JSON.parse(txt), list = Array.isArray(d) ? d : d.programs;
-          if (!Array.isArray(list)) throw 0;
-          var jobs = [];
-          list.forEach(function(p){
-            (p.proofs || []).forEach(function(pr){
-              var f = pr.src && zip.file(pr.src);
-              if (f) jobs.push(f.async("blob").then(function(b){ return idb.put(pr.id, b); }).then(function(){ pr.src = "idb:" + pr.id; }));
-            });
+          var d = JSON.parse(txt), jobs = [];
+          walkFiles(d, function(f){
+            var zf = f.src && zip.file(f.src);
+            if (zf) jobs.push(zf.async("blob").then(function(b){ return idb.put(f.id, b); }).then(function(){ f.src = "idb:" + f.id; }));
           });
-          return Promise.all(jobs).then(function(){ applyImported(list); });
+          return Promise.all(jobs).then(function(){ applyImported(d); });
         });
       }).catch(function(){ toast("الملف غير صالح"); });
       return;
     }
     var r = new FileReader();
-    r.onload = function(){
-      try {
-        var d = JSON.parse(r.result), list = Array.isArray(d) ? d : d.programs;
-        if (!Array.isArray(list)) throw 0;
-        applyImported(list);
-      } catch(e){ toast("الملف غير صالح"); }
-    };
+    r.onload = function(){ try { applyImported(JSON.parse(r.result)); } catch(e){ toast("الملف غير صالح"); } };
     r.readAsText(file);
   }
 
   /* ---------- الأحداث ---------- */
-  $("q").addEventListener("input", function(e){ state.q = e.target.value; renderGrid(); });
-
-  $("domainChips").addEventListener("click", function(e){
-    var b = e.target.closest("[data-domain]"); if (!b) return;
-    state.domain = b.getAttribute("data-domain"); renderChips(); renderGrid();
-  });
-  $("termChips").addEventListener("click", function(e){
-    var b = e.target.closest("[data-term]"); if (!b) return;
-    state.term = b.getAttribute("data-term"); renderChips(); renderGrid();
-  });
-  grid.addEventListener("click", function(e){
-    var c = e.target.closest("[data-open]"); if (c) openDetail(c.getAttribute("data-open"));
+  $("btnMenu").addEventListener("click", openDrawer);
+  $("btnDrawerClose").addEventListener("click", closeDrawer);
+  $("scrim").addEventListener("click", closeDrawer);
+  $("nav").addEventListener("click", function(e){
+    var a = e.target.closest("a"); if (a && a.getAttribute("href") === location.hash) { e.preventDefault(); closeDrawer(); }
   });
 
   $("btnEdit").addEventListener("click", function(){
@@ -1091,7 +1612,8 @@
     document.body.classList.toggle("editing", state.editing);
     this.classList.toggle("on", state.editing);
     this.setAttribute("aria-pressed", state.editing);
-    this.querySelector(".t").textContent = state.editing ? "إنهاء التعديل" : "وضع التعديل";
+    this.querySelector(".t").textContent = state.editing ? "إنهاء التعديل" : "تعديل";
+    if (SECTIONS[state.page]) renderPage();
     toast(state.editing ? "وضع التعديل مفعّل – تُحفظ التغييرات تلقائياً" : "تم إنهاء وضع التعديل");
   });
   $("fab").addEventListener("click", function(){ openForm(null); });
@@ -1100,47 +1622,94 @@
   $("fileImport").addEventListener("change", function(){ if (this.files[0]) importData(this.files[0]); this.value = ""; });
   $("fileProof").addEventListener("change", function(){ addFiles(Array.prototype.slice.call(this.files)); this.value = ""; });
   $("btnPrint").addEventListener("click", function(){ window.print(); });
+  $("viewerClose").addEventListener("click", closeViewer);
+  $("viewer").addEventListener("click", function(e){ if (e.target === this || e.target.id === "viewerBody") closeViewer(); });
 
   $("notice").addEventListener("click", function(e){
     var b = e.target.closest("[data-act]"); if (!b) return;
     if (b.getAttribute("data-act") === "export") exportData();
     if (b.getAttribute("data-act") === "discard") {
       if (!confirm("سيتم حذف تعديلاتك المحفوظة على هذا الجهاز وعرض النسخة المنشورة. هل أنتِ متأكدة؟")) return;
-      clearLocal(); state.programs = JSON.parse(JSON.stringify(state._published || [])); renderAll(); toast("تم عرض النسخة المنشورة");
+      clearLocal();
+      state.programs = clone(state._published ? state._published.programs : []);
+      state.sections = clone(state._published ? state._published.sections : {});
+      renderPage(); toast("تم عرض النسخة المنشورة");
+    }
+  });
+
+  // إدخال البيانات في الأقسام والمتابعة (بدون إعادة رسم للحفاظ على موضع الكتابة)
+  document.addEventListener("input", function(e){
+    var t = e.target;
+    if (t.id === "q") { state.q = t.value; renderGrid(); return; }
+    var bind = t.getAttribute && t.getAttribute("data-bind");
+    if (bind) { setPath(JSON.parse(bind), t.value); saveSoon(); return; }
+    var fn = t.getAttribute && t.getAttribute("data-fu-notes");
+    if (fn) { var p = byId(fn); if (p) { var fu = fuOf(p); fu.notes = t.value; fu.at = new Date().toISOString(); saveSoon(); } }
+  });
+  document.addEventListener("change", function(e){
+    var t = e.target, bind = t.getAttribute && t.getAttribute("data-bind");
+    if (bind && t.tagName === "SELECT") { setPath(JSON.parse(bind), t.value); save(); }
+  });
+
+  document.addEventListener("click", function(e){
+    var t;
+    if ((t = e.target.closest("[data-open]"))) { openDetail(t.getAttribute("data-open")); return; }
+    if ((t = e.target.closest("[data-domain]"))) { state.domain = t.getAttribute("data-domain"); renderChips(); renderGrid(); return; }
+    if ((t = e.target.closest("[data-term]"))) { state.term = t.getAttribute("data-term"); renderChips(); renderGrid(); return; }
+    if ((t = e.target.closest("[data-fufilter]"))) { state.fuFilter = t.getAttribute("data-fufilter"); renderPage(); return; }
+    if ((t = e.target.closest("[data-fu]"))) {
+      var parts = t.getAttribute("data-fu").split("|");
+      setFollowup(parts[0], parts[1]);
+      if (overlay.classList.contains("show") && current === parts[0]) openDetail(parts[0]);
+      refreshAfterProgramChange();
+      return;
+    }
+    if ((t = e.target.closest("[data-add]"))) {
+      var arr = getPath(JSON.parse(t.getAttribute("data-add")));
+      arr.push(t.getAttribute("data-kind") === "str" ? "" : {});
+      save(); renderPage();
+      var rows = pageEl.querySelectorAll("[data-bind]"); // التركيز على آخر عنصر مضاف
+      var path = t.getAttribute("data-add");
+      var last = Array.prototype.filter.call(rows, function(r){ return r.getAttribute("data-bind").indexOf(path.slice(0, -1) + "," + (arr.length - 1)) === 0; })[0];
+      if (last) last.focus();
+      return;
+    }
+    if ((t = e.target.closest("[data-del]"))) {
+      var dp = JSON.parse(t.getAttribute("data-del")), idx = dp.pop(), list = getPath(dp);
+      if (!isBlank(list[idx]) && !confirm("حذف هذا العنصر؟")) return;
+      list.splice(idx, 1); save(); renderPage(); return;
+    }
+    if ((t = e.target.closest("[data-addfiles]"))) { pickFiles(t.getAttribute("data-addfiles")); return; }
+    if ((t = e.target.closest("[data-addlink]"))) { addLink(t.getAttribute("data-addlink")); return; }
+    if ((t = e.target.closest("[data-delproof]"))) { deleteProof(t.getAttribute("data-target"), t.getAttribute("data-delproof")); return; }
+    if ((t = e.target.closest("[data-proof]"))) {
+      var lst = resolveTarget(t.getAttribute("data-target")) || [];
+      var pr = lst.find(function(x){ return x.id === t.getAttribute("data-proof"); });
+      var href = t.getAttribute("href");
+      if (!pr || !href || href === "#") { e.preventDefault(); return; }
+      if (pr.kind === "image" || pr.kind === "video") { e.preventDefault(); openViewer(pr, href); }
+      return;
     }
   });
 
   overlay.addEventListener("click", function(e){
     if (e.target === overlay) { closeOverlay(); return; }
-    var del = e.target.closest("[data-delproof]");
-    if (del) { deleteProof(del.getAttribute("data-delproof")); return; }
-    var pv = e.target.closest("[data-proof]");
-    if (pv) {
-      var p0 = byId(current), pr = p0 && proofsOf(p0).find(function(x){ return x.id === pv.getAttribute("data-proof"); });
-      var href = pv.getAttribute("href");
-      if (!pr || !href || href === "#") { e.preventDefault(); return; }
-      if (pr.kind === "image" || pr.kind === "video") { e.preventDefault(); openViewer(pr, href); }
-      return; // ملفات PDF والروابط تُفتح في صفحة جديدة
-    }
     var b = e.target.closest("[data-act]"); if (!b) return;
     var act = b.getAttribute("data-act");
     var idx = state.programs.findIndex(function(x){ return x.id === current; });
     if (act === "close") closeOverlay();
-    else if (act === "addfiles") $("fileProof").click();
-    else if (act === "addlink") addLink();
     else if (act === "edit") openForm(current);
     else if (act === "back") openDetail(current);
     else if (act === "delete") {
       var p = state.programs[idx];
       if (!confirm("حذف برنامج «" + p.name + "» من الخطة؟")) return;
-      state.programs.splice(idx, 1); save(); renderAll(); closeOverlay(); toast("تم حذف البرنامج");
+      state.programs.splice(idx, 1); save(); refreshAfterProgramChange(); closeOverlay(); toast("تم حذف البرنامج");
     }
     else if (act === "prev" || act === "next") {
-      var visible = state.programs.filter(matches);
+      var visible = state.page === "programs" ? state.programs.filter(matches) : state.programs;
       var vi = visible.findIndex(function(x){ return x.id === current; });
       if (vi < 0) { visible = state.programs; vi = idx; }
-      var ni = (vi + (act === "next" ? 1 : -1) + visible.length) % visible.length;
-      openDetail(visible[ni].id);
+      openDetail(visible[(vi + (act === "next" ? 1 : -1) + visible.length) % visible.length].id);
     }
   });
   overlay.addEventListener("submit", function(e){ e.preventDefault(); submitForm(e.target); });
@@ -1148,6 +1717,7 @@
     if (e.key !== "Escape") return;
     if ($("viewer").classList.contains("show")) closeViewer();
     else if (overlay.classList.contains("show")) closeOverlay();
+    else if ($("drawer").classList.contains("show")) closeDrawer();
   });
 
   load();

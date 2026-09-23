@@ -148,7 +148,7 @@
   .meta svg{width:15px;height:15px;color:var(--moe-teal)}
   .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:9px 16px;background:#FAFCFC}
   .status{font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px}
-  .status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .status::before{content:"";flex-shrink:0;width:7px;height:7px;border-radius:50%;background:currentColor}
   .s0{background:#EEF1F2;color:#5A6B70}
   .s1{background:var(--soft-warn);color:var(--warn)}
   .s2{background:var(--soft-green);color:var(--moe-green-deep)}
@@ -184,11 +184,50 @@
   .sec p{margin:0}
   .list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
   .list li{background:var(--soft-teal);color:var(--moe-navy);font-size:13.5px;font-weight:700;border-radius:8px;padding:4px 10px}
-  .status-pick{display:flex;gap:8px;flex-wrap:wrap}
-  .status-pick button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;font-weight:700;font-size:13.5px}
-  .status-pick button[aria-pressed="true"].o0{background:#5A6B70;border-color:#5A6B70;color:#fff}
-  .status-pick button[aria-pressed="true"].o1{background:var(--warn);border-color:var(--warn);color:#fff}
-  .status-pick button[aria-pressed="true"].o2{background:var(--moe-green-deep);border-color:var(--moe-green-deep);color:#fff}
+  .s3{background:#FCEBEA;color:var(--danger)}
+  .status.s1::before{animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .status-note{font-size:12.5px;color:var(--ink-2);margin-top:6px}
+  .ev-count{font-size:12.5px;font-weight:700;color:var(--moe-teal);display:inline-flex;align-items:center;gap:4px}
+  .ev-count svg{width:14px;height:14px}
+
+  /* ============ الشواهد ============ */
+  .ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+  .ev{
+    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    aspect-ratio:1/1;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden;
+    padding:6px;text-decoration:none;color:var(--moe-navy);text-align:center;width:100%;
+  }
+  .ev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ev .ic{width:30px;height:30px;color:var(--moe-teal)}
+  .ev .nm{font-size:11px;font-weight:700;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative}
+  .ev.has-img .nm{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(6,30,37,.8));color:#fff;padding:14px 6px 4px}
+  .ev .kind{position:absolute;top:5px;right:5px;background:rgba(11,57,69,.8);color:#fff;font-size:10px;font-weight:700;border-radius:6px;padding:1px 6px}
+  .ev-del{
+    position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;border:0;z-index:2;
+    background:rgba(192,57,43,.92);color:#fff;display:none;align-items:center;justify-content:center;font-size:16px;line-height:1
+  }
+  body.editing .ev-del{display:flex}
+  .ev-wrap{position:relative}
+  .ev-add{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .ev-empty{font-size:13.5px;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;text-align:center}
+  .ev-local{font-size:12px;color:var(--warn);margin-top:6px}
+
+  .viewer{position:fixed;inset:0;background:rgba(3,15,19,.92);z-index:70;display:none;flex-direction:column}
+  .viewer.show{display:flex}
+  .viewer-bar{display:flex;align-items:center;gap:8px;padding:10px 12px;color:#fff}
+  .viewer-bar .nm{flex:1;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .viewer-bar a,.viewer-bar button{color:#fff;background:rgba(255,255,255,.14);border:0;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13.5px;text-decoration:none}
+  .viewer-body{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;min-height:0}
+  .viewer-body img,.viewer-body video{max-width:100%;max-height:100%;border-radius:8px;background:#000}
+
+  .home-btn{
+    position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;
+    background:rgba(255,255,255,.14);color:#fff;font-weight:800;font-size:13.5px;padding:8px 14px;min-height:38px
+  }
+  .home-btn:hover{background:rgba(255,255,255,.24)}
+  .home-btn svg{width:18px;height:18px}
+  .sheet-head h3,.sheet-head .k{padding-left:118px}
 
   /* ============ النموذج ============ */
   .form{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
@@ -300,7 +339,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
         <span class="t">طباعة</span>
       </button>
-      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+      <input type="file" id="fileImport" accept=".json,.zip,application/json,application/zip" hidden>
     </div>
   </div>
 </section>
@@ -310,8 +349,8 @@
 
   <div class="stats">
     <div class="stat"><div class="n" id="stTotal">–</div><div class="l">برنامج في الخطة</div></div>
-    <div class="stat"><div class="n" id="stDomains">–</div><div class="l">مجالات</div></div>
-    <div class="stat"><div class="n" id="stDone">–</div><div class="l">برامج منفّذة</div></div>
+    <div class="stat"><div class="n" id="stStarted">–</div><div class="l">برامج بدأت</div></div>
+    <div class="stat"><div class="n" id="stDone">–</div><div class="l">منفّذة (برفع شاهد)</div></div>
     <div class="stat"><div class="n" id="stPct">–</div><div class="l">نسبة الإنجاز</div><div class="progress"><i id="stBar"></i></div></div>
   </div>
 
@@ -345,6 +384,16 @@
   <div class="sheet" id="sheet"></div>
 </div>
 
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="عرض الشاهد">
+  <div class="viewer-bar">
+    <span class="nm" id="viewerName"></span>
+    <a id="viewerOpen" href="#" target="_blank" rel="noopener">فتح</a>
+    <button type="button" id="viewerClose">إغلاق</button>
+  </div>
+  <div class="viewer-body" id="viewerBody"></div>
+</div>
+
+<input type="file" id="fileProof" accept="image/*,video/*,application/pdf,.pdf" multiple hidden>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -352,8 +401,11 @@
   "use strict";
 
   var STORE_KEY = "school-plan-1448";
-  var STATUSES = ["لم يبدأ","قيد التنفيذ","منفّذ"];
+  var PLAN_YEAR = 1448;
   var TERMS = ["الفصل الأول","الفصل الثاني","طوال العام"];
+  // 0 لم يبدأ · 1 بدأ · 2 منفّذ · 3 انتهت المدة بلا شاهد
+  var STATUS = ["لم يبدأ","بدأ","منفّذ","بانتظار الشاهد"];
+  var BIG_FILE = 25 * 1024 * 1024;
 
   var FIELDS = [
     {group:"البيانات الأساسية"},
@@ -366,7 +418,7 @@
     {group:"زمن التنفيذ"},
     {k:"term", l:"الفصل", select:TERMS},
     {k:"week", l:"الأسبوع"},
-    {k:"date", l:"التاريخ", hint:"مثال: من ١٠-٣ إلى ٨-١١"},
+    {k:"date", l:"التاريخ (هجري: يوم-شهر)", hint:"مثال: من ١٠-٣ إلى ٨-١١ — تُحسب منه حالة البرنامج تلقائياً"},
     {k:"days", l:"عدد أيام التنفيذ"},
     {group:"الفئة المستهدفة"},
     {k:"targetType", l:"نوع الفئة"},
@@ -379,13 +431,11 @@
     {k:"place", l:"مكان التنفيذ"},
     {k:"external", l:"الدعم الخارجي"},
     {k:"indicator", l:"مؤشر تحقق الهدف", full:true, ta:true},
-    {k:"evidence", l:"الشاهد", full:true, ta:true},
-    {k:"status", l:"حالة التنفيذ", select:STATUSES}
+    {k:"evidence", l:"الشاهد المطلوب", full:true, ta:true}
   ];
 
   var state = {
     programs: [],
-    publishedUpdated: null,
     local: false,
     q: "",
     domain: "الكل",
@@ -404,6 +454,7 @@
   }
   var AR = "٠١٢٣٤٥٦٧٨٩";
   function ar(n){ return String(n).replace(/\d/g, function(d){ return AR[d]; }); }
+  function latin(s){ return String(s || "").replace(/[٠-٩]/g, function(d){ return AR.indexOf(d); }).replace(/[۰-۹]/g, function(d){ return d.charCodeAt(0) - 1776; }); }
   function norm(s){
     return String(s || "").toLowerCase()
       .replace(/[إأآا]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
@@ -412,16 +463,109 @@
   function splitList(s){
     return String(s || "").split(/[،,\n]+/).map(function(x){ return x.trim(); }).filter(Boolean);
   }
-  function uid(){ return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
-  function statusIdx(s){ var i = STATUSES.indexOf(s); return i < 0 ? 0 : i; }
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
   function unique(arr){ return arr.filter(function(v,i){ return v && arr.indexOf(v) === i; }); }
+  function byId(id){ return state.programs.find(function(x){ return x.id === id; }); }
+  function proofsOf(p){ if (!Array.isArray(p.proofs)) p.proofs = []; return p.proofs; }
+  function fmtSize(b){
+    if (!b) return "";
+    return b > 1048576 ? ar((b / 1048576).toFixed(1)) + " م.ب" : ar(Math.max(1, Math.round(b / 1024))) + " ك.ب";
+  }
 
   function toast(msg){
     var t = $("toast"); t.textContent = msg; t.classList.add("show");
-    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2600);
   }
 
-  /* ---------- التخزين ---------- */
+  /* ---------- التاريخ الهجري والحالة التلقائية ---------- */
+  var TODAY = (function(){
+    try {
+      var parts = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura-nu-latn", {day:"numeric", month:"numeric", year:"numeric"}).formatToParts(new Date());
+      var o = {}; parts.forEach(function(x){ o[x.type] = parseInt(x.value, 10); });
+      if (!o.year || !o.month || !o.day) return null;
+      return {y:o.year, m:o.month, d:o.day, key:o.year * 10000 + o.month * 100 + o.day};
+    } catch(e){ return null; }
+  })();
+
+  function parseRange(str){
+    var re = /(\d{1,2})\s*[-\/]\s*(\d{1,2})/g, m, keys = [];
+    str = latin(str);
+    while ((m = re.exec(str))) {
+      var d = +m[1], mo = +m[2];
+      if (mo >= 1 && mo <= 12 && d >= 1 && d <= 30) keys.push(PLAN_YEAR * 10000 + mo * 100 + d);
+    }
+    if (!keys.length) return null;
+    return {start:keys[0], end:keys[keys.length - 1]};
+  }
+
+  function statusOf(p){
+    if (proofsOf(p).length) return 2;
+    var r = parseRange(p.date);
+    if (!r || !TODAY) return 0;
+    if (TODAY.key < r.start) return 0;
+    if (TODAY.key <= r.end) return 1;
+    return 3;
+  }
+  function statusNote(p, s){
+    var r = parseRange(p.date);
+    if (s === 2) return "تم رفع " + ar(proofsOf(p).length) + " شاهد لهذا البرنامج.";
+    if (!r) return "أضيفي تاريخ التنفيذ ليتم احتساب الحالة تلقائياً.";
+    if (s === 0) return "لم يحن موعد البدء بعد.";
+    if (s === 1) return "البرنامج في فترة التنفيذ الآن — ارفعي الشاهد عند الانتهاء.";
+    return "انتهت فترة التنفيذ ولم يُرفع شاهد بعد.";
+  }
+
+  /* ---------- تخزين الملفات على الجهاز (IndexedDB) ---------- */
+  var idb = (function(){
+    var dbp = null;
+    function open(){
+      if (dbp) return dbp;
+      dbp = new Promise(function(res, rej){
+        if (!window.indexedDB) { rej(new Error("no-idb")); return; }
+        var rq = indexedDB.open("school-plan-proofs", 1);
+        rq.onupgradeneeded = function(){ rq.result.createObjectStore("files"); };
+        rq.onsuccess = function(){ res(rq.result); };
+        rq.onerror = function(){ rej(rq.error); };
+      });
+      dbp.catch(function(){ dbp = null; });
+      return dbp;
+    }
+    function tx(mode, fn){
+      return open().then(function(db){
+        return new Promise(function(res, rej){
+          var t = db.transaction("files", mode), st = t.objectStore("files"), out = fn(st);
+          t.oncomplete = function(){ res(out && out.result); };
+          t.onerror = t.onabort = function(){ rej(t.error); };
+        });
+      });
+    }
+    return {
+      put:function(k, v){ return tx("readwrite", function(s){ s.put(v, k); }); },
+      get:function(k){ return tx("readonly", function(s){ return s.get(k); }); },
+      del:function(k){ return tx("readwrite", function(s){ s.delete(k); }); }
+    };
+  })();
+
+  var urlCache = {};
+  function proofURL(pr){
+    if (!pr.src) return Promise.resolve("");
+    if (pr.src.indexOf("idb:") !== 0) return Promise.resolve(pr.src);
+    if (urlCache[pr.id]) return Promise.resolve(urlCache[pr.id]);
+    return idb.get(pr.id).then(function(blob){
+      if (!blob) return "";
+      return (urlCache[pr.id] = URL.createObjectURL(blob));
+    }).catch(function(){ return ""; });
+  }
+  function kindOf(file){
+    var t = file.type || "", n = (file.name || "").toLowerCase();
+    if (t.indexOf("image/") === 0) return "image";
+    if (t.indexOf("video/") === 0) return "video";
+    if (t === "application/pdf" || /\.pdf$/.test(n)) return "pdf";
+    return "file";
+  }
+  var KIND_LABEL = {image:"صورة", video:"فيديو", pdf:"PDF", link:"رابط", file:"ملف"};
+
+  /* ---------- حفظ البيانات ---------- */
   function readLocal(){
     try { var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; }
     catch(e){ return null; }
@@ -437,14 +581,16 @@
     try { localStorage.removeItem(STORE_KEY); } catch(e){}
     state.local = false;
   }
+  function hasLocalFiles(){
+    return state.programs.some(function(p){ return proofsOf(p).some(function(x){ return x.src && x.src.indexOf("idb:") === 0; }); });
+  }
 
   function load(){
     fetch("data.json", {cache:"no-cache"})
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(pub){
-        state.publishedUpdated = pub.updated || null;
         var loc = readLocal();
-        // إذا كانت النسخة المنشورة أحدث من التعديلات المحلية نعتمد المنشورة
+        // إذا كانت النسخة المنشورة أحدث من تعديلات الجهاز نعتمد المنشورة
         if (loc && Array.isArray(loc.programs) && !(pub.updated && loc.savedAt && pub.updated >= loc.savedAt)) {
           state.programs = loc.programs; state.local = true;
         } else {
@@ -453,6 +599,7 @@
         }
         state._published = pub.programs || [];
         renderAll();
+        openFromHash();
       })
       .catch(function(){
         var loc = readLocal();
@@ -465,8 +612,12 @@
   function renderNotice(){
     var n = $("notice");
     if (!state.local) { n.classList.remove("show"); n.innerHTML = ""; return; }
+    var files = hasLocalFiles();
     n.innerHTML =
-      '<b>تعديلاتك محفوظة على هذا الجهاز.</b> لتظهر لكل من يفتح الرابط: اضغطي «تصدير للنشر» ثم ارفعي الملف <b>data.json</b> إلى مجلد <b>plan</b> في المستودع على GitHub.' +
+      '<b>تعديلاتك محفوظة على هذا الجهاز فقط.</b> لتظهر لكل من يفتح الرابط: اضغطي «تصدير للنشر»' +
+      (files
+        ? '، سينزل ملف مضغوط فيه <b>data.json</b> ومجلد <b>evidence</b> (الشواهد). فكّيه وارفعي محتواه إلى مجلد <b>plan</b> في GitHub.'
+        : ' ثم ارفعي الملف <b>data.json</b> إلى مجلد <b>plan</b> في GitHub.') +
       '<div class="row">' +
         '<button class="btn green" type="button" data-act="export">تصدير للنشر</button>' +
         '<button class="btn danger" type="button" data-act="discard">تجاهل تعديلاتي وعرض النسخة المنشورة</button>' +
@@ -475,12 +626,15 @@
   }
 
   function renderStats(){
-    var total = state.programs.length;
-    var done = state.programs.filter(function(p){ return statusIdx(p.status) === 2; }).length;
-    var doing = state.programs.filter(function(p){ return statusIdx(p.status) === 1; }).length;
-    var pct = total ? Math.round(((done + doing * 0.5) / total) * 100) : 0;
+    var total = state.programs.length, started = 0, done = 0;
+    state.programs.forEach(function(p){
+      var s = statusOf(p);
+      if (s === 2) done++;
+      if (s !== 0) started++;
+    });
+    var pct = total ? Math.round(done / total * 100) : 0;
     $("stTotal").textContent = ar(total);
-    $("stDomains").textContent = ar(unique(state.programs.map(function(p){ return p.domain; })).length);
+    $("stStarted").textContent = ar(started);
     $("stDone").textContent = ar(done);
     $("stPct").textContent = ar(pct) + "٪";
     $("stBar").style.width = pct + "%";
@@ -502,8 +656,10 @@
     $("domainChips").innerHTML = h;
 
     var t = chip("الكل", null, state.term === "الكل", 'data-term="الكل"');
-    TERMS.concat(STATUSES).forEach(function(x){
-      t += chip(x, null, state.term === x, 'data-term="' + esc(x) + '"');
+    TERMS.forEach(function(x){ t += chip(x, null, state.term === x, 'data-term="' + esc(x) + '"'); });
+    [1,3,2,0].forEach(function(k){
+      var c = state.programs.filter(function(p){ return statusOf(p) === k; }).length;
+      t += chip(STATUS[k], c, state.term === STATUS[k], 'data-term="' + STATUS[k] + '"');
     });
     $("termChips").innerHTML = t;
   }
@@ -511,7 +667,8 @@
   function matches(p){
     if (state.domain !== "الكل" && p.domain !== state.domain) return false;
     if (state.term !== "الكل") {
-      if (STATUSES.indexOf(state.term) >= 0) { if (STATUSES[statusIdx(p.status)] !== state.term) return false; }
+      var si = STATUS.indexOf(state.term);
+      if (si >= 0) { if (statusOf(p) !== si) return false; }
       else if (p.term !== state.term) return false;
     }
     if (state.q) {
@@ -530,8 +687,14 @@
     clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     tools:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4Z"/></svg>',
     check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
-    close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>'
+    clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>',
+    home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    image:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>',
+    video:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/></svg>',
+    pdf:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+    link:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>'
   };
+  ICON.file = ICON.pdf;
 
   function renderGrid(){
     var list = state.programs.filter(matches);
@@ -540,7 +703,7 @@
       return;
     }
     grid.innerHTML = list.map(function(p){
-      var i = state.programs.indexOf(p), s = statusIdx(p.status);
+      var i = state.programs.indexOf(p), s = statusOf(p), n = proofsOf(p).length;
       return '<button type="button" class="card" data-open="' + esc(p.id) + '">' +
         '<div class="card-top"></div>' +
         '<div class="card-body">' +
@@ -555,7 +718,9 @@
             (p.lead ? '<span>' + ICON.user + esc(p.lead) + '</span>' : '') +
           '</div>' +
         '</div>' +
-        '<div class="card-foot"><span class="status s' + s + '">' + STATUSES[s] + '</span><span class="more">عرض التفاصيل ←</span></div>' +
+        '<div class="card-foot"><span class="status s' + s + '">' + STATUS[s] + '</span>' +
+          (n ? '<span class="ev-count">' + ICON.clip + ar(n) + ' شاهد</span>' : '') +
+          '<span class="more">عرض التفاصيل ←</span></div>' +
       '</button>';
     }).join("");
   }
@@ -568,31 +733,72 @@
       return '<div><div class="k">' + x[0] + '</div><div class="v">' + esc(x[1]) + '</div></div>';
     }).join("") + '</div>';
   }
-  function sec(icon, title, inner){
-    return '<div class="sec"><h4>' + icon + title + '</h4>' + inner + '</div>';
+  function sec(icon, title, inner, id){
+    return '<div class="sec"' + (id ? ' id="' + id + '"' : '') + '><h4>' + icon + title + '</h4>' + inner + '</div>';
   }
 
   var current = null;
 
+  function proofTiles(p){
+    var list = proofsOf(p);
+    if (!list.length) return '<div class="ev-empty">لم يُرفع شاهد بعد. أضيفي صوراً أو ملفات PDF أو فيديو أو رابطاً.</div>';
+    return '<div class="ev-grid">' + list.map(function(pr){
+      var k = pr.kind || "file";
+      return '<div class="ev-wrap">' +
+        '<a class="ev" href="#" data-proof="' + esc(pr.id) + '" title="' + esc(pr.name) + '">' +
+          '<span class="kind">' + KIND_LABEL[k] + '</span>' +
+          (ICON[k] || ICON.file) +
+          '<span class="nm">' + esc(pr.name) + '</span>' +
+        '</a>' +
+        '<button type="button" class="ev-del" data-delproof="' + esc(pr.id) + '" aria-label="حذف الشاهد">×</button>' +
+      '</div>';
+    }).join("") + '</div>' +
+    (list.some(function(x){ return x.src && x.src.indexOf("idb:") === 0; })
+      ? '<div class="ev-local">بعض الشواهد محفوظة على هذا الجهاز فقط — استخدمي «تصدير للنشر» لتظهر للجميع.</div>' : '');
+  }
+
+  // تعبئة الروابط والصور المصغرة بعد العرض
+  function hydrateProofs(p){
+    proofsOf(p).forEach(function(pr){
+      var a = sheet.querySelector('[data-proof="' + CSS.escape(pr.id) + '"]');
+      if (!a) return;
+      proofURL(pr).then(function(url){
+        if (!url) { a.querySelector(".nm").textContent = "الملف غير متاح على هذا الجهاز"; return; }
+        a.setAttribute("href", url);
+        if (pr.kind === "pdf" || pr.kind === "link" || pr.kind === "file") {
+          a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
+        }
+        if (pr.kind === "image") {
+          var img = new Image(); img.alt = ""; img.src = url; img.loading = "lazy";
+          a.insertBefore(img, a.firstChild); a.classList.add("has-img");
+        }
+      });
+    });
+  }
+
   function openDetail(id){
-    var p = state.programs.find(function(x){ return x.id === id; });
+    var p = byId(id);
     if (!p) return;
     current = p.id;
-    var i = state.programs.indexOf(p), s = statusIdx(p.status);
+    var i = state.programs.indexOf(p), s = statusOf(p);
     var reqs = splitList(p.requirements);
-    var statusBlock = state.editing
-      ? '<div class="status-pick">' + STATUSES.map(function(st, k){
-          return '<button type="button" class="o' + k + '" data-status="' + k + '" aria-pressed="' + (k === s) + '">' + st + '</button>';
-        }).join("") + '</div>'
-      : '<span class="status s' + s + '">' + STATUSES[s] + '</span>';
 
     sheet.innerHTML =
       '<div class="sheet-head">' +
         '<div class="k">البرنامج رقم ' + ar(i + 1) + ' · ' + esc(p.domain) + (p.area ? ' · ' + esc(p.area) : '') + '</div>' +
         '<h3 id="sheetTitle">' + esc(p.name) + '</h3>' +
-        '<button class="x" type="button" data-act="close" aria-label="إغلاق">' + ICON.close + '</button>' +
+        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرئيسية</button>' +
       '</div>' +
       '<div class="sheet-body">' +
+        sec(ICON.check, "حالة التنفيذ",
+          '<span class="status s' + s + '">' + STATUS[s] + '</span>' +
+          '<div class="status-note">' + statusNote(p, s) + '</div>') +
+        sec(ICON.clip, "الشواهد المرفوعة (" + ar(proofsOf(p).length) + ")",
+          proofTiles(p) +
+          '<div class="ev-add">' +
+            '<button class="btn green" type="button" data-act="addfiles">+ إضافة شاهد (صور، PDF، فيديو)</button>' +
+            '<button class="btn" type="button" data-act="addlink">+ إضافة رابط</button>' +
+          '</div>', "proofSec") +
         sec(ICON.target, "الأهداف",
           (p.generalGoal ? '<p><b>الهدف العام:</b> ' + esc(p.generalGoal) + '</p>' : '') +
           (p.detailedGoal ? '<p style="margin-top:6px"><b>الهدف التفصيلي:</b> ' + esc(p.detailedGoal) + '</p>' : '')) +
@@ -601,23 +807,86 @@
         sec(ICON.group, "الفئة المستهدفة", kv([["نوع الفئة",p.targetType],["المرحلة",p.stage],["العدد المرشح",p.count]])) +
         sec(ICON.user, "الفئة المنفذة", kv([["الرئيسة",p.lead],["المساندة",p.support],["مكان التنفيذ",p.place],["الدعم الخارجي",p.external]])) +
         (reqs.length ? sec(ICON.tools, "المتطلبات", '<ul class="list">' + reqs.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>') : '') +
-        sec(ICON.target, "المتابعة والتقويم",
-          kv([["مؤشر تحقق الهدف",p.indicator],["الشاهد",p.evidence]]) +
-          '<div style="margin-top:10px"><div class="k" style="font-size:12px;color:var(--ink-2);font-weight:700;margin-bottom:4px">حالة التنفيذ</div>' + statusBlock + '</div>') +
+        sec(ICON.target, "المتابعة والتقويم", kv([["مؤشر تحقق الهدف",p.indicator],["الشاهد المطلوب",p.evidence]])) +
       '</div>' +
       '<div class="sheet-foot">' +
-        '<button class="btn primary edit-only" type="button" data-act="edit">تعديل البرنامج</button>' +
+        '<button class="btn primary" type="button" data-act="close">الرجوع للرئيسية</button>' +
+        '<button class="btn edit-only" type="button" data-act="edit">تعديل</button>' +
         '<button class="btn danger edit-only" type="button" data-act="delete">حذف</button>' +
         '<span class="spacer"></span>' +
         '<button class="btn" type="button" data-act="prev">السابق</button>' +
         '<button class="btn" type="button" data-act="next">التالي</button>' +
       '</div>';
     showOverlay();
+    hydrateProofs(p);
   }
+
+  /* ---------- إضافة الشواهد ---------- */
+  function addFiles(files){
+    var p = byId(current); if (!p || !files.length) return;
+    var big = false;
+    var jobs = Array.prototype.map.call(files, function(f){
+      var id = uid();
+      if (f.size > BIG_FILE) big = true;
+      return idb.put(id, f).then(function(){
+        proofsOf(p).push({id:id, name:f.name || "شاهد", kind:kindOf(f), size:f.size, src:"idb:" + id, added:new Date().toISOString()});
+        return true;
+      }).catch(function(){ return false; });
+    });
+    Promise.all(jobs).then(function(res){
+      var ok = res.filter(Boolean).length;
+      if (!ok) { toast("تعذّر حفظ الملفات على هذا الجهاز"); return; }
+      save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
+      var el = $("proofSec"); if (el) el.scrollIntoView({block:"center"});
+      toast(big ? "تمت الإضافة — ملاحظة: الملفات الأكبر من ٢٥ م.ب لا يقبلها GitHub، الأفضل رفعها رابطاً"
+                : "تمت إضافة " + ar(ok) + " شاهد");
+    });
+  }
+  function addLink(){
+    var p = byId(current); if (!p) return;
+    var url = prompt("الصقي رابط الشاهد (مثل Google Drive أو OneDrive أو يوتيوب):");
+    if (!url) return;
+    url = url.trim();
+    if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+    try { new URL(url); } catch(e){ toast("الرابط غير صحيح"); return; }
+    var name = prompt("اكتبي وصفاً قصيراً للشاهد (اختياري):", "") || (function(){ try { return new URL(url).hostname; } catch(e){ return "رابط"; } })();
+    proofsOf(p).push({id:uid(), name:name.trim(), kind:"link", src:url, added:new Date().toISOString()});
+    save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
+    toast("تمت إضافة الرابط");
+  }
+  function deleteProof(pid){
+    var p = byId(current); if (!p) return;
+    var list = proofsOf(p), k = list.findIndex(function(x){ return x.id === pid; });
+    if (k < 0 || !confirm("حذف الشاهد «" + list[k].name + "»؟")) return;
+    var pr = list.splice(k, 1)[0];
+    if (pr.src && pr.src.indexOf("idb:") === 0) idb.del(pr.id).catch(function(){});
+    save(); renderStats(); renderChips(); renderGrid(); openDetail(p.id);
+    toast("تم حذف الشاهد");
+  }
+
+  /* ---------- عارض الصور والفيديو ---------- */
+  function openViewer(pr, url){
+    var body = $("viewerBody");
+    body.innerHTML = "";
+    var el;
+    if (pr.kind === "video") { el = document.createElement("video"); el.controls = true; el.playsInline = true; el.src = url; }
+    else { el = document.createElement("img"); el.alt = pr.name; el.src = url; }
+    body.appendChild(el);
+    $("viewerName").textContent = pr.name;
+    $("viewerOpen").href = url;
+    $("viewer").classList.add("show");
+  }
+  function closeViewer(){
+    var v = $("viewer"); v.classList.remove("show");
+    var vid = v.querySelector("video"); if (vid) vid.pause();
+    $("viewerBody").innerHTML = "";
+  }
+  $("viewerClose").addEventListener("click", closeViewer);
+  $("viewer").addEventListener("click", function(e){ if (e.target === this || e.target.id === "viewerBody") closeViewer(); });
 
   /* ---------- النموذج ---------- */
   function openForm(id){
-    var p = id ? state.programs.find(function(x){ return x.id === id; }) : null;
+    var p = id ? byId(id) : null;
     current = p ? p.id : null;
     var lists = {
       domains: unique(state.programs.map(function(x){ return x.domain; })),
@@ -626,11 +895,11 @@
     };
     var html = FIELDS.map(function(f){
       if (f.group) return '<div class="group">' + f.group + '</div>';
-      var v = p ? (p[f.k] || "") : (f.k === "status" ? STATUSES[0] : "");
+      var v = p ? (p[f.k] || "") : "";
       var input;
       if (f.select) {
         var opts = f.select.slice(); if (v && opts.indexOf(v) < 0) opts.unshift(v);
-        input = '<select name="' + f.k + '" id="f_' + f.k + '">' + (f.k === "term" ? '<option value="">—</option>' : '') +
+        input = '<select name="' + f.k + '" id="f_' + f.k + '"><option value="">—</option>' +
           opts.map(function(o){ return '<option' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join("") + '</select>';
       } else if (f.ta) {
         input = '<textarea name="' + f.k + '" id="f_' + f.k + '">' + esc(v) + '</textarea>';
@@ -648,7 +917,7 @@
       '<div class="sheet-head">' +
         '<div class="k">' + (p ? "تعديل برنامج" : "برنامج جديد") + '</div>' +
         '<h3 id="sheetTitle">' + (p ? esc(p.name) : "إضافة برنامج إلى الخطة") + '</h3>' +
-        '<button class="x" type="button" data-act="close" aria-label="إغلاق">' + ICON.close + '</button>' +
+        '<button class="home-btn" type="button" data-act="close">' + ICON.home + 'الرئيسية</button>' +
       '</div>' +
       '<form class="sheet-body" id="progForm" novalidate><div class="form">' + html + '</div></form>' +
       '<div class="sheet-foot">' +
@@ -668,51 +937,135 @@
       return;
     }
     if (current) {
-      var p = state.programs.find(function(x){ return x.id === current; });
+      var p = byId(current);
       Object.assign(p, data);
       save(); renderAll(); openDetail(p.id); toast("تم حفظ التعديلات");
     } else {
-      data.id = uid();
+      data.id = "p" + uid(); data.proofs = [];
       state.programs.push(data);
       save(); renderAll(); openDetail(data.id); toast("تمت إضافة البرنامج");
     }
   }
 
-  /* ---------- النافذة ---------- */
+  /* ---------- النافذة وزر الرجوع في الجوال ---------- */
   var lastFocus = null;
   function showOverlay(){
-    if (!overlay.classList.contains("show")) lastFocus = document.activeElement;
+    if (!overlay.classList.contains("show")) {
+      lastFocus = document.activeElement;
+      try { history.pushState({sheet:1}, "", location.pathname + location.search + "#" + (current || "new")); } catch(e){}
+    } else {
+      try { history.replaceState({sheet:1}, "", location.pathname + location.search + "#" + (current || "new")); } catch(e){}
+    }
     overlay.classList.add("show");
     document.body.style.overflow = "hidden";
     var b = sheet.querySelector(".sheet-body"); if (b) b.scrollTop = 0;
-    var x = sheet.querySelector(".x"); if (x) x.focus({preventScroll:true});
+    var x = sheet.querySelector(".home-btn"); if (x) x.focus({preventScroll:true});
   }
-  function closeOverlay(){
+  function hideOverlay(){
     overlay.classList.remove("show");
     document.body.style.overflow = "";
     current = null;
+    closeViewer();
     if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+  }
+  function closeOverlay(){
+    if (history.state && history.state.sheet) history.back();   // يغلق عبر popstate
+    else { hideOverlay(); try { history.replaceState(null, "", location.pathname + location.search); } catch(e){} }
+  }
+  window.addEventListener("popstate", function(){
+    if ($("viewer").classList.contains("show")) closeViewer();
+    if (overlay.classList.contains("show")) hideOverlay();
+  });
+  function openFromHash(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (id && byId(id)) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
+      openDetail(id);
+    }
   }
 
   /* ---------- تصدير واستيراد ---------- */
-  function exportData(){
-    var payload = {updated:new Date().toISOString(), programs:state.programs};
-    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  var jszipP = null;
+  function loadJSZip(){
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    if (jszipP) return jszipP;
+    jszipP = new Promise(function(res, rej){
+      var s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+      s.onload = function(){ res(window.JSZip); };
+      s.onerror = function(){ jszipP = null; rej(new Error("jszip")); };
+      document.head.appendChild(s);
+    });
+    return jszipP;
+  }
+  function download(blob, name){
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = "data.json";
+    a.href = URL.createObjectURL(blob); a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
-    toast("تم تنزيل الملف data.json");
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+  }
+  function extOf(name){ var m = /\.([a-z0-9]{1,5})$/i.exec(name || ""); return m ? "." + m[1].toLowerCase() : ""; }
+
+  function exportData(){
+    var programs = JSON.parse(JSON.stringify(state.programs));
+    var locals = [];
+    programs.forEach(function(p){
+      (p.proofs || []).forEach(function(pr){
+        if (pr.src && pr.src.indexOf("idb:") === 0) {
+          var path = "evidence/" + pr.id + extOf(pr.name);
+          locals.push({id:pr.id, path:path});
+          pr.src = path;
+        }
+      });
+    });
+    var json = JSON.stringify({updated:new Date().toISOString(), programs:programs}, null, 2);
+    if (!locals.length) {
+      download(new Blob([json], {type:"application/json"}), "data.json");
+      toast("تم تنزيل الملف data.json");
+      return;
+    }
+    toast("جارٍ تجهيز الملف المضغوط…");
+    loadJSZip().then(function(JSZip){
+      var zip = new JSZip();
+      zip.file("data.json", json);
+      return Promise.all(locals.map(function(l){
+        return idb.get(l.id).then(function(blob){ if (blob) zip.file(l.path, blob); });
+      })).then(function(){ return zip.generateAsync({type:"blob"}); });
+    }).then(function(blob){
+      download(blob, "plan-update.zip");
+      toast("تم تنزيل plan-update.zip");
+    }).catch(function(){ toast("تعذّر تجهيز الملف المضغوط — تحققي من الاتصال بالإنترنت"); });
+  }
+
+  function applyImported(list){
+    list.forEach(function(p){ if (!p.id) p.id = "p" + uid(); });
+    state.programs = list; save(); renderAll(); toast("تم استيراد " + ar(list.length) + " برنامج");
   }
   function importData(file){
+    if (/\.zip$/i.test(file.name)) {
+      loadJSZip().then(function(JSZip){ return JSZip.loadAsync(file); }).then(function(zip){
+        var entry = zip.file("data.json"); if (!entry) throw 0;
+        return entry.async("string").then(function(txt){
+          var d = JSON.parse(txt), list = Array.isArray(d) ? d : d.programs;
+          if (!Array.isArray(list)) throw 0;
+          var jobs = [];
+          list.forEach(function(p){
+            (p.proofs || []).forEach(function(pr){
+              var f = pr.src && zip.file(pr.src);
+              if (f) jobs.push(f.async("blob").then(function(b){ return idb.put(pr.id, b); }).then(function(){ pr.src = "idb:" + pr.id; }));
+            });
+          });
+          return Promise.all(jobs).then(function(){ applyImported(list); });
+        });
+      }).catch(function(){ toast("الملف غير صالح"); });
+      return;
+    }
     var r = new FileReader();
     r.onload = function(){
       try {
-        var d = JSON.parse(r.result);
-        var list = Array.isArray(d) ? d : d.programs;
+        var d = JSON.parse(r.result), list = Array.isArray(d) ? d : d.programs;
         if (!Array.isArray(list)) throw 0;
-        list.forEach(function(p){ if (!p.id) p.id = uid(); });
-        state.programs = list; save(); renderAll(); toast("تم استيراد " + ar(list.length) + " برنامج");
+        applyImported(list);
       } catch(e){ toast("الملف غير صالح"); }
     };
     r.readAsText(file);
@@ -745,6 +1098,7 @@
   $("btnExport").addEventListener("click", exportData);
   $("btnImport").addEventListener("click", function(){ $("fileImport").click(); });
   $("fileImport").addEventListener("change", function(){ if (this.files[0]) importData(this.files[0]); this.value = ""; });
+  $("fileProof").addEventListener("change", function(){ addFiles(Array.prototype.slice.call(this.files)); this.value = ""; });
   $("btnPrint").addEventListener("click", function(){ window.print(); });
 
   $("notice").addEventListener("click", function(e){
@@ -758,17 +1112,22 @@
 
   overlay.addEventListener("click", function(e){
     if (e.target === overlay) { closeOverlay(); return; }
-    var st = e.target.closest("[data-status]");
-    if (st && current) {
-      var p = state.programs.find(function(x){ return x.id === current; });
-      p.status = STATUSES[+st.getAttribute("data-status")];
-      save(); renderStats(); renderGrid(); openDetail(p.id); toast("تم تحديث حالة التنفيذ");
-      return;
+    var del = e.target.closest("[data-delproof]");
+    if (del) { deleteProof(del.getAttribute("data-delproof")); return; }
+    var pv = e.target.closest("[data-proof]");
+    if (pv) {
+      var p0 = byId(current), pr = p0 && proofsOf(p0).find(function(x){ return x.id === pv.getAttribute("data-proof"); });
+      var href = pv.getAttribute("href");
+      if (!pr || !href || href === "#") { e.preventDefault(); return; }
+      if (pr.kind === "image" || pr.kind === "video") { e.preventDefault(); openViewer(pr, href); }
+      return; // ملفات PDF والروابط تُفتح في صفحة جديدة
     }
     var b = e.target.closest("[data-act]"); if (!b) return;
     var act = b.getAttribute("data-act");
     var idx = state.programs.findIndex(function(x){ return x.id === current; });
     if (act === "close") closeOverlay();
+    else if (act === "addfiles") $("fileProof").click();
+    else if (act === "addlink") addLink();
     else if (act === "edit") openForm(current);
     else if (act === "back") openDetail(current);
     else if (act === "delete") {
@@ -779,14 +1138,16 @@
     else if (act === "prev" || act === "next") {
       var visible = state.programs.filter(matches);
       var vi = visible.findIndex(function(x){ return x.id === current; });
-      if (vi < 0) visible = state.programs, vi = idx;
+      if (vi < 0) { visible = state.programs; vi = idx; }
       var ni = (vi + (act === "next" ? 1 : -1) + visible.length) % visible.length;
       openDetail(visible[ni].id);
     }
   });
   overlay.addEventListener("submit", function(e){ e.preventDefault(); submitForm(e.target); });
   document.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && overlay.classList.contains("show")) closeOverlay();
+    if (e.key !== "Escape") return;
+    if ($("viewer").classList.contains("show")) closeViewer();
+    else if (overlay.classList.contains("show")) closeOverlay();
   });
 
   load();

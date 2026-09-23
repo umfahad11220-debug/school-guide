@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0B3945">
+<meta name="description" content="منصة تفاعلية للخطة التشغيلية ١٤٤٨هـ – الثانوية الرابعة والمتوسطة الخامسة عشر بمنطقة الجوف">
+<title>الخطة التشغيلية ١٤٤٨هـ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ألوان الهوية البصرية لوزارة التعليم (مأخوذة من قالب الخطة) */
+    --moe-navy:#0B3945;
+    --moe-navy-2:#114B59;
+    --moe-blue:#2482C0;
+    --moe-teal:#359BA7;
+    --moe-green:#46BA7B;
+    --moe-green-deep:#038C5F;
+    --grad:linear-gradient(90deg,var(--moe-blue),var(--moe-teal) 50%,var(--moe-green));
+
+    --bg:#F3F7F8;
+    --card:#FFFFFF;
+    --ink:#10262D;
+    --ink-2:#4A6168;
+    --line:#DCE6E9;
+    --soft-teal:#E6F3F4;
+    --soft-green:#E5F5EC;
+    --soft-blue:#E4F0F9;
+    --warn:#B7791F;
+    --soft-warn:#FCF1DF;
+    --danger:#C0392B;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(11,57,69,.06),0 6px 18px rgba(11,57,69,.07);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Tajawal','Segoe UI',Tahoma,sans-serif;
+    font-size:15px;line-height:1.7;
+  }
+  button,input,select,textarea{font:inherit;color:inherit}
+  button{cursor:pointer}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+  /* ============ الترويسة ============ */
+  .masthead{background:var(--moe-navy);color:#fff;position:relative;overflow:hidden}
+  .masthead::before{content:"";display:block;height:6px;background:var(--grad)}
+  .masthead-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding-top:18px;padding-bottom:22px;
+  }
+  .gov{display:flex;align-items:center;gap:14px;min-width:0}
+  .gov-lines{font-size:13.5px;line-height:1.65;font-weight:500}
+  .gov-lines b{font-weight:700;font-size:14.5px}
+  .gov-lines .muted{color:#9FD6DC}
+  .logo-box{display:flex;align-items:center;gap:14px;flex-shrink:0}
+  .logo-box .bar{width:2px;height:58px;background:var(--moe-green-deep);border-radius:2px}
+  .logo-box img{height:66px;width:auto;display:block}
+  .school-pill{
+    position:relative;margin:0 auto -1px;max-width:720px;
+    background:var(--moe-navy-2);border:1px solid rgba(70,186,123,.55);border-bottom:0;
+    border-radius:18px 18px 0 0;padding:10px 18px 12px;text-align:center;
+  }
+  .school-pill h1{margin:0;font-size:17px;font-weight:800}
+  .school-pill p{margin:2px 0 0;font-size:13px;color:#BFE3E6}
+  .school-pill p b{color:#fff;font-weight:700}
+
+  /* ============ شريط العنوان ============ */
+  .hero{background:var(--card);border-bottom:1px solid var(--line)}
+  .hero-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;padding-bottom:16px}
+  .hero h2{margin:0;font-size:21px;font-weight:800;color:var(--moe-navy)}
+  .hero h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{margin:0;color:var(--ink-2);font-size:13.5px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+    border:1px solid var(--line);background:var(--card);padding:8px 14px;font-size:14px;font-weight:700;
+    color:var(--moe-navy);transition:background .15s,border-color .15s,transform .1s;
+    min-height:40px;
+  }
+  .btn:hover{background:var(--soft-teal);border-color:var(--moe-teal)}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:var(--moe-navy);border-color:var(--moe-navy);color:#fff}
+  .btn.primary:hover{background:var(--moe-navy-2)}
+  .btn.green{background:var(--moe-green-deep);border-color:var(--moe-green-deep);color:#fff}
+  .btn.danger{color:var(--danger);border-color:#F0C9C4}
+  .btn.danger:hover{background:#FCEDEB}
+  .btn.on{background:var(--moe-green-deep);border-color:var(--moe-green-deep);color:#fff}
+  .btn svg{width:18px;height:18px;flex-shrink:0}
+
+  /* ============ تنبيه الحفظ ============ */
+  .notice{display:none;margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--soft-warn);border:1px solid #F1D7A8;font-size:14px}
+  .notice.show{display:block}
+  .notice .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+  /* ============ الإحصاءات ============ */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+  .stat .n{font-size:28px;font-weight:800;color:var(--moe-navy);line-height:1.2}
+  .stat .l{font-size:13px;color:var(--ink-2)}
+  .progress{height:8px;border-radius:99px;background:var(--soft-teal);overflow:hidden;margin-top:8px}
+  .progress i{display:block;height:100%;width:0;background:var(--grad);transition:width .4s}
+
+  /* ============ البحث والتصفية ============ */
+  .filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);position:sticky;top:0;z-index:5}
+  .search{position:relative}
+  .search input{
+    width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);
+    padding:11px 42px 11px 14px;font-size:15px;outline:none;
+  }
+  .search input:focus{border-color:var(--moe-teal);background:#fff}
+  .search svg{position:absolute;right:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--ink-2)}
+  .chip-row{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+  .chip-row::-webkit-scrollbar{display:none}
+  .chip{
+    flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:999px;
+    padding:6px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2);white-space:nowrap;
+  }
+  .chip[aria-pressed="true"]{background:var(--moe-navy);border-color:var(--moe-navy);color:#fff}
+  .chip .c{opacity:.7;font-weight:500;margin-inline-start:4px}
+  .sub-label{font-size:12px;color:var(--ink-2);font-weight:700;margin-top:6px}
+
+  /* ============ بطاقات البرامج ============ */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:16px 0 28px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:0;text-align:right;display:flex;flex-direction:column;overflow:hidden;
+    transition:transform .15s,box-shadow .15s,border-color .15s;
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--moe-teal);box-shadow:0 10px 26px rgba(11,57,69,.12)}
+  .card-top{height:4px;background:var(--grad)}
+  .card-body{padding:14px 16px 12px;flex:1;display:flex;flex-direction:column;gap:8px}
+  .card-head{display:flex;align-items:flex-start;gap:10px}
+  .num{
+    flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--soft-teal);color:var(--moe-navy);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;
+  }
+  .card h3{margin:0;font-size:17.5px;font-weight:800;line-height:1.4;color:var(--moe-navy)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:3px}
+  .tag{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--soft-blue);color:#1B5E8C}
+  .tag.area{background:var(--soft-green);color:#17683F}
+  .card .goal{margin:0;color:var(--ink-2);font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2);margin-top:auto;padding-top:6px}
+  .meta span{display:inline-flex;align-items:center;gap:5px}
+  .meta svg{width:15px;height:15px;color:var(--moe-teal)}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:9px 16px;background:#FAFCFC}
+  .status{font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px}
+  .status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .s0{background:#EEF1F2;color:#5A6B70}
+  .s1{background:var(--soft-warn);color:var(--warn)}
+  .s2{background:var(--soft-green);color:var(--moe-green-deep)}
+  .more{font-size:13px;font-weight:700;color:var(--moe-teal)}
+  .empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--ink-2);background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
+
+  /* ============ النافذة المنبثقة ============ */
+  .overlay{position:fixed;inset:0;background:rgba(6,30,37,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
+  .overlay.show{display:flex}
+  .sheet{
+    background:var(--bg);width:100%;max-width:760px;max-height:94vh;border-radius:22px 22px 0 0;
+    display:flex;flex-direction:column;overflow:hidden;animation:up .22s ease-out;
+  }
+  @keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+  @media (min-width:760px){ .overlay{align-items:center} .sheet{border-radius:22px;max-height:88vh} }
+  .sheet-head{background:var(--moe-navy);color:#fff;padding:16px 18px 14px;position:relative}
+  .sheet-head::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--grad)}
+  .sheet-head .k{font-size:12.5px;color:#9FD6DC;font-weight:700}
+  .sheet-head h3{margin:2px 0 0;font-size:21px;font-weight:800;line-height:1.35}
+  .x{position:absolute;left:12px;top:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center}
+  .x svg{width:20px;height:20px}
+  .sheet-body{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
+  .sheet-foot{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+  .sheet-foot .spacer{flex:1}
+
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .sec h4{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--moe-teal);display:flex;align-items:center;gap:6px}
+  .sec h4 svg{width:17px;height:17px}
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+  .kv div{background:var(--bg);border-radius:10px;padding:8px 10px}
+  .kv .k{font-size:12px;color:var(--ink-2);font-weight:700}
+  .kv .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .sec p{margin:0}
+  .list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+  .list li{background:var(--soft-teal);color:var(--moe-navy);font-size:13.5px;font-weight:700;border-radius:8px;padding:4px 10px}
+  .status-pick{display:flex;gap:8px;flex-wrap:wrap}
+  .status-pick button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;font-weight:700;font-size:13.5px}
+  .status-pick button[aria-pressed="true"].o0{background:#5A6B70;border-color:#5A6B70;color:#fff}
+  .status-pick button[aria-pressed="true"].o1{background:var(--warn);border-color:var(--warn);color:#fff}
+  .status-pick button[aria-pressed="true"].o2{background:var(--moe-green-deep);border-color:var(--moe-green-deep);color:#fff}
+
+  /* ============ النموذج ============ */
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+  .form .full{grid-column:1/-1}
+  .form .group{grid-column:1/-1;font-size:14px;font-weight:800;color:var(--moe-teal);margin-top:6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:3px}
+  .field label .req{color:var(--danger)}
+  .field input,.field textarea,.field select{
+    width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px;font-size:15px;outline:none;
+  }
+  .field textarea{min-height:74px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--moe-teal);box-shadow:0 0 0 3px rgba(53,155,167,.15)}
+  .hint{font-size:12px;color:var(--ink-2);margin-top:2px}
+
+  /* ============ زر الإضافة العائم ============ */
+  .fab{
+    position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:20;display:none;
+    border:0;border-radius:999px;background:var(--moe-green-deep);color:#fff;font-weight:800;font-size:15px;
+    padding:13px 20px;box-shadow:0 8px 24px rgba(3,140,95,.35);align-items:center;gap:8px;
+  }
+  .fab svg{width:20px;height:20px}
+  body.editing .fab{display:inline-flex}
+  .edit-only{display:none !important}
+  body.editing .edit-only{display:inline-flex !important}
+
+  .toast{
+    position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
+    background:var(--moe-navy);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:80;
+    transition:opacity .2s,transform .2s;white-space:nowrap;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ============ التذييل ============ */
+  footer{background:var(--moe-navy);color:#CFE7EA;text-align:center;padding:0 0 calc(18px + env(safe-area-inset-bottom));margin-top:10px}
+  footer::before{content:"";display:block;height:5px;background:var(--grad);margin-bottom:16px}
+  footer .credit{font-size:14.5px}
+  footer .credit b{color:#fff;font-weight:800}
+  footer .small{font-size:12.5px;color:#8FBFC6;margin-top:4px}
+
+  @media (max-width:720px){
+    .masthead-inner{flex-direction:column-reverse;align-items:center;text-align:center;gap:10px;padding-top:14px;padding-bottom:16px}
+    .gov{flex-direction:column;gap:4px}
+    .logo-box .bar{display:none}
+    .logo-box img{height:58px}
+    .gov-lines{font-size:13px}
+    .school-pill h1{font-size:15.5px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .hero h2{font-size:19px}
+    .grid{grid-template-columns:1fr}
+    .form{grid-template-columns:1fr}
+    .actions .btn .t{display:none}
+    .actions .btn{padding:8px 11px}
+  }
+
+  @media print{
+    .filters,.actions,.fab,.notice,.card-foot .more,footer .small{display:none !important}
+    body{background:#fff}
+    .grid{grid-template-columns:1fr 1fr}
+    .card{break-inside:avoid;box-shadow:none}
+    .masthead,footer,.card-top,.sheet-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<!-- ======= الترويسة ======= -->
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <div class="gov">
+      <div class="gov-lines">
+        <b>المملكة العربية السعودية</b><br>
+        وزارة التعليم<br>
+        <span class="muted">الإدارة العامة للتعليم بمنطقة الجوف</span>
+      </div>
+    </div>
+    <div class="logo-box">
+      <span class="bar" aria-hidden="true"></span>
+      <img src="moe-logo.png" alt="شعار وزارة التعليم">
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="school-pill">
+      <h1>الثانوية الرابعة والمتوسطة الخامسة عشر</h1>
+      <p>مديرة المدرسة: <b>منار الشامخ</b></p>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <h2>الخطة التشغيلية <span>للعام الدراسي ١٤٤٨هـ</span></h2>
+      <p>اضغطي على أي برنامج لعرض تفاصيله كاملة</p>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btnEdit" type="button" aria-pressed="false" title="وضع التعديل">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span class="t">وضع التعديل</span>
+      </button>
+      <button class="btn edit-only" id="btnExport" type="button" title="حفظ نسخة من البيانات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+        <span class="t">تصدير للنشر</span>
+      </button>
+      <button class="btn edit-only" id="btnImport" type="button" title="استيراد نسخة محفوظة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+        <span class="t">استيراد</span>
+      </button>
+      <button class="btn" id="btnPrint" type="button" title="طباعة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        <span class="t">طباعة</span>
+      </button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="notice" id="notice"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="n" id="stTotal">–</div><div class="l">برنامج في الخطة</div></div>
+    <div class="stat"><div class="n" id="stDomains">–</div><div class="l">مجالات</div></div>
+    <div class="stat"><div class="n" id="stDone">–</div><div class="l">برامج منفّذة</div></div>
+    <div class="stat"><div class="n" id="stPct">–</div><div class="l">نسبة الإنجاز</div><div class="progress"><i id="stBar"></i></div></div>
+  </div>
+
+  <div class="filters">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="ابحثي باسم البرنامج أو المنفذة أو الهدف…" aria-label="بحث">
+    </div>
+    <div class="sub-label">المجال</div>
+    <div class="chip-row" id="domainChips" role="group" aria-label="تصفية حسب المجال"></div>
+    <div class="sub-label">الفصل وحالة التنفيذ</div>
+    <div class="chip-row" id="termChips" role="group" aria-label="تصفية حسب الفصل"></div>
+  </div>
+
+  <div class="grid" id="grid" aria-live="polite"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="credit">إنشاء وتصميم معلمة التقنية الرقمية: <b>عائدة العنزي</b></div>
+    <div class="small">الثانوية الرابعة والمتوسطة الخامسة عشر – الإدارة العامة للتعليم بمنطقة الجوف</div>
+  </div>
+</footer>
+
+<button class="fab" id="fab" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  إضافة برنامج
+</button>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORE_KEY = "school-plan-1448";
+  var STATUSES = ["لم يبدأ","قيد التنفيذ","منفّذ"];
+  var TERMS = ["الفصل الأول","الفصل الثاني","طوال العام"];
+
+  var FIELDS = [
+    {group:"البيانات الأساسية"},
+    {k:"name", l:"اسم البرنامج", req:true},
+    {k:"domain", l:"المجال", req:true, list:"domains", hint:"اختاري من القائمة أو اكتبي مجالاً جديداً"},
+    {k:"area", l:"المحور", list:"areas"},
+    {k:"generalGoal", l:"الهدف العام", full:true, ta:true},
+    {k:"detailedGoal", l:"الهدف التفصيلي", full:true, ta:true},
+    {k:"method", l:"أسلوب التنفيذ", full:true, ta:true},
+    {group:"زمن التنفيذ"},
+    {k:"term", l:"الفصل", select:TERMS},
+    {k:"week", l:"الأسبوع"},
+    {k:"date", l:"التاريخ", hint:"مثال: من ١٠-٣ إلى ٨-١١"},
+    {k:"days", l:"عدد أيام التنفيذ"},
+    {group:"الفئة المستهدفة"},
+    {k:"targetType", l:"نوع الفئة"},
+    {k:"stage", l:"المرحلة", list:"stages"},
+    {k:"count", l:"العدد المرشح"},
+    {group:"التنفيذ والمتابعة"},
+    {k:"requirements", l:"المتطلبات", full:true, ta:true, hint:"افصلي بين العناصر بفاصلة ( ، )"},
+    {k:"lead", l:"الفئة المنفذة – الرئيسة"},
+    {k:"support", l:"الفئة المنفذة – المساندة"},
+    {k:"place", l:"مكان التنفيذ"},
+    {k:"external", l:"الدعم الخارجي"},
+    {k:"indicator", l:"مؤشر تحقق الهدف", full:true, ta:true},
+    {k:"evidence", l:"الشاهد", full:true, ta:true},
+    {k:"status", l:"حالة التنفيذ", select:STATUSES}
+  ];
+
+  var state = {
+    programs: [],
+    publishedUpdated: null,
+    local: false,
+    q: "",
+    domain: "الكل",
+    term: "الكل",
+    editing: false
+  };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var grid = $("grid"), overlay = $("overlay"), sheet = $("sheet");
+
+  /* ---------- أدوات ---------- */
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
+    });
+  }
+  var AR = "٠١٢٣٤٥٦٧٨٩";
+  function ar(n){ return String(n).replace(/\d/g, function(d){ return AR[d]; }); }
+  function norm(s){
+    return String(s || "").toLowerCase()
+      .replace(/[إأآا]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+      .replace(/[ً-ْـ]/g,"");
+  }
+  function splitList(s){
+    return String(s || "").split(/[،,\n]+/).map(function(x){ return x.trim(); }).filter(Boolean);
+  }
+  function uid(){ return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+  function statusIdx(s){ var i = STATUSES.indexOf(s); return i < 0 ? 0 : i; }
+  function unique(arr){ return arr.filter(function(v,i){ return v && arr.indexOf(v) === i; }); }
+
+  function toast(msg){
+    var t = $("toast"); t.textContent = msg; t.classList.add("show");
+    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+  }
+
+  /* ---------- التخزين ---------- */
+  function readLocal(){
+    try { var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; }
+    catch(e){ return null; }
+  }
+  function save(){
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({savedAt:new Date().toISOString(), programs:state.programs}));
+      state.local = true;
+    } catch(e){ toast("تعذّر الحفظ على هذا الجهاز"); }
+    renderNotice();
+  }
+  function clearLocal(){
+    try { localStorage.removeItem(STORE_KEY); } catch(e){}
+    state.local = false;
+  }
+
+  function load(){
+    fetch("data.json", {cache:"no-cache"})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(pub){
+        state.publishedUpdated = pub.updated || null;
+        var loc = readLocal();
+        // إذا كانت النسخة المنشورة أحدث من التعديلات المحلية نعتمد المنشورة
+        if (loc && Array.isArray(loc.programs) && !(pub.updated && loc.savedAt && pub.updated >= loc.savedAt)) {
+          state.programs = loc.programs; state.local = true;
+        } else {
+          if (loc) clearLocal();
+          state.programs = pub.programs || [];
+        }
+        state._published = pub.programs || [];
+        renderAll();
+      })
+      .catch(function(){
+        var loc = readLocal();
+        if (loc && Array.isArray(loc.programs)) { state.programs = loc.programs; state.local = true; renderAll(); return; }
+        grid.innerHTML = '<div class="empty">تعذّر تحميل بيانات الخطة. تأكدي من الاتصال بالإنترنت ثم أعيدي تحميل الصفحة.</div>';
+      });
+  }
+
+  /* ---------- العرض ---------- */
+  function renderNotice(){
+    var n = $("notice");
+    if (!state.local) { n.classList.remove("show"); n.innerHTML = ""; return; }
+    n.innerHTML =
+      '<b>تعديلاتك محفوظة على هذا الجهاز.</b> لتظهر لكل من يفتح الرابط: اضغطي «تصدير للنشر» ثم ارفعي الملف <b>data.json</b> إلى مجلد <b>plan</b> في المستودع على GitHub.' +
+      '<div class="row">' +
+        '<button class="btn green" type="button" data-act="export">تصدير للنشر</button>' +
+        '<button class="btn danger" type="button" data-act="discard">تجاهل تعديلاتي وعرض النسخة المنشورة</button>' +
+      '</div>';
+    n.classList.add("show");
+  }
+
+  function renderStats(){
+    var total = state.programs.length;
+    var done = state.programs.filter(function(p){ return statusIdx(p.status) === 2; }).length;
+    var doing = state.programs.filter(function(p){ return statusIdx(p.status) === 1; }).length;
+    var pct = total ? Math.round(((done + doing * 0.5) / total) * 100) : 0;
+    $("stTotal").textContent = ar(total);
+    $("stDomains").textContent = ar(unique(state.programs.map(function(p){ return p.domain; })).length);
+    $("stDone").textContent = ar(done);
+    $("stPct").textContent = ar(pct) + "٪";
+    $("stBar").style.width = pct + "%";
+  }
+
+  function chip(label, count, pressed, attr){
+    return '<button type="button" class="chip" ' + attr + ' aria-pressed="' + pressed + '">' + esc(label) +
+      (count != null ? '<span class="c">' + ar(count) + '</span>' : '') + '</button>';
+  }
+
+  function renderChips(){
+    var domains = unique(state.programs.map(function(p){ return p.domain; }));
+    if (state.domain !== "الكل" && domains.indexOf(state.domain) < 0) state.domain = "الكل";
+    var h = chip("الكل", state.programs.length, state.domain === "الكل", 'data-domain="الكل"');
+    domains.forEach(function(d){
+      var c = state.programs.filter(function(p){ return p.domain === d; }).length;
+      h += chip(d, c, state.domain === d, 'data-domain="' + esc(d) + '"');
+    });
+    $("domainChips").innerHTML = h;
+
+    var t = chip("الكل", null, state.term === "الكل", 'data-term="الكل"');
+    TERMS.concat(STATUSES).forEach(function(x){
+      t += chip(x, null, state.term === x, 'data-term="' + esc(x) + '"');
+    });
+    $("termChips").innerHTML = t;
+  }
+
+  function matches(p){
+    if (state.domain !== "الكل" && p.domain !== state.domain) return false;
+    if (state.term !== "الكل") {
+      if (STATUSES.indexOf(state.term) >= 0) { if (STATUSES[statusIdx(p.status)] !== state.term) return false; }
+      else if (p.term !== state.term) return false;
+    }
+    if (state.q) {
+      var hay = norm(FIELDS.filter(function(f){ return f.k; }).map(function(f){ return p[f.k]; }).join(" "));
+      var terms = norm(state.q).split(/\s+/).filter(Boolean);
+      for (var i = 0; i < terms.length; i++) if (hay.indexOf(terms[i]) < 0) return false;
+    }
+    return true;
+  }
+
+  var ICON = {
+    cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+    user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+    group:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 20a7 7 0 0 0-4-6.3"/></svg>',
+    target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>',
+    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    tools:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4Z"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>'
+  };
+
+  function renderGrid(){
+    var list = state.programs.filter(matches);
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty">لا توجد برامج مطابقة للبحث أو التصفية.</div>';
+      return;
+    }
+    grid.innerHTML = list.map(function(p){
+      var i = state.programs.indexOf(p), s = statusIdx(p.status);
+      return '<button type="button" class="card" data-open="' + esc(p.id) + '">' +
+        '<div class="card-top"></div>' +
+        '<div class="card-body">' +
+          '<div class="card-head"><div class="num">' + ar(i + 1) + '</div><div>' +
+            '<h3>' + esc(p.name) + '</h3>' +
+            '<div class="tags"><span class="tag">' + esc(p.domain) + '</span>' + (p.area ? '<span class="tag area">' + esc(p.area) + '</span>' : '') + '</div>' +
+          '</div></div>' +
+          (p.detailedGoal ? '<p class="goal">' + esc(p.detailedGoal) + '</p>' : '') +
+          '<div class="meta">' +
+            (p.term ? '<span>' + ICON.cal + esc(p.term) + '</span>' : '') +
+            (p.date ? '<span>' + ICON.clock + esc(p.date) + '</span>' : '') +
+            (p.lead ? '<span>' + ICON.user + esc(p.lead) + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="card-foot"><span class="status s' + s + '">' + STATUSES[s] + '</span><span class="more">عرض التفاصيل ←</span></div>' +
+      '</button>';
+    }).join("");
+  }
+
+  function renderAll(){ renderNotice(); renderStats(); renderChips(); renderGrid(); }
+
+  /* ---------- التفاصيل ---------- */
+  function kv(pairs){
+    return '<div class="kv">' + pairs.filter(function(x){ return x[1]; }).map(function(x){
+      return '<div><div class="k">' + x[0] + '</div><div class="v">' + esc(x[1]) + '</div></div>';
+    }).join("") + '</div>';
+  }
+  function sec(icon, title, inner){
+    return '<div class="sec"><h4>' + icon + title + '</h4>' + inner + '</div>';
+  }
+
+  var current = null;
+
+  function openDetail(id){
+    var p = state.programs.find(function(x){ return x.id === id; });
+    if (!p) return;
+    current = p.id;
+    var i = state.programs.indexOf(p), s = statusIdx(p.status);
+    var reqs = splitList(p.requirements);
+    var statusBlock = state.editing
+      ? '<div class="status-pick">' + STATUSES.map(function(st, k){
+          return '<button type="button" class="o' + k + '" data-status="' + k + '" aria-pressed="' + (k === s) + '">' + st + '</button>';
+        }).join("") + '</div>'
+      : '<span class="status s' + s + '">' + STATUSES[s] + '</span>';
+
+    sheet.innerHTML =
+      '<div class="sheet-head">' +
+        '<div class="k">البرنامج رقم ' + ar(i + 1) + ' · ' + esc(p.domain) + (p.area ? ' · ' + esc(p.area) : '') + '</div>' +
+        '<h3 id="sheetTitle">' + esc(p.name) + '</h3>' +
+        '<button class="x" type="button" data-act="close" aria-label="إغلاق">' + ICON.close + '</button>' +
+      '</div>' +
+      '<div class="sheet-body">' +
+        sec(ICON.target, "الأهداف",
+          (p.generalGoal ? '<p><b>الهدف العام:</b> ' + esc(p.generalGoal) + '</p>' : '') +
+          (p.detailedGoal ? '<p style="margin-top:6px"><b>الهدف التفصيلي:</b> ' + esc(p.detailedGoal) + '</p>' : '')) +
+        (p.method ? sec(ICON.check, "أسلوب التنفيذ", '<p>' + esc(p.method) + '</p>') : '') +
+        sec(ICON.clock, "زمن التنفيذ", kv([["الفصل",p.term],["الأسبوع",p.week],["التاريخ",p.date],["عدد أيام التنفيذ",p.days]])) +
+        sec(ICON.group, "الفئة المستهدفة", kv([["نوع الفئة",p.targetType],["المرحلة",p.stage],["العدد المرشح",p.count]])) +
+        sec(ICON.user, "الفئة المنفذة", kv([["الرئيسة",p.lead],["المساندة",p.support],["مكان التنفيذ",p.place],["الدعم الخارجي",p.external]])) +
+        (reqs.length ? sec(ICON.tools, "المتطلبات", '<ul class="list">' + reqs.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>') : '') +
+        sec(ICON.target, "المتابعة والتقويم",
+          kv([["مؤشر تحقق الهدف",p.indicator],["الشاهد",p.evidence]]) +
+          '<div style="margin-top:10px"><div class="k" style="font-size:12px;color:var(--ink-2);font-weight:700;margin-bottom:4px">حالة التنفيذ</div>' + statusBlock + '</div>') +
+      '</div>' +
+      '<div class="sheet-foot">' +
+        '<button class="btn primary edit-only" type="button" data-act="edit">تعديل البرنامج</button>' +
+        '<button class="btn danger edit-only" type="button" data-act="delete">حذف</button>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn" type="button" data-act="prev">السابق</button>' +
+        '<button class="btn" type="button" data-act="next">التالي</button>' +
+      '</div>';
+    showOverlay();
+  }
+
+  /* ---------- النموذج ---------- */
+  function openForm(id){
+    var p = id ? state.programs.find(function(x){ return x.id === id; }) : null;
+    current = p ? p.id : null;
+    var lists = {
+      domains: unique(state.programs.map(function(x){ return x.domain; })),
+      areas: unique(state.programs.map(function(x){ return x.area; })),
+      stages: unique(["المرحلتين","المتوسطة","الثانوية"].concat(state.programs.map(function(x){ return x.stage; })))
+    };
+    var html = FIELDS.map(function(f){
+      if (f.group) return '<div class="group">' + f.group + '</div>';
+      var v = p ? (p[f.k] || "") : (f.k === "status" ? STATUSES[0] : "");
+      var input;
+      if (f.select) {
+        var opts = f.select.slice(); if (v && opts.indexOf(v) < 0) opts.unshift(v);
+        input = '<select name="' + f.k + '" id="f_' + f.k + '">' + (f.k === "term" ? '<option value="">—</option>' : '') +
+          opts.map(function(o){ return '<option' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join("") + '</select>';
+      } else if (f.ta) {
+        input = '<textarea name="' + f.k + '" id="f_' + f.k + '">' + esc(v) + '</textarea>';
+      } else {
+        input = '<input name="' + f.k + '" id="f_' + f.k + '" value="' + esc(v) + '"' + (f.list ? ' list="dl_' + f.list + '"' : '') + (f.req ? ' required' : '') + ' autocomplete="off">';
+      }
+      return '<div class="field' + (f.full ? ' full' : '') + '"><label for="f_' + f.k + '">' + f.l + (f.req ? ' <span class="req">*</span>' : '') + '</label>' + input +
+        (f.hint ? '<div class="hint">' + f.hint + '</div>' : '') + '</div>';
+    }).join("");
+    Object.keys(lists).forEach(function(k){
+      html += '<datalist id="dl_' + k + '">' + lists[k].map(function(o){ return '<option value="' + esc(o) + '">'; }).join("") + '</datalist>';
+    });
+
+    sheet.innerHTML =
+      '<div class="sheet-head">' +
+        '<div class="k">' + (p ? "تعديل برنامج" : "برنامج جديد") + '</div>' +
+        '<h3 id="sheetTitle">' + (p ? esc(p.name) : "إضافة برنامج إلى الخطة") + '</h3>' +
+        '<button class="x" type="button" data-act="close" aria-label="إغلاق">' + ICON.close + '</button>' +
+      '</div>' +
+      '<form class="sheet-body" id="progForm" novalidate><div class="form">' + html + '</div></form>' +
+      '<div class="sheet-foot">' +
+        '<button class="btn green" type="submit" form="progForm">حفظ</button>' +
+        '<button class="btn" type="button" data-act="' + (p ? "back" : "close") + '">إلغاء</button>' +
+      '</div>';
+    showOverlay();
+    setTimeout(function(){ var el = $("f_name"); if (el && !p) el.focus(); }, 60);
+  }
+
+  function submitForm(form){
+    var data = {};
+    FIELDS.forEach(function(f){ if (f.k) data[f.k] = (form.elements[f.k].value || "").trim(); });
+    if (!data.name || !data.domain) {
+      toast("اسم البرنامج والمجال مطلوبان");
+      (data.name ? form.elements.domain : form.elements.name).focus();
+      return;
+    }
+    if (current) {
+      var p = state.programs.find(function(x){ return x.id === current; });
+      Object.assign(p, data);
+      save(); renderAll(); openDetail(p.id); toast("تم حفظ التعديلات");
+    } else {
+      data.id = uid();
+      state.programs.push(data);
+      save(); renderAll(); openDetail(data.id); toast("تمت إضافة البرنامج");
+    }
+  }
+
+  /* ---------- النافذة ---------- */
+  var lastFocus = null;
+  function showOverlay(){
+    if (!overlay.classList.contains("show")) lastFocus = document.activeElement;
+    overlay.classList.add("show");
+    document.body.style.overflow = "hidden";
+    var b = sheet.querySelector(".sheet-body"); if (b) b.scrollTop = 0;
+    var x = sheet.querySelector(".x"); if (x) x.focus({preventScroll:true});
+  }
+  function closeOverlay(){
+    overlay.classList.remove("show");
+    document.body.style.overflow = "";
+    current = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+  }
+
+  /* ---------- تصدير واستيراد ---------- */
+  function exportData(){
+    var payload = {updated:new Date().toISOString(), programs:state.programs};
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "data.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    toast("تم تنزيل الملف data.json");
+  }
+  function importData(file){
+    var r = new FileReader();
+    r.onload = function(){
+      try {
+        var d = JSON.parse(r.result);
+        var list = Array.isArray(d) ? d : d.programs;
+        if (!Array.isArray(list)) throw 0;
+        list.forEach(function(p){ if (!p.id) p.id = uid(); });
+        state.programs = list; save(); renderAll(); toast("تم استيراد " + ar(list.length) + " برنامج");
+      } catch(e){ toast("الملف غير صالح"); }
+    };
+    r.readAsText(file);
+  }
+
+  /* ---------- الأحداث ---------- */
+  $("q").addEventListener("input", function(e){ state.q = e.target.value; renderGrid(); });
+
+  $("domainChips").addEventListener("click", function(e){
+    var b = e.target.closest("[data-domain]"); if (!b) return;
+    state.domain = b.getAttribute("data-domain"); renderChips(); renderGrid();
+  });
+  $("termChips").addEventListener("click", function(e){
+    var b = e.target.closest("[data-term]"); if (!b) return;
+    state.term = b.getAttribute("data-term"); renderChips(); renderGrid();
+  });
+  grid.addEventListener("click", function(e){
+    var c = e.target.closest("[data-open]"); if (c) openDetail(c.getAttribute("data-open"));
+  });
+
+  $("btnEdit").addEventListener("click", function(){
+    state.editing = !state.editing;
+    document.body.classList.toggle("editing", state.editing);
+    this.classList.toggle("on", state.editing);
+    this.setAttribute("aria-pressed", state.editing);
+    this.querySelector(".t").textContent = state.editing ? "إنهاء التعديل" : "وضع التعديل";
+    toast(state.editing ? "وضع التعديل مفعّل – تُحفظ التغييرات تلقائياً" : "تم إنهاء وضع التعديل");
+  });
+  $("fab").addEventListener("click", function(){ openForm(null); });
+  $("btnExport").addEventListener("click", exportData);
+  $("btnImport").addEventListener("click", function(){ $("fileImport").click(); });
+  $("fileImport").addEventListener("change", function(){ if (this.files[0]) importData(this.files[0]); this.value = ""; });
+  $("btnPrint").addEventListener("click", function(){ window.print(); });
+
+  $("notice").addEventListener("click", function(e){
+    var b = e.target.closest("[data-act]"); if (!b) return;
+    if (b.getAttribute("data-act") === "export") exportData();
+    if (b.getAttribute("data-act") === "discard") {
+      if (!confirm("سيتم حذف تعديلاتك المحفوظة على هذا الجهاز وعرض النسخة المنشورة. هل أنتِ متأكدة؟")) return;
+      clearLocal(); state.programs = JSON.parse(JSON.stringify(state._published || [])); renderAll(); toast("تم عرض النسخة المنشورة");
+    }
+  });
+
+  overlay.addEventListener("click", function(e){
+    if (e.target === overlay) { closeOverlay(); return; }
+    var st = e.target.closest("[data-status]");
+    if (st && current) {
+      var p = state.programs.find(function(x){ return x.id === current; });
+      p.status = STATUSES[+st.getAttribute("data-status")];
+      save(); renderStats(); renderGrid(); openDetail(p.id); toast("تم تحديث حالة التنفيذ");
+      return;
+    }
+    var b = e.target.closest("[data-act]"); if (!b) return;
+    var act = b.getAttribute("data-act");
+    var idx = state.programs.findIndex(function(x){ return x.id === current; });
+    if (act === "close") closeOverlay();
+    else if (act === "edit") openForm(current);
+    else if (act === "back") openDetail(current);
+    else if (act === "delete") {
+      var p = state.programs[idx];
+      if (!confirm("حذف برنامج «" + p.name + "» من الخطة؟")) return;
+      state.programs.splice(idx, 1); save(); renderAll(); closeOverlay(); toast("تم حذف البرنامج");
+    }
+    else if (act === "prev" || act === "next") {
+      var visible = state.programs.filter(matches);
+      var vi = visible.findIndex(function(x){ return x.id === current; });
+      if (vi < 0) visible = state.programs, vi = idx;
+      var ni = (vi + (act === "next" ? 1 : -1) + visible.length) % visible.length;
+      openDetail(visible[ni].id);
+    }
+  });
+  overlay.addEventListener("submit", function(e){ e.preventDefault(); submitForm(e.target); });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && overlay.classList.contains("show")) closeOverlay();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
